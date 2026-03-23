@@ -4,476 +4,379 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Devis & Contrat Tracker</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --primary: #3F51B5;
-  --primary-light: #E8EAF6;
-  --primary-dark: #283593;
-  --secondary: #008080;
-  --secondary-light: #E0F2F1;
-  --tertiary: #6A5ACD;
-  --tertiary-light: #EDE7F6;
-  --danger: #D32F2F;
-  --danger-light: #FFEBEE;
-  --warning: #F57C00;
-  --warning-light: #FFF3E0;
-  --success: #2E7D32;
-  --success-light: #E8F5E9;
-  --bg: #F4F5F7;
-  --surface: #FFFFFF;
-  --border: #E0E3E9;
-  --border-light: #F0F2F5;
-  --text: #1A1C1E;
-  --text2: #4A5568;
-  --text3: #9AA3B2;
-  --font: 'Inter', -apple-system, sans-serif;
-  --radius: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow: 0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
-.app { display: flex; height: 100vh; }
-
-/* ── SIDEBAR ── */
-.sidebar { width: 240px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
-.logo { padding: 20px; border-bottom: 1px solid var(--border-light); }
-.logo-mark { width: 36px; height: 36px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
-.logo-mark svg { width: 20px; height: 20px; fill: white; }
-.logo-title { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; line-height: 1.2; }
-.logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
-.nav-body { flex: 1; padding: 12px 10px; overflow-y: auto; }
-.nav-section { margin-bottom: 20px; }
-.nav-section-label { font-size: 10px; font-weight: 700; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; padding: 0 10px; margin-bottom: 4px; }
-.nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--radius); cursor: pointer; color: var(--text2); font-size: 13.5px; font-weight: 400; transition: all 0.12s; border: none; background: none; width: 100%; text-align: left; }
-.nav-item:hover { background: var(--bg); color: var(--text); }
-.nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
-.nav-icon { width: 20px; text-align: center; font-size: 15px; flex-shrink: 0; }
-.nav-badge { margin-left: auto; color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; min-width: 18px; text-align: center; }
-.nav-badge.red { background: var(--danger); }
-.nav-badge.orange { background: var(--warning); }
-.nav-badge.blue { background: var(--primary); }
-.sidebar-footer { padding: 12px 10px; border-top: 1px solid var(--border-light); }
-
-/* ── MAIN ── */
-.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-.topbar { height: 56px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 12px; flex-shrink: 0; }
-.topbar-title { font-size: 17px; font-weight: 700; color: var(--text); flex: 1; letter-spacing: -0.3px; }
-.content { flex: 1; overflow-y: auto; padding: 24px; }
-
-/* ── BUTTONS ── */
-.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--radius); border: none; cursor: pointer; font-family: var(--font); font-size: 13px; font-weight: 600; transition: all 0.12s; white-space: nowrap; }
-.btn-primary { background: var(--primary); color: white; }
-.btn-primary:hover { background: var(--primary-dark); }
-.btn-secondary { background: white; color: var(--text); border: 1.5px solid var(--border); }
-.btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
-.btn-ghost { background: none; color: var(--text2); }
-.btn-ghost:hover { background: var(--bg); color: var(--text); }
-.btn-teal { background: var(--secondary); color: white; }
-.btn-teal:hover { background: #006666; }
-.btn-danger { background: var(--danger); color: white; }
-.btn-danger:hover { background: #b71c1c; }
-.btn-sm { padding: 5px 12px; font-size: 12px; }
-.btn-xs { padding: 3px 8px; font-size: 11px; }
-
-/* ── VIEWS ── */
-.view { display: none; }
-.view.active { display: block; }
-
-/* ── STATS ── */
-.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
-.stat-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
-.stat-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 12px 0 0 12px; }
-.stat-label { font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
-.stat-value { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -1px; margin-bottom: 4px; }
-.stat-sub { font-size: 12px; color: var(--text3); }
-
-/* ── SECTION ── */
-.section-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; letter-spacing: -0.4px; }
-.section-sub { font-size: 13px; color: var(--text3); margin-bottom: 20px; }
-.kanban-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-
-/* ── KANBAN ── */
-.kanban-board { display: grid; gap: 14px; }
-.kanban-board.k5 { grid-template-columns: repeat(5,1fr); }
-.kanban-board.k4 { grid-template-columns: repeat(4,1fr); }
-
-.kanban-col { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px; min-height: 200px; transition: background 0.15s, border-color 0.15s; }
-.kanban-col.drag-over { background: var(--primary-light); border-color: var(--primary); border-style: dashed; }
-
-.col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
-.col-title { font-size: 12px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
-.col-pill { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.col-count { font-size: 11px; font-weight: 700; color: white; padding: 1px 8px; border-radius: 10px; }
-.col-cards { min-height: 60px; }
-.empty-col { text-align: center; padding: 24px 12px; color: var(--text3); font-size: 12px; }
-
-/* ── DEAL CARD ── */
-.deal-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin-bottom: 8px; cursor: grab; transition: all 0.12s; box-shadow: var(--shadow-sm); user-select: none; }
-.deal-card:hover { box-shadow: var(--shadow); border-color: var(--primary); transform: translateY(-1px); }
-.deal-card:active { cursor: grabbing; }
-.deal-card.dragging { opacity: 0.4; transform: rotate(2deg) scale(0.97); box-shadow: none; }
-.deal-card.overdue { border-left: 3px solid var(--danger); }
-.deal-card.warn { border-left: 3px solid var(--warning); }
-.deal-card.editable { border: 1.5px dashed var(--primary); background: var(--primary-light); }
-
-.card-client { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
-.card-mission { font-size: 11.5px; color: var(--text3); margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.card-footer { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-.card-amount { font-size: 13px; font-weight: 700; color: var(--primary); }
-.card-date { font-size: 11px; color: var(--text3); }
-.card-date.overdue { color: var(--danger); font-weight: 600; }
-.card-date.warn { color: var(--warning); font-weight: 600; }
-.card-actions { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
-.card-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: var(--bg); color: var(--text3); border: 1px solid var(--border); }
-.card-edit-hint { font-size: 10px; color: var(--primary); font-weight: 500; margin-top: 5px; opacity: 0.8; }
-
-/* ── BADGES ── */
-.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
-.badge-primary { background: var(--primary-light); color: var(--primary); }
-.badge-teal { background: var(--secondary-light); color: var(--secondary); }
-.badge-purple { background: var(--tertiary-light); color: var(--tertiary); }
-.badge-success { background: var(--success-light); color: var(--success); }
-.badge-danger { background: var(--danger-light); color: var(--danger); }
-.badge-warning { background: var(--warning-light); color: var(--warning); }
-.badge-neutral { background: var(--bg); color: var(--text3); border: 1px solid var(--border); }
-
-/* ── TABLE ── */
-.table-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
-table { width: 100%; border-collapse: collapse; }
-thead { background: var(--bg); }
-th { text-align: left; padding: 10px 16px; font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
-td { padding: 12px 16px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: #FAFBFC; }
-
-/* ── ACTIVITY ── */
-.activity-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: var(--radius); background: white; border: 1px solid var(--border); margin-bottom: 8px; cursor: pointer; transition: all 0.12s; box-shadow: var(--shadow-sm); }
-.activity-item:hover { border-color: var(--primary); box-shadow: var(--shadow); }
-.activity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.activity-info { flex: 1; min-width: 0; }
-.activity-client { font-size: 13px; font-weight: 600; }
-.activity-detail { font-size: 12px; color: var(--text3); margin-top: 1px; }
-
-.alert-banner { background: var(--danger-light); border: 1px solid rgba(211,47,47,0.2); border-left: 4px solid var(--danger); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--danger); font-weight: 500; }
-
-/* ── MODAL ── */
-.modal-overlay { position: fixed; inset: 0; background: rgba(26,28,30,0.4); backdrop-filter: blur(3px); z-index: 200; display: none; align-items: center; justify-content: center; }
-.modal-overlay.open { display: flex; }
-.modal { background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); width: 620px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); animation: mIn 0.18s ease; }
-@keyframes mIn { from{opacity:0;transform:translateY(12px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)} }
-.modal-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; position: sticky; top: 0; background: white; z-index: 1; }
-.modal-title { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
-.modal-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
-.modal-body { padding: 24px; }
-.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; position: sticky; bottom: 0; background: white; }
-
-/* ── FORM ── */
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.form-full { grid-column: 1/-1; }
-.form-group { display: flex; flex-direction: column; gap: 5px; }
-.form-section { grid-column: 1/-1; font-size: 11px; font-weight: 700; color: var(--primary); letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 0 4px; border-top: 1px solid var(--border-light); margin-top: 4px; }
-.form-section:first-child { border-top: none; padding-top: 0; margin-top: 0; }
-label { font-size: 12px; font-weight: 600; color: var(--text2); }
-.req::after { content: ' *'; color: var(--danger); }
-input, select, textarea { background: white; border: 1.5px solid var(--border); border-radius: var(--radius); color: var(--text); font-family: var(--font); font-size: 13.5px; padding: 9px 12px; outline: none; transition: border-color 0.12s, box-shadow 0.12s; width: 100%; }
-input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(63,81,181,0.1); }
-input::placeholder, textarea::placeholder { color: var(--text3); }
-textarea { resize: vertical; min-height: 80px; }
-
-/* ── CONFIG ── */
-.config-block { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 14px; }
-.config-block-title { font-size: 13px; font-weight: 700; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; gap: 8px; }
-
-/* ── DETAIL ── */
-.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.detail-field { background: var(--bg); border-radius: var(--radius); padding: 12px; }
-.detail-field.full { grid-column: 1/-1; }
-.detail-label { font-size: 10px; font-weight: 700; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
-.detail-val { font-size: 13.5px; font-weight: 500; color: var(--text); }
-
-/* ── CHAT ── */
-.chat-wrap { display: flex; flex-direction: column; height: calc(100vh - 56px); }
-.chat-messages { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-.chat-msg { display: flex; gap: 10px; }
-.chat-msg.user { align-self: flex-end; flex-direction: row-reverse; max-width: 600px; }
-.chat-msg.agent { max-width: 700px; }
-.chat-avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
-.chat-msg.agent .chat-avatar { background: var(--primary); color: white; }
-.chat-msg.user .chat-avatar { background: var(--secondary); color: white; }
-.chat-bubble { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; font-size: 13.5px; line-height: 1.6; box-shadow: var(--shadow-sm); }
-.chat-msg.user .chat-bubble { background: var(--primary); color: white; border-color: var(--primary); }
-.chat-chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 24px 12px; }
-.chip { padding: 5px 12px; background: white; border: 1.5px solid var(--border); border-radius: 20px; font-size: 12px; font-weight: 500; color: var(--text2); cursor: pointer; transition: all 0.12s; box-shadow: var(--shadow-sm); }
-.chip:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
-.chat-footer { padding: 16px 24px; background: white; border-top: 1px solid var(--border); display: flex; gap: 10px; align-items: flex-end; }
-.chat-input { flex: 1; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: var(--font); font-size: 13.5px; padding: 11px 16px; outline: none; resize: none; min-height: 44px; max-height: 120px; transition: border-color 0.12s; }
-.chat-input:focus { border-color: var(--primary); background: white; }
-.chat-send { background: var(--primary); border: none; border-radius: 10px; width: 44px; height: 44px; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; transition: background 0.12s; }
-.chat-send:hover { background: var(--primary-dark); }
-.chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
-
-/* ── TOAST ── */
-.toast { position: fixed; bottom: 24px; right: 24px; padding: 12px 18px; border-radius: var(--radius-lg); font-size: 13px; font-weight: 500; box-shadow: var(--shadow-lg); z-index: 999; animation: tIn 0.2s ease; max-width: 320px; }
-.toast.success { background: var(--success); color: white; }
-.toast.danger { background: var(--danger); color: white; }
-.toast.info { background: var(--primary); color: white; }
-@keyframes tIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
-
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text3); }
-
-.typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); display: inline-block; animation: blink 1.2s infinite; }
-.typing-dot:nth-child(2) { animation-delay: 0.2s; }
-.typing-dot:nth-child(3) { animation-delay: 0.4s; }
-@keyframes blink { 0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)} }
-.typing-row { display: flex; gap: 4px; align-items: center; padding: 4px 2px; }
+:root{--p:#3F51B5;--pl:#E8EAF6;--pd:#283593;--s:#008080;--sl:#E0F2F1;--tv:#6A5ACD;--tl:#EDE7F6;--d:#D32F2F;--dl:#FFEBEE;--w:#F57C00;--wl:#FFF3E0;--ok:#2E7D32;--okl:#E8F5E9;--bg:#F4F5F7;--sur:#fff;--b:#E0E3E9;--bl:#F0F2F5;--tx:#1A1C1E;--t2:#4A5568;--t3:#9AA3B2;--f:'Inter',-apple-system,sans-serif;--r:8px;--rl:12px;--rxl:16px;--sh:0 1px 3px rgba(0,0,0,.08);--shm:0 4px 12px rgba(0,0,0,.08);--shl:0 10px 30px rgba(0,0,0,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--f);background:var(--bg);color:var(--tx);font-size:14px;height:100vh;overflow:hidden}
+.app{display:flex;height:100vh}
+/* LOGIN */
+.login-page{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center}
+.login-page.hidden{display:none}
+.lcard{background:#fff;border:1px solid var(--b);border-radius:var(--rxl);padding:40px;width:400px;max-width:95vw;box-shadow:var(--shl)}
+.llogo{display:flex;align-items:center;gap:10px;margin-bottom:28px}
+.lm{width:36px;height:36px;background:var(--p);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.lm svg{width:20px;height:20px;fill:#fff}
+.lh{font-size:22px;font-weight:700;letter-spacing:-.4px;margin-bottom:6px}
+.ld{font-size:13px;color:var(--t3);margin-bottom:24px}
+.lf{display:flex;flex-direction:column;gap:14px}
+.lg{display:flex;flex-direction:column;gap:5px}
+.lg label{font-size:12px;font-weight:600;color:var(--t2)}
+.lerr{background:var(--dl);color:var(--d);border:1px solid rgba(211,47,47,.2);border-radius:var(--r);padding:10px 14px;font-size:12.5px;display:none}
+.lerr.show{display:block}
+.lload{display:none;align-items:center;justify-content:center;gap:8px;color:var(--t3);font-size:13px}
+.lload.show{display:flex}
+.spin{width:16px;height:16px;border:2px solid var(--b);border-top-color:var(--p);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* SIDEBAR */
+.sidebar{width:240px;background:#fff;border-right:1px solid var(--b);display:flex;flex-direction:column;flex-shrink:0}
+.logo{padding:20px;border-bottom:1px solid var(--bl)}
+.logo-mark{width:36px;height:36px;background:var(--p);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.logo-mark svg{width:20px;height:20px;fill:#fff}
+.logo-title{font-size:15px;font-weight:700;letter-spacing:-.3px;line-height:1.2}
+.logo-sub{font-size:11px;color:var(--t3);margin-top:2px}
+.nav-body{flex:1;padding:12px 10px;overflow-y:auto}
+.ns{margin-bottom:20px}
+.nsl{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;padding:0 10px;margin-bottom:4px}
+.ni{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--r);cursor:pointer;color:var(--t2);font-size:13.5px;font-weight:400;transition:all .12s;border:none;background:none;width:100%;text-align:left}
+.ni:hover{background:var(--bg);color:var(--tx)}
+.ni.active{background:var(--pl);color:var(--p);font-weight:600}
+.ni-i{width:20px;text-align:center;font-size:15px;flex-shrink:0}
+.nb{margin-left:auto;color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center}
+.nb.red{background:var(--d)}.nb.orange{background:var(--w)}.nb.blue{background:var(--p)}
+.sf{padding:12px 10px;border-top:1px solid var(--bl)}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:56px;background:#fff;border-bottom:1px solid var(--b);display:flex;align-items:center;padding:0 24px;gap:12px;flex-shrink:0}
+.topbar-title{font-size:17px;font-weight:700;flex:1;letter-spacing:-.3px}
+.content{flex:1;overflow-y:auto;padding:24px}
+.view{display:none}.view.active{display:block}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--r);border:none;cursor:pointer;font-family:var(--f);font-size:13px;font-weight:600;transition:all .12s;white-space:nowrap}
+.btn-p{background:var(--p);color:#fff}.btn-p:hover{background:var(--pd)}
+.btn-s{background:#fff;color:var(--tx);border:1.5px solid var(--b)}.btn-s:hover{border-color:var(--p);color:var(--p)}
+.btn-g{background:none;color:var(--t2)}.btn-g:hover{background:var(--bg);color:var(--tx)}
+.btn-t{background:var(--s);color:#fff}.btn-t:hover{background:#006666}
+.btn-d{background:var(--d);color:#fff}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-sm{padding:5px 12px;font-size:12px}.btn-xs{padding:3px 8px;font-size:11px}
+/* STATS */
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.sc{background:#fff;border:1px solid var(--b);border-radius:var(--rl);padding:20px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.sa{position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:12px 0 0 12px}
+.slb{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.sv{font-size:26px;font-weight:700;letter-spacing:-1px;margin-bottom:4px}
+.ss{font-size:12px;color:var(--t3)}
+/* KANBAN */
+.kh{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.kb{display:grid;gap:14px}
+.k5{grid-template-columns:repeat(5,1fr)}.k4{grid-template-columns:repeat(4,1fr)}
+.kc{background:var(--bg);border:1px solid var(--b);border-radius:var(--rl);padding:12px;min-height:200px;transition:background .15s,border-color .15s}
+.kc.drag-over{background:var(--pl);border-color:var(--p);border-style:dashed}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--b)}
+.ct{font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
+.cp{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cc{font-size:11px;font-weight:700;color:#fff;padding:1px 8px;border-radius:10px}
+.ec{text-align:center;padding:24px 12px;color:var(--t3);font-size:12px}
+/* DEAL CARD */
+.dc{background:#fff;border:1px solid var(--b);border-radius:var(--r);padding:12px;margin-bottom:8px;cursor:pointer;transition:all .12s;box-shadow:var(--sh);user-select:none}
+.dc:hover{box-shadow:var(--shm);border-color:var(--p);transform:translateY(-1px)}
+.dc.dragging{opacity:.4;cursor:grabbing}
+.dc.overdue{border-left:3px solid var(--d)}.dc.warn{border-left:3px solid var(--w)}
+.dc.editable{border:1.5px dashed var(--p);background:var(--pl);cursor:pointer}
+.dc.renouv-card{border-left:3px solid var(--w);background:#fffbf5}
+.cn{font-size:13px;font-weight:600;margin-bottom:2px}
+.cm{font-size:11.5px;color:var(--t3);margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cf{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.ca{font-size:13px;font-weight:700;color:var(--p)}
+.cd{font-size:11px;color:var(--t3)}.cd.overdue{color:var(--d);font-weight:600}.cd.warn{color:var(--w);font-weight:600}
+.cac{display:flex;gap:4px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.ctag{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;background:var(--bg);color:var(--t3);border:1px solid var(--b)}
+.ceh{font-size:10px;color:var(--p);font-weight:500;margin-top:5px;opacity:.8}
+/* BADGES */
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.bp{background:var(--pl);color:var(--p)}.bsuc{background:var(--okl);color:var(--ok)}.bw{background:var(--wl);color:var(--w)}.bd{background:var(--dl);color:var(--d)}.bt{background:var(--tl);color:var(--tv)}.bn{background:var(--bg);color:var(--t3);border:1px solid var(--b)}
+/* TABLE */
+.tc{background:#fff;border:1px solid var(--b);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh)}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--bg)}
+th{text-align:left;padding:10px 16px;font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--b)}
+td{padding:12px 16px;border-bottom:1px solid var(--bl);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafbfc}
+/* ACTIVITY */
+.ai{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:var(--r);background:#fff;border:1px solid var(--b);margin-bottom:8px;cursor:pointer;transition:all .12s;box-shadow:var(--sh)}
+.ai:hover{border-color:var(--p)}
+.ad{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ainfo{flex:1;min-width:0}
+.acl{font-size:13px;font-weight:600}
+.adet{font-size:12px;color:var(--t3);margin-top:1px}
+.alert{background:var(--dl);border:1px solid rgba(211,47,47,.2);border-left:4px solid var(--d);border-radius:var(--r);padding:12px 16px;margin-bottom:20px;display:flex;align-items:center;gap:10px;font-size:13px;color:var(--d);font-weight:500}
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(26,28,30,.4);backdrop-filter:blur(3px);z-index:200;display:none;align-items:center;justify-content:center}
+.mo.open{display:flex}
+.md{background:#fff;border:1px solid var(--b);border-radius:var(--rxl);width:620px;max-width:95vw;max-height:90vh;overflow-y:auto;box-shadow:var(--shl);animation:mIn .18s ease}
+@keyframes mIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.mh{padding:20px 24px 16px;border-bottom:1px solid var(--b);display:flex;align-items:flex-start;justify-content:space-between;position:sticky;top:0;background:#fff;z-index:1}
+.mt{font-size:17px;font-weight:700;letter-spacing:-.3px}
+.msub{font-size:12px;color:var(--t3);margin-top:2px}
+.mb{padding:24px}
+.mf{padding:16px 24px;border-top:1px solid var(--b);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:#fff}
+/* FORM */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ff{grid-column:1/-1}
+.fi{display:flex;flex-direction:column;gap:5px}
+.fsec{grid-column:1/-1;font-size:11px;font-weight:700;color:var(--p);letter-spacing:.06em;text-transform:uppercase;padding:8px 0 4px;border-top:1px solid var(--bl);margin-top:4px}
+.fsec:first-child{border-top:none;padding-top:0;margin-top:0}
+label{font-size:12px;font-weight:600;color:var(--t2)}
+.req::after{content:' *';color:var(--d)}
+input,select,textarea{background:#fff;border:1.5px solid var(--b);border-radius:var(--r);color:var(--tx);font-family:var(--f);font-size:13.5px;padding:9px 12px;outline:none;transition:border-color .12s,box-shadow .12s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(63,81,181,.1)}
+input::placeholder,textarea::placeholder{color:var(--t3)}
+textarea{resize:vertical;min-height:80px}
+/* CONFIG */
+.cblock{background:var(--bg);border:1px solid var(--b);border-radius:var(--rl);padding:20px;margin-bottom:14px}
+.cbt{font-size:13px;font-weight:700;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--bl);display:flex;align-items:center;gap:8px}
+/* DETAIL */
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.df{background:var(--bg);border-radius:var(--r);padding:12px}
+.df.full{grid-column:1/-1}
+.dlb{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.dv{font-size:13.5px;font-weight:500}
+/* CHAT */
+.cw{display:flex;flex-direction:column;height:calc(100vh - 56px)}
+.cms{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px}
+.cmsg{display:flex;gap:10px}
+.cmsg.user{align-self:flex-end;flex-direction:row-reverse;max-width:600px}
+.cmsg.agent{max-width:700px}
+.cav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.cmsg.agent .cav{background:var(--p);color:#fff}
+.cmsg.user .cav{background:var(--s);color:#fff}
+.cbbl{background:#fff;border:1px solid var(--b);border-radius:12px;padding:12px 16px;font-size:13.5px;line-height:1.6;box-shadow:var(--sh)}
+.cmsg.user .cbbl{background:var(--p);color:#fff;border-color:var(--p)}
+.cchips{display:flex;gap:6px;flex-wrap:wrap;padding:0 24px 12px}
+.chip{padding:5px 12px;background:#fff;border:1.5px solid var(--b);border-radius:20px;font-size:12px;font-weight:500;color:var(--t2);cursor:pointer;transition:all .12s;box-shadow:var(--sh)}
+.chip:hover{border-color:var(--p);color:var(--p);background:var(--pl)}
+.cfoot{padding:16px 24px;background:#fff;border-top:1px solid var(--b);display:flex;gap:10px;align-items:flex-end}
+.cinput{flex:1;background:var(--bg);border:1.5px solid var(--b);border-radius:10px;color:var(--tx);font-family:var(--f);font-size:13.5px;padding:11px 16px;outline:none;resize:none;min-height:44px;max-height:120px;transition:border-color .12s}
+.cinput:focus{border-color:var(--p);background:#fff}
+.csend{background:var(--p);border:none;border-radius:10px;width:44px;height:44px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.csend:hover{background:var(--pd)}
+.csend:disabled{opacity:.4;cursor:not-allowed}
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 18px;border-radius:var(--rl);font-size:13px;font-weight:500;box-shadow:var(--shl);z-index:9999;animation:tIn .2s ease;max-width:320px}
+.toast.success{background:var(--ok);color:#fff}.toast.danger{background:var(--d);color:#fff}.toast.info{background:var(--p);color:#fff}
+@keyframes tIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--b);border-radius:3px}
+.tdot{width:6px;height:6px;border-radius:50%;background:var(--t3);display:inline-block;animation:blink 1.2s infinite}
+.tdot:nth-child(2){animation-delay:.2s}.tdot:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,60%,100%{opacity:.3}30%{opacity:1;transform:translateY(-3px)}}
+.trow{display:flex;gap:4px;align-items:center;padding:4px 0}
+.sttl{font-size:20px;font-weight:700;margin-bottom:4px;letter-spacing:-.4px}
+.ssub{font-size:13px;color:var(--t3);margin-bottom:20px}
+/* RENOUV CARD */
+.rv-card{background:#fff;border:1px solid var(--b);border-radius:var(--rl);padding:18px;margin-bottom:12px;box-shadow:var(--sh);border-left:4px solid var(--w)}
+.rv-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.rv-name{font-size:14px;font-weight:700}
+.rv-info{font-size:12.5px;color:var(--t2);margin-bottom:12px;line-height:1.6}
+.rv-actions{display:flex;gap:8px}
 </style>
 </head>
 <body>
 
+<!-- LOGIN PAGE -->
+<div class="login-page" id="loginPage">
+  <div class="lcard">
+    <div style="text-align:center;margin-bottom:24px">
+      <img src="https://alexandraboscary-pixel.github.io/devis-contrat-tracker/logo.png" alt="Logo" style="width:110px;height:110px;object-fit:contain;margin-bottom:8px">
+      <div style="font-size:13px;color:var(--t3);font-weight:500;letter-spacing:.02em">Agent IA — N8N Connected</div>
+    </div>
+    <div class="lh">Connexion</div>
+    <div class="ld">Accédez à votre espace de gestion commerciale</div>
+    <div class="lf">
+      <div class="lg"><label>Email</label><input type="email" id="lem" placeholder="votre@email.com" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="lg"><label>Mot de passe</label><input type="password" id="lpwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="lerr" id="lerr">Email ou mot de passe incorrect</div>
+      <div class="lload" id="lload"><div class="spin"></div> Connexion en cours...</div>
+      <button class="btn btn-p" style="width:100%;justify-content:center;padding:11px" onclick="doLogin()">Se connecter →</button>
+    </div>
+    <div style="margin-top:20px;text-align:center;font-size:12px;color:var(--t3)">Accès réservé — Devis & Contrat Tracker</div>
+  </div>
+</div>
+
 <!-- CONFIG MODAL -->
-<div class="modal-overlay" id="configModal">
-  <div class="modal" style="width:520px">
-    <div class="modal-header"><div><div class="modal-title">⚙️ Configuration</div></div><button class="btn btn-ghost btn-sm" onclick="closeModal('configModal')">✕</button></div>
-    <div class="modal-body">
-      <div class="config-block">
-        <div class="config-block-title"><span style="color:var(--secondary)">▣</span> Supabase</div>
-        <div class="form-grid">
-          <div class="form-group form-full"><label>Project URL</label><input id="cfg-sb-url" placeholder="https://xxxx.supabase.co"></div>
-          <div class="form-group form-full"><label>Anon / Publishable Key</label><input type="password" id="cfg-sb-key" placeholder="eyJhbGci..."></div>
-        </div>
+<div class="mo" id="configModal">
+  <div class="md" style="width:520px">
+    <div class="mh"><div><div class="mt">⚙️ Configuration</div></div><button class="btn btn-g btn-sm" onclick="closeMo('configModal')">✕</button></div>
+    <div class="mb">
+      <div class="cblock"><div class="cbt"><span style="color:var(--s)">▣</span> Supabase</div>
+        <div class="fg"><div class="fi ff"><label>Project URL</label><input id="csu" placeholder="https://xxxx.supabase.co"></div><div class="fi ff"><label>Anon Key</label><input type="password" id="csk" placeholder="eyJhbGci..."></div></div>
       </div>
-      <div class="config-block">
-        <div class="config-block-title"><span style="color:var(--primary)">◈</span> Agent IA — Anthropic</div>
-        <div class="form-group"><label>API Key</label><input type="password" id="cfg-claude" placeholder="sk-ant-..."></div>
-      </div>
-      <div class="config-block">
-        <div class="config-block-title"><span style="color:var(--tertiary)">⚡</span> N8N Webhooks</div>
-        <div class="form-grid">
-          <div class="form-group form-full"><label>URL N8N</label><input id="cfg-n8n-url" placeholder="https://n8n.srv1088521.hstgr.cloud"></div>
-          <div class="form-group"><label>Webhook nouveau devis</label><input id="cfg-n8n-devis" placeholder="/webhook/nouveau-devis"></div>
-          <div class="form-group"><label>Webhook relance</label><input id="cfg-n8n-relance" placeholder="/webhook/relance-manuelle"></div>
-        </div>
+      <div class="cblock"><div class="cbt"><span style="color:var(--p)">◈</span> Agent IA — Anthropic</div><div class="fi"><label>API Key</label><input type="password" id="cck" placeholder="sk-ant-..."></div></div>
+      <div class="cblock"><div class="cbt"><span style="color:var(--tv)">⚡</span> N8N Webhooks</div>
+        <div class="fg"><div class="fi ff"><label>URL N8N</label><input id="cnu" placeholder="https://n8n.srv1088521.hstgr.cloud"></div><div class="fi"><label>Webhook devis</label><input id="cnd" placeholder="/webhook/nouveau-devis"></div><div class="fi"><label>Webhook relance</label><input id="cnr" placeholder="/webhook/relance-manuelle"></div></div>
       </div>
     </div>
-    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('configModal')">Annuler</button><button class="btn btn-primary" onclick="saveConfig()">Sauvegarder</button></div>
+    <div class="mf"><button class="btn btn-g" onclick="closeMo('configModal')">Annuler</button><button class="btn btn-p" onclick="saveConfig()">Sauvegarder</button></div>
   </div>
 </div>
 
 <!-- LEAD MODAL -->
-<div class="modal-overlay" id="leadModal">
-  <div class="modal">
-    <div class="modal-header"><div><div class="modal-title">✨ Nouveau lead</div><div class="modal-sub">Déclenche la génération du devis via N8N</div></div><button class="btn btn-ghost btn-sm" onclick="closeModal('leadModal')">✕</button></div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div class="form-section">Informations client</div>
-        <div class="form-group"><label class="req">Prénom & Nom</label><input id="f-nom" placeholder="Jean Dupont"></div>
-        <div class="form-group"><label class="req">Entreprise</label><input id="f-entreprise" placeholder="Agence Dupont SARL"></div>
-        <div class="form-group"><label>SIRET</label><input id="f-siret" placeholder="123 456 789 00012"></div>
-        <div class="form-group"><label class="req">Email</label><input type="email" id="f-email" placeholder="jean@entreprise.com"></div>
-        <div class="form-group"><label>Téléphone</label><input id="f-tel" placeholder="+33 6 12 34 56 78"></div>
-        <div class="form-group"><label>Adresse</label><input id="f-adresse" placeholder="12 rue de la Paix, 75001 Paris"></div>
-        <div class="form-section">Détails de la mission</div>
-        <div class="form-group"><label class="req">Type de prestation</label>
-          <select id="f-type"><option value="">Sélectionner...</option><option>Création site web</option><option>Automatisation & IA</option><option>Conseil & audit</option><option>Formation</option><option>Développement application</option><option>Stratégie digitale</option><option>Autre</option></select>
-        </div>
-        <div class="form-group"><label>Délai souhaité</label>
-          <select id="f-delai"><option value="">Sélectionner...</option><option>Urgent — 1 semaine</option><option>Court — 2 semaines</option><option>Standard — 1 mois</option><option>Long — 2 à 3 mois</option><option>Flexible</option></select>
-        </div>
-        <div class="form-group form-full"><label class="req">Description de la mission</label><textarea id="f-description" placeholder="Décrivez le besoin, les objectifs, les livrables..."></textarea></div>
-        <div class="form-group"><label>Budget estimé (€ HT)</label><input type="number" id="f-budget" placeholder="2500"></div>
-        <div class="form-group"><label>Mode de paiement</label>
-          <select id="f-paiement"><option value="">Sélectionner...</option><option>Virement bancaire</option><option>Chèque</option><option>Carte bancaire</option></select>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('leadModal')">Annuler</button><button class="btn btn-primary" onclick="submitLead()">💾 Créer le lead</button></div>
+<div class="mo" id="leadModal">
+  <div class="md">
+    <div class="mh"><div><div class="mt">✨ Nouveau lead</div><div class="msub">Crée le lead en attente — envoi N8N séparé</div></div><button class="btn btn-g btn-sm" onclick="closeMo('leadModal')">✕</button></div>
+    <div class="mb"><div class="fg">
+      <div class="fsec">Client</div>
+      <div class="fi"><label class="req">Prénom & Nom</label><input id="fn"></div><div class="fi"><label class="req">Entreprise</label><input id="fent"></div>
+      <div class="fi"><label>SIRET</label><input id="fsi"></div><div class="fi"><label class="req">Email</label><input type="email" id="fem"></div>
+      <div class="fi"><label>Téléphone</label><input id="ftel"></div><div class="fi"><label>Adresse</label><input id="fadr"></div>
+      <div class="fsec">Mission</div>
+      <div class="fi"><label class="req">Type</label><select id="fty"><option value="">Sélectionner...</option><option>Création site web</option><option>Automatisation & IA</option><option>Conseil & audit</option><option>Formation</option><option>Développement application</option><option>Stratégie digitale</option><option>Autre</option></select></div>
+      <div class="fi"><label>Délai</label><select id="fdel"><option value="">Sélectionner...</option><option>Urgent — 1 semaine</option><option>Court — 2 semaines</option><option>Standard — 1 mois</option><option>Long — 2 à 3 mois</option><option>Flexible</option></select></div>
+      <div class="fi ff"><label class="req">Description</label><textarea id="fdes"></textarea></div>
+      <div class="fi"><label>Budget (€ HT)</label><input type="number" id="fbud"></div>
+      <div class="fi"><label>Paiement</label><select id="fpai"><option value="">Sélectionner...</option><option>Virement bancaire</option><option>Chèque</option><option>Carte bancaire</option></select></div>
+    </div></div>
+    <div class="mf"><button class="btn btn-g" onclick="closeMo('leadModal')">Annuler</button><button class="btn btn-p" onclick="submitLead()">💾 Créer le lead</button></div>
   </div>
 </div>
 
-<!-- EDIT MODAL -->
-<div class="modal-overlay" id="editModal">
-  <div class="modal" style="width:680px">
-    <div class="modal-header">
-      <div><div class="modal-title" id="edit-modal-title">Modifier le devis</div><div class="modal-sub">✏️ En attente d'envoi — modifiez avant génération</div></div>
-      <button class="btn btn-ghost btn-sm" onclick="closeModal('editModal')">✕</button>
-    </div>
-    <div class="modal-body">
-      <input type="hidden" id="edit-id">
-      <div class="form-grid">
-        <div class="form-section">Informations client</div>
-        <div class="form-group"><label class="req">Prénom & Nom</label><input id="edit-nom"></div>
-        <div class="form-group"><label class="req">Entreprise</label><input id="edit-entreprise"></div>
-        <div class="form-group"><label>SIRET</label><input id="edit-siret"></div>
-        <div class="form-group"><label class="req">Email</label><input type="email" id="edit-email"></div>
-        <div class="form-group"><label>Téléphone</label><input id="edit-tel"></div>
-        <div class="form-group"><label>Adresse</label><input id="edit-adresse"></div>
-        <div class="form-section">Détails de la mission</div>
-        <div class="form-group"><label class="req">Type de prestation</label>
-          <select id="edit-type"><option value="">Sélectionner...</option><option>Création site web</option><option>Automatisation & IA</option><option>Conseil & audit</option><option>Formation</option><option>Développement application</option><option>Stratégie digitale</option><option>Autre</option></select>
-        </div>
-        <div class="form-group"><label>Délai</label>
-          <select id="edit-delai"><option value="">Sélectionner...</option><option>Urgent — 1 semaine</option><option>Court — 2 semaines</option><option>Standard — 1 mois</option><option>Long — 2 à 3 mois</option><option>Flexible</option></select>
-        </div>
-        <div class="form-group form-full"><label class="req">Description</label><textarea id="edit-description" rows="3"></textarea></div>
-        <div class="form-section">Conditions commerciales</div>
-        <div class="form-group"><label class="req">Budget (€ HT)</label><input type="number" id="edit-budget"></div>
-        <div class="form-group"><label>Mode de paiement</label>
-          <select id="edit-paiement"><option value="">Sélectionner...</option><option>Virement bancaire</option><option>Chèque</option><option>Carte bancaire</option></select>
-        </div>
-        <div class="form-group"><label>Date limite signature</label><input type="date" id="edit-date-limite"></div>
-        <div class="form-group"><label>Notes internes</label><input id="edit-notes" placeholder="Remarques, conditions particulières..."></div>
+<!-- EDIT DEVIS MODAL -->
+<div class="mo" id="editModal">
+  <div class="md" style="width:680px">
+    <div class="mh"><div><div class="mt" id="etitle">Modifier le devis</div><div class="msub" id="esub">✏️ En attente — modifiez avant envoi</div></div><button class="btn btn-g btn-sm" onclick="closeMo('editModal')">✕</button></div>
+    <div class="mb"><input type="hidden" id="eid"><input type="hidden" id="emode">
+      <div class="fg">
+        <div class="fsec">Client</div>
+        <div class="fi"><label class="req">Prénom & Nom</label><input id="en"></div><div class="fi"><label class="req">Entreprise</label><input id="eent"></div>
+        <div class="fi"><label>SIRET</label><input id="esi"></div><div class="fi"><label class="req">Email</label><input type="email" id="eem"></div>
+        <div class="fi"><label>Téléphone</label><input id="etel"></div><div class="fi"><label>Adresse</label><input id="eadr"></div>
+        <div class="fsec">Mission</div>
+        <div class="fi"><label class="req">Type</label><select id="ety"><option value="">Sélectionner...</option><option>Création site web</option><option>Automatisation & IA</option><option>Conseil & audit</option><option>Formation</option><option>Développement application</option><option>Stratégie digitale</option><option>Autre</option></select></div>
+        <div class="fi"><label>Délai</label><select id="edel"><option value="">Sélectionner...</option><option>Urgent — 1 semaine</option><option>Court — 2 semaines</option><option>Standard — 1 mois</option><option>Long — 2 à 3 mois</option><option>Flexible</option></select></div>
+        <div class="fi ff"><label class="req">Description</label><textarea id="edes" rows="3"></textarea></div>
+        <div class="fsec">Conditions</div>
+        <div class="fi"><label class="req">Budget (€ HT)</label><input type="number" id="ebud"></div>
+        <div class="fi"><label>Paiement</label><select id="epai"><option value="">Sélectionner...</option><option>Virement bancaire</option><option>Chèque</option><option>Carte bancaire</option></select></div>
+        <div class="fi"><label>Date limite signature</label><input type="date" id="edlim"></div>
+        <div class="fi"><label>Notes internes</label><input id="enot" placeholder="Remarques..."></div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('editModal')">Annuler</button>
-      <button class="btn btn-xs" style="background:var(--danger-light);color:var(--danger);border:1px solid rgba(211,47,47,0.2);font-weight:600;padding:5px 12px;margin-right:auto" onclick="supprimerDevis()">🗑 Supprimer</button>
-      <button class="btn btn-secondary" onclick="sauvegarderDevis(false)">💾 Sauvegarder</button>
-      <button class="btn btn-primary" onclick="sauvegarderDevis(true)">🚀 Sauvegarder & Envoyer N8N</button>
+    <div class="mf">
+      <button class="btn btn-g" onclick="closeMo('editModal')">Annuler</button>
+      <button class="btn btn-xs" id="ebtn-del" style="background:var(--dl);color:var(--d);border:1px solid rgba(211,47,47,.2);font-weight:600;padding:5px 12px;margin-right:auto" onclick="supprimerDevis()">🗑 Supprimer</button>
+      <button class="btn btn-s" onclick="saveDevis(false)">💾 Sauvegarder</button>
+      <button class="btn btn-p" id="ebtn-send" onclick="saveDevis(true)">🚀 Envoyer N8N</button>
     </div>
   </div>
 </div>
 
 <!-- DETAIL MODAL -->
-<div class="modal-overlay" id="detailModal">
-  <div class="modal" style="width:680px">
-    <div class="modal-header"><div><div class="modal-title" id="detail-title">Détail</div></div><button class="btn btn-ghost btn-sm" onclick="closeModal('detailModal')">✕</button></div>
-    <div class="modal-body" id="detail-body"></div>
-    <div class="modal-footer" id="detail-footer"></div>
+<div class="mo" id="detailModal">
+  <div class="md" style="width:680px">
+    <div class="mh"><div><div class="mt" id="dtit">Détail</div></div><button class="btn btn-g btn-sm" onclick="closeMo('detailModal')">✕</button></div>
+    <div class="mb" id="dbody"></div>
+    <div class="mf" id="dfoot"></div>
   </div>
 </div>
 
 <!-- APP -->
-<div class="app">
+<div class="app" id="app" style="display:none">
   <div class="sidebar">
     <div class="logo">
-      <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 13h8v1.5H8V13zm0 3h8v1.5H8V16zm0-6h3v1.5H8V10z"/></svg></div>
+      <img src="https://alexandraboscary-pixel.github.io/devis-contrat-tracker/logo.png" alt="Logo" style="width:48px;height:48px;object-fit:contain;margin-bottom:6px">
       <div class="logo-title">Devis & Contrat<br>Tracker</div>
       <div class="logo-sub">Agent IA — N8N Connected</div>
     </div>
     <div class="nav-body">
-      <div class="nav-section">
-        <div class="nav-section-label">Vue d'ensemble</div>
-        <button class="nav-item active" onclick="showView('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</button>
+      <div class="ns"><div class="nsl">Vue d'ensemble</div><button class="ni active" onclick="showV('dashboard',this)"><span class="ni-i">📊</span> Dashboard</button></div>
+      <div class="ns"><div class="nsl">Commercial</div>
+        <button class="ni" onclick="showV('devis',this)"><span class="ni-i">📄</span> Devis <span class="nb red" id="bd" style="display:none">0</span></button>
+        <button class="ni" onclick="showV('contrats',this)"><span class="ni-i">📋</span> Contrats <span class="nb blue" id="bc" style="display:none">0</span></button>
+        <button class="ni" onclick="showV('po',this)"><span class="ni-i">🛒</span> Bons de commande</button>
       </div>
-      <div class="nav-section">
-        <div class="nav-section-label">Commercial</div>
-        <button class="nav-item" onclick="showView('devis',this)"><span class="nav-icon">📄</span> Devis <span class="nav-badge red" id="badge-devis" style="display:none">0</span></button>
-        <button class="nav-item" onclick="showView('contrats',this)"><span class="nav-icon">📋</span> Contrats <span class="nav-badge blue" id="badge-contrats" style="display:none">0</span></button>
-        <button class="nav-item" onclick="showView('po',this)"><span class="nav-icon">🛒</span> Bons de commande</button>
+      <div class="ns"><div class="nsl">Automatisation</div>
+        <button class="ni" onclick="showV('relances',this)"><span class="ni-i">🔔</span> Relances <span class="nb orange" id="br" style="display:none">0</span></button>
+        <button class="ni" onclick="showV('renouv',this)"><span class="ni-i">🔄</span> Renouvellements <span class="nb orange" id="brv" style="display:none">0</span></button>
       </div>
-      <div class="nav-section">
-        <div class="nav-section-label">Automatisation</div>
-        <button class="nav-item" onclick="showView('relances',this)"><span class="nav-icon">🔔</span> Relances <span class="nav-badge orange" id="badge-relances" style="display:none">0</span></button>
-        <button class="nav-item" onclick="showView('renouvellements',this)"><span class="nav-icon">🔄</span> Renouvellements</button>
-      </div>
-      <div class="nav-section">
-        <div class="nav-section-label">Intelligence</div>
-        <button class="nav-item" onclick="showView('chat',this)"><span class="nav-icon">🤖</span> Agent IA</button>
-      </div>
+      <div class="ns"><div class="nsl">Intelligence</div><button class="ni" onclick="showV('chat',this)"><span class="ni-i">🤖</span> Agent IA</button></div>
     </div>
-    <div class="sidebar-footer">
-      <button class="nav-item" onclick="openModal('configModal')"><span class="nav-icon">⚙️</span> Configuration</button>
+    <div class="sf">
+      <button class="ni" onclick="openMo('configModal')"><span class="ni-i">⚙️</span> Configuration</button>
+      <button class="ni" onclick="doLogout()" style="color:var(--d)"><span class="ni-i">🚪</span> Se déconnecter</button>
     </div>
   </div>
 
   <div class="main">
     <div class="topbar">
-      <div class="topbar-title" id="topbar-title">Dashboard</div>
-      <button class="btn btn-ghost btn-sm" onclick="loadData()" style="color:var(--text3)">↻ Actualiser</button>
-      <button class="btn btn-secondary btn-sm" onclick="openModal('configModal')">⚙️ Config</button>
-      <button class="btn btn-primary" onclick="openModal('leadModal')">+ Nouveau lead</button>
+      <div class="topbar-title" id="ttl">Dashboard</div>
+      <button class="btn btn-g btn-sm" onclick="loadData()" style="color:var(--t3)">↻ Actualiser</button>
+      <button class="btn btn-s btn-sm" onclick="openMo('configModal')">⚙️ Config</button>
+      <button class="btn btn-p" onclick="openMo('leadModal')">+ Nouveau lead</button>
     </div>
     <div class="content">
 
       <!-- DASHBOARD -->
       <div class="view active" id="view-dashboard">
-        <div id="alert-zone"></div>
-        <div class="stats-grid">
-          <div class="stat-card"><div class="stat-accent" style="background:var(--primary)"></div><div class="stat-label">CA en cours</div><div class="stat-value" id="stat-ca">—</div><div class="stat-sub">en attente de signature</div></div>
-          <div class="stat-card"><div class="stat-accent" style="background:var(--secondary)"></div><div class="stat-label">Taux de signature</div><div class="stat-value" id="stat-taux">—</div><div class="stat-sub">devis signés / envoyés</div></div>
-          <div class="stat-card"><div class="stat-accent" style="background:var(--success)"></div><div class="stat-label">CA signé</div><div class="stat-value" id="stat-signe">—</div><div class="stat-sub">contrats actifs</div></div>
-          <div class="stat-card"><div class="stat-accent" style="background:var(--danger)"></div><div class="stat-label">En retard</div><div class="stat-value" id="stat-retard">—</div><div class="stat-sub">à relancer</div></div>
+        <div id="az"></div>
+        <div class="sg">
+          <div class="sc"><div class="sa" style="background:var(--p)"></div><div class="slb">CA en cours</div><div class="sv" id="sca">—</div><div class="ss">en attente signature</div></div>
+          <div class="sc"><div class="sa" style="background:var(--s)"></div><div class="slb">Taux signature</div><div class="sv" id="stx">—</div><div class="ss">signés / envoyés</div></div>
+          <div class="sc"><div class="sa" style="background:var(--ok)"></div><div class="slb">CA signé</div><div class="sv" id="ssg">—</div><div class="ss">contrats actifs</div></div>
+          <div class="sc"><div class="sa" style="background:var(--d)"></div><div class="slb">En retard</div><div class="sv" id="srt">—</div><div class="ss">à relancer</div></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-          <div><div class="section-title" style="font-size:15px;margin-bottom:12px">Activité récente</div><div id="recent-activity"></div></div>
-          <div><div class="section-title" style="font-size:15px;margin-bottom:12px;color:var(--danger)">⚠ Relances urgentes</div><div id="relances-urgent"></div></div>
+          <div><div class="sttl" style="font-size:15px;margin-bottom:12px">Activité récente</div><div id="ra"></div></div>
+          <div><div class="sttl" style="font-size:15px;margin-bottom:12px;color:var(--d)">⚠ Relances urgentes</div><div id="ru"></div></div>
         </div>
       </div>
 
-      <!-- DEVIS -->
+      <!-- DEVIS KANBAN -->
       <div class="view" id="view-devis">
-        <div class="kanban-header">
-          <div><div class="section-title">Suivi des Devis</div><div class="section-sub">Glissez-déposez · Cliquez sur une carte "En attente" pour modifier</div></div>
-          <button class="btn btn-primary" onclick="openModal('leadModal')">+ Nouveau devis</button>
-        </div>
-        <div class="kanban-board k5" id="kanban-devis"></div>
+        <div class="kh"><div><div class="sttl">Suivi des Devis</div><div class="ssub">Cliquez sur une carte pour l'ouvrir · Glissez-déposez pour changer le statut</div></div><button class="btn btn-p" onclick="openMo('leadModal')">+ Nouveau</button></div>
+        <div class="kb k5" id="kbd"></div>
       </div>
 
-      <!-- CONTRATS -->
+      <!-- CONTRATS KANBAN -->
       <div class="view" id="view-contrats">
-        <div class="kanban-header">
-          <div><div class="section-title">Suivi des Contrats</div><div class="section-sub">Human-in-the-loop — validation obligatoire avant envoi · Glissez-déposez</div></div>
-        </div>
-        <div class="kanban-board k4" id="kanban-contrats"></div>
+        <div class="kh"><div><div class="sttl">Suivi des Contrats</div><div class="ssub">Validation obligatoire avant envoi · Glissez-déposez</div></div></div>
+        <div class="kb k4" id="kbc"></div>
       </div>
 
       <!-- PO -->
       <div class="view" id="view-po">
-        <div class="section-title">Bons de Commande</div>
-        <div class="section-sub">La réception d'un PO déclenche automatiquement la génération du contrat via N8N</div>
-        <div class="table-card"><table><thead><tr><th>Référence</th><th>Client</th><th>Devis lié</th><th>Montant</th><th>Reçu le</th><th>Statut</th><th></th></tr></thead><tbody id="po-table"></tbody></table></div>
+        <div class="sttl">Bons de Commande</div><div class="ssub">La réception d'un PO déclenche la génération du contrat via N8N</div>
+        <div class="tc"><table><thead><tr><th>Référence</th><th>Client</th><th>Devis</th><th>Montant</th><th>Reçu le</th><th>Statut</th><th></th></tr></thead><tbody id="pot"></tbody></table></div>
       </div>
 
       <!-- RELANCES -->
       <div class="view" id="view-relances">
-        <div class="section-title">Historique des Relances</div>
-        <div class="section-sub">Relances automatiques N8N et manuelles</div>
-        <div class="table-card"><table><thead><tr><th>Client</th><th>Type</th><th>Palier</th><th>Canal</th><th>Date</th><th>Statut</th></tr></thead><tbody id="relances-table"></tbody></table></div>
+        <div class="sttl">Relances</div><div class="ssub">Historique automatique N8N et manuel</div>
+        <div class="tc"><table><thead><tr><th>Client</th><th>Type</th><th>Palier</th><th>Canal</th><th>Date</th><th>Statut</th></tr></thead><tbody id="rlt"></tbody></table></div>
       </div>
 
       <!-- RENOUVELLEMENTS -->
-      <div class="view" id="view-renouvellements">
-        <div class="section-title">Renouvellements</div>
-        <div class="section-sub">Contrats arrivant à échéance dans les 30 jours</div>
-        <div id="renouvellements-list"></div>
+      <div class="view" id="view-renouv">
+        <div class="sttl">Renouvellements</div><div class="ssub">Contrats arrivant à échéance — modifiez et envoyez le contrat de renouvellement</div>
+        <div id="rvl"></div>
       </div>
 
       <!-- CHAT -->
       <div class="view" id="view-chat" style="padding:0;margin:-24px">
-        <div class="chat-wrap">
-          <div class="chat-messages" id="chat-messages">
-            <div class="chat-msg agent">
-              <div class="chat-avatar">IA</div>
-              <div class="chat-bubble">
-                Bonjour ! Je suis votre agent commercial IA. Je lis vos données en temps réel.<br><br>
-                Posez-moi des questions comme :<br>
-                • <em>"Quels devis sont en retard ?"</em><br>
-                • <em>"Quel est mon CA en cours ?"</em><br>
-                • <em>"Résumé du pipeline"</em><br><br>
-                <small style="opacity:0.7">💡 Configurez votre clé Anthropic dans ⚙️ Configuration pour activer l'IA complète.</small>
-              </div>
-            </div>
+        <div class="cw">
+          <div class="cms" id="cms">
+            <div class="cmsg agent"><div class="cav">IA</div><div class="cbbl">Bonjour ! Je suis votre agent IA. Je lis vos données en temps réel.<br><br>Exemples :<br>• <em>"Quels devis sont en retard ?"</em><br>• <em>"Quel est mon CA ?"</em><br>• <em>"Résumé du pipeline"</em><br><br><small style="opacity:.7">Configurez votre clé Anthropic dans ⚙️ pour l'IA complète.</small></div></div>
           </div>
-          <div class="chat-chips">
-            <div class="chip" onclick="quickAsk('Quels devis sont en retard ?')">Devis en retard</div>
-            <div class="chip" onclick="quickAsk('Quel est mon CA en cours ?')">CA en cours</div>
-            <div class="chip" onclick="quickAsk('Liste les clients à relancer')">À relancer</div>
-            <div class="chip" onclick="quickAsk('Résumé du pipeline commercial')">Résumé pipeline</div>
-            <div class="chip" onclick="quickAsk('Quels contrats sont en attente de validation ?')">Contrats en attente</div>
+          <div class="cchips">
+            <div class="chip" onclick="qa('Quels devis sont en retard ?')">Devis en retard</div>
+            <div class="chip" onclick="qa('Quel est mon CA en cours ?')">CA en cours</div>
+            <div class="chip" onclick="qa('Liste les clients à relancer')">À relancer</div>
+            <div class="chip" onclick="qa('Résumé du pipeline')">Pipeline</div>
+            <div class="chip" onclick="qa('Contrats à renouveler bientôt ?')">Renouvellements</div>
           </div>
-          <div class="chat-footer">
-            <textarea class="chat-input" id="chat-input" placeholder="Posez une question sur vos devis, contrats ou relances..." rows="1" onkeydown="handleChatKey(event)"></textarea>
-            <button class="chat-send" onclick="sendChat()" id="chat-send-btn">➤</button>
+          <div class="cfoot">
+            <textarea class="cinput" id="ci" placeholder="Posez une question..." rows="1" onkeydown="hKey(event)"></textarea>
+            <button class="csend" onclick="sendChat()" id="csb">➤</button>
           </div>
         </div>
       </div>
@@ -484,28 +387,66 @@ textarea { resize: vertical; min-height: 80px; }
 
 <script>
 // ═══ CONFIG ═══
-let CFG={sbUrl:'',sbKey:'',claudeKey:'',n8nUrl:'https://n8n.srv1088521.hstgr.cloud',n8nDevis:'/webhook/nouveau-devis',n8nRelance:'/webhook/relance-manuelle'};
-try{const s=localStorage.getItem('dct-v2');if(s)CFG={...CFG,...JSON.parse(s)};}catch(e){}
+let C={sbUrl:'',sbKey:'',ck:'',n8nUrl:'https://n8n.srv1088521.hstgr.cloud',n8nD:'/webhook/nouveau-devis',n8nR:'/webhook/relance-manuelle'};
+try{const s=localStorage.getItem('dct-v3');if(s)C={...C,...JSON.parse(s)};}catch(e){}
 
 function saveConfig(){
-  CFG.sbUrl=_v('cfg-sb-url');CFG.sbKey=_v('cfg-sb-key');CFG.claudeKey=_v('cfg-claude');
-  CFG.n8nUrl=_v('cfg-n8n-url');CFG.n8nDevis=_v('cfg-n8n-devis');CFG.n8nRelance=_v('cfg-n8n-relance');
-  try{localStorage.setItem('dct-v2',JSON.stringify(CFG));}catch(e){}
-  closeModal('configModal');loadData();
+  C.sbUrl=g('csu').value.trim();C.sbKey=g('csk').value.trim();C.ck=g('cck').value.trim();
+  C.n8nUrl=g('cnu').value.trim();C.n8nD=g('cnd').value.trim();C.n8nR=g('cnr').value.trim();
+  try{localStorage.setItem('dct-v3',JSON.stringify(C));}catch(e){}
+  closeMo('configModal');loadData();
+}
+
+// ═══ AUTH ═══
+async function initAuth(){
+  if(!C.sbUrl||!C.sbKey){showApp();return;}
+  try{
+    const r=await fetch(C.sbUrl+'/auth/v1/user',{headers:{'apikey':C.sbKey,'Authorization':'Bearer '+(localStorage.getItem('sb-token')||'')}});
+    if(r.ok){showApp();return;}
+  }catch(e){}
+  g('loginPage').classList.remove('hidden');
+}
+
+async function doLogin(){
+  const email=g('lem').value.trim(),pwd=g('lpwd').value;
+  const err=g('lerr'),load=g('lload');
+  if(!email||!pwd){err.textContent='Veuillez remplir tous les champs';err.classList.add('show');return;}
+  if(!C.sbUrl||!C.sbKey){showApp();return;}
+  err.classList.remove('show');load.classList.add('show');
+  try{
+    const r=await fetch(C.sbUrl+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'apikey':C.sbKey,'Content-Type':'application/json'},body:JSON.stringify({email,password:pwd})});
+    const data=await r.json();
+    if(data.access_token){localStorage.setItem('sb-token',data.access_token);load.classList.remove('show');showApp();}
+    else{load.classList.remove('show');err.textContent='Email ou mot de passe incorrect';err.classList.add('show');}
+  }catch(e){load.classList.remove('show');err.textContent='Erreur connexion';err.classList.add('show');}
+}
+
+function doLogout(){
+  if(!confirm('Se déconnecter ?'))return;
+  localStorage.removeItem('sb-token');
+  g('app').style.display='none';
+  g('loginPage').classList.remove('hidden');
+}
+
+function showApp(){
+  g('loginPage').classList.add('hidden');
+  g('app').style.display='flex';
+  loadData();
 }
 
 // ═══ DEMO DATA ═══
 const NOW=new Date();
 const fmt=d=>new Date(d).toISOString().split('T')[0];
 const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
+
 const DEMO={
   devis:[
-    {id:'DEV-001',client:'Agence des Lilas',entreprise:'Agence des Lilas SARL',email:'contact@lilas.fr',montant:2500,type:'Automatisation & IA',statut:'envoye',date_envoi:fmt(addD(NOW,-12)),date_limite:fmt(addD(NOW,-2)),description:'Automatisation des relances clients et génération de devis'},
-    {id:'DEV-002',client:'Cabinet Renard',entreprise:'Cabinet Renard & Associés',email:'j.renard@cabinet.fr',montant:4200,type:'Conseil & audit',statut:'envoye',date_envoi:fmt(addD(NOW,-6)),date_limite:fmt(addD(NOW,24)),description:'Audit RH et digitalisation des processus'},
-    {id:'DEV-003',client:'E-Shop Mode',entreprise:'E-Shop Mode SAS',email:'ceo@eshopmode.fr',montant:8500,type:'Création site web',statut:'relance',date_envoi:fmt(addD(NOW,-18)),date_limite:fmt(addD(NOW,-8)),description:'Refonte e-commerce avec personnalisation IA'},
-    {id:'DEV-004',client:'Institut Arabe',entreprise:'Institut Arabe de Paris',email:'contact@institutarabe.fr',montant:1800,type:'Formation',statut:'signe',date_envoi:fmt(addD(NOW,-20)),date_limite:fmt(addD(NOW,10)),description:'Formation automatisation des process administratifs'},
-    {id:'DEV-005',client:'StartupTech',entreprise:'StartupTech SASU',email:'founder@startuptech.io',montant:12000,type:'Développement application',statut:'expire',date_envoi:fmt(addD(NOW,-35)),date_limite:fmt(addD(NOW,-5)),description:'MVP application mobile B2B'},
-    {id:'DEV-006',client:'Maison Dupont',entreprise:'Maison Dupont & Fils',email:'g.dupont@maison.fr',montant:3600,type:'Stratégie digitale',statut:'en_attente',date_envoi:fmt(NOW),date_limite:fmt(addD(NOW,30)),description:'Présence digitale et réseaux sociaux'},
+    {id:'DEV-001',client:'Agence des Lilas',entreprise:'Agence des Lilas SARL',email:'contact@lilas.fr',tel:'06 12 34 56 78',montant:2500,type:'Automatisation & IA',statut:'envoye',date_envoi:fmt(addD(NOW,-12)),date_limite:fmt(addD(NOW,-2)),description:'Automatisation des relances clients et génération de devis automatique via N8N'},
+    {id:'DEV-002',client:'Cabinet Renard',entreprise:'Cabinet Renard & Associés',email:'j.renard@cabinet.fr',tel:'01 23 45 67 89',montant:4200,type:'Conseil & audit',statut:'envoye',date_envoi:fmt(addD(NOW,-6)),date_limite:fmt(addD(NOW,24)),description:'Audit complet des processus RH et digitalisation des workflows internes'},
+    {id:'DEV-003',client:'E-Shop Mode',entreprise:'E-Shop Mode SAS',email:'ceo@eshopmode.fr',montant:8500,type:'Création site web',statut:'relance',date_envoi:fmt(addD(NOW,-18)),date_limite:fmt(addD(NOW,-8)),description:'Refonte complète e-commerce avec module personnalisation IA'},
+    {id:'DEV-004',client:'Institut Arabe',entreprise:'Institut Arabe de Paris',email:'contact@institutarabe.fr',montant:1800,type:'Formation',statut:'signe',date_envoi:fmt(addD(NOW,-20)),date_limite:fmt(addD(NOW,10)),description:'Formation automatisation des process administratifs — 2 jours'},
+    {id:'DEV-005',client:'StartupTech',entreprise:'StartupTech SASU',email:'founder@startuptech.io',montant:12000,type:'Développement application',statut:'expire',date_envoi:fmt(addD(NOW,-35)),date_limite:fmt(addD(NOW,-5)),description:'MVP application mobile B2B avec tableau de bord analytics'},
+    {id:'DEV-006',client:'Maison Dupont',entreprise:'Maison Dupont & Fils',email:'g.dupont@maison.fr',montant:3600,type:'Stratégie digitale',statut:'en_attente',date_envoi:fmt(NOW),date_limite:fmt(addD(NOW,30)),description:'Présence digitale et gestion réseaux sociaux'},
   ],
   contrats:[
     {id:'CTR-001',client:'Institut Arabe',devis_id:'DEV-004',montant:1800,statut:'signe',date_envoi:fmt(addD(NOW,-15)),date_signature:fmt(addD(NOW,-10)),date_fin:fmt(addD(NOW,350))},
@@ -518,41 +459,53 @@ const DEMO={
     {client:'Agence des Lilas',type:'devis',palier:'J+10',date:fmt(addD(NOW,-2)),canal:'Email',statut:'envoye'},
     {client:'Cabinet Renard',type:'contrat',palier:'J+1',date:fmt(NOW),canal:'Slack',statut:'planifie'},
   ],
+  renouvellements:[
+    {id:'RNV-001',client:'Agence Pixel',entreprise:'Agence Pixel SARL',email:'contact@agencepixel.fr',montant:3200,type:'Création site web',date_fin:fmt(addD(NOW,18)),description:'Maintenance et évolution du site vitrine — contrat annuel. Inclut 10h de développement, mises à jour sécurité, hébergement managé.',notes:'Client satisfait, souhaite ajouter un blog et une newsletter'},
+    {id:'RNV-002',client:'Pharmacie Centrale',entreprise:'Pharmacie Centrale SA',email:'direction@pharmacie-centrale.fr',montant:1500,type:'Automatisation & IA',date_fin:fmt(addD(NOW,7)),description:'Automatisation des commandes fournisseurs et alertes de stock — contrat annuel reconductible.',notes:'Demande d\'ajouter un module de reporting mensuel'},
+  ],
 };
 
-let D={devis:[],contrats:[],po:[],relances:[]};
+let D={devis:[],contrats:[],po:[],relances:[],renouvellements:[]};
 
+// ═══ DATA ═══
 async function loadData(){
-  if(CFG.sbUrl&&CFG.sbKey){
-    try{const[dv,ct,po,rl]=await Promise.all([sb('devis'),sb('contrats'),sb('bons_commande'),sb('relances')]);D={devis:dv||[],contrats:ct||[],po:po||[],relances:rl||[]};}
-    catch(e){D=DEMO;}
+  if(C.sbUrl&&C.sbKey){
+    try{
+      const[dv,ct,po,rl]=await Promise.all([sb('devis'),sb('contrats'),sb('bons_commande'),sb('relances')]);
+      D={devis:dv||[],contrats:ct||[],po:po||[],relances:rl||[],renouvellements:DEMO.renouvellements};
+    }catch(e){D=DEMO;}
   }else{D=DEMO;}
   render();
 }
 
 async function sb(t){
-  const r=await fetch(`${CFG.sbUrl}/rest/v1/${t}?select=*&order=created_at.desc`,{headers:{'apikey':CFG.sbKey,'Authorization':'Bearer '+CFG.sbKey}});
+  const r=await fetch(`${C.sbUrl}/rest/v1/${t}?select=*&order=created_at.desc`,{headers:{'apikey':C.sbKey,'Authorization':'Bearer '+C.sbKey}});
   if(!r.ok)throw new Error(t+':'+r.status);return r.json();
 }
 
 async function sbUpdate(table,id,data){
-  await fetch(`${CFG.sbUrl}/rest/v1/${table}?id=eq.${id}`,{method:'PATCH',headers:{'apikey':CFG.sbKey,'Authorization':'Bearer '+CFG.sbKey,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(data)});
+  if(!C.sbUrl||!C.sbKey)return;
+  await fetch(`${C.sbUrl}/rest/v1/${table}?id=eq.${id}`,{method:'PATCH',headers:{'apikey':C.sbKey,'Authorization':'Bearer '+C.sbKey,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(data)});
 }
 
+// ═══ HELPERS ═══
+const g=id=>document.getElementById(id);
 const isOD=d=>d.date_limite&&new Date(d.date_limite)<NOW&&!['signe','expire'].includes(d.statut);
 const dLeft=ds=>Math.round((new Date(ds)-NOW)/86400000);
 const fmtEur=n=>(n||0).toLocaleString('fr-FR')+'€';
-const _v=id=>document.getElementById(id)?.value?.trim()||'';
+const _v=id=>g(id)?.value?.trim()||'';
 
 function sColor(s){return{envoye:'#3F51B5',relance:'#F57C00',signe:'#2E7D32',expire:'#9AA3B2',en_attente:'#9AA3B2',genere:'#3F51B5',attente_validation:'#6A5ACD',traite:'#2E7D32',planifie:'#F57C00'}[s]||'#9AA3B2';}
-function sBadge(s){const m={envoye:['badge-primary','Envoyé'],relance:['badge-warning','Relancé'],signe:['badge-success','Signé ✓'],expire:['badge-neutral','Expiré'],en_attente:['badge-neutral','En attente'],genere:['badge-primary','Généré'],attente_validation:['badge-purple','⏳ Validation'],traite:['badge-success','Traité'],planifie:['badge-warning','Planifié']};const[c,l]=m[s]||['badge-neutral',s];return`<span class="badge ${c}">${l}</span>`;}
+function sBadge(s){const m={envoye:['bp','Envoyé'],relance:['bw','Relancé'],signe:['bsuc','Signé ✓'],expire:['bn','Expiré'],en_attente:['bn','En attente'],genere:['bp','Généré'],attente_validation:['bt','⏳ Validation'],traite:['bsuc','Traité'],planifie:['bw','Planifié']};const[c,l]=m[s]||['bn',s];return`<span class="badge ${c}">${l}</span>`;}
 
-function render(){renderDash();renderDevisKanban();renderContratsKanban();renderPO();renderRelances();renderRenouv();updateBadges();}
+// ═══ RENDER ═══
+function render(){renderDash();renderDevisK();renderContratsK();renderPO();renderRelances();renderRenouv();updateBadges();}
 
 function updateBadges(){
   const r=D.devis.filter(isOD).length,p=D.relances.filter(x=>x.statut==='planifie').length,c=D.contrats.filter(x=>x.statut==='attente_validation').length;
-  const setB=(id,n)=>{const b=document.getElementById(id);if(b){b.textContent=n;b.style.display=n?'':'none';}};
-  setB('badge-devis',r);setB('badge-relances',p);setB('badge-contrats',c);
+  const rv=D.renouvellements?.filter(x=>dLeft(x.date_fin)<=30&&dLeft(x.date_fin)>=0).length||0;
+  const setB=(id,n)=>{const b=g(id);if(b){b.textContent=n;b.style.display=n?'':'none';}};
+  setB('bd',r);setB('br',p);setB('bc',c);setB('brv',rv);
 }
 
 function renderDash(){
@@ -560,35 +513,43 @@ function renderDash(){
   const signes=D.devis.filter(d=>d.statut==='signe');
   const pool=D.devis.filter(d=>['envoye','relance','signe'].includes(d.statut));
   const retard=D.devis.filter(isOD);
-  document.getElementById('stat-ca').textContent=fmtEur(actifs.reduce((s,d)=>s+(d.montant||0),0));
-  document.getElementById('stat-taux').textContent=(pool.length?Math.round(signes.length/pool.length*100):0)+'%';
-  document.getElementById('stat-signe').textContent=fmtEur(signes.reduce((s,d)=>s+(d.montant||0),0));
-  document.getElementById('stat-retard').textContent=retard.length;
-  document.getElementById('alert-zone').innerHTML=retard.length?`<div class="alert-banner">⚠ ${retard.length} devis dépassé${retard.length>1?'s':''} — action requise</div>`:'';
-  document.getElementById('recent-activity').innerHTML=D.devis.slice(0,5).map(d=>`<div class="activity-item" onclick='showDetail(${JSON.stringify(d).replace(/'/g,"&#39;")})'><div class="activity-dot" style="background:${sColor(d.statut)}"></div><div class="activity-info"><div class="activity-client">${d.client}</div><div class="activity-detail">${d.type||''} — ${fmtEur(d.montant)} HT</div></div>${sBadge(d.statut)}</div>`).join('');
+  g('sca').textContent=fmtEur(actifs.reduce((s,d)=>s+(d.montant||0),0));
+  g('stx').textContent=(pool.length?Math.round(signes.length/pool.length*100):0)+'%';
+  g('ssg').textContent=fmtEur(signes.reduce((s,d)=>s+(d.montant||0),0));
+  g('srt').textContent=retard.length;
+  g('az').innerHTML=retard.length?`<div class="alert">⚠ ${retard.length} devis dépassé${retard.length>1?'s':''} — action requise</div>`:'';
+  g('ra').innerHTML=D.devis.slice(0,5).map(d=>`<div class="ai" onclick='openDevisDetail(${JSON.stringify(d).replace(/'/g,"&#39;")})'>
+    <div class="ad" style="background:${sColor(d.statut)}"></div>
+    <div class="ainfo"><div class="acl">${d.client}</div><div class="adet">${d.type||''} — ${fmtEur(d.montant)} HT</div></div>
+    ${sBadge(d.statut)}
+  </div>`).join('');
   const urg=D.devis.filter(d=>isOD(d)||(d.date_limite&&dLeft(d.date_limite)<=5&&!['signe','expire'].includes(d.statut)));
-  document.getElementById('relances-urgent').innerHTML=urg.length?urg.map(d=>`<div class="activity-item"><div class="activity-dot" style="background:var(--danger)"></div><div class="activity-info"><div class="activity-client">${d.client}</div><div class="activity-detail">${d.id} — ${fmtEur(d.montant)} — ${isOD(d)?Math.abs(dLeft(d.date_limite))+'j dépassé':dLeft(d.date_limite)+'j restants'}</div></div><button class="btn btn-danger btn-sm" onclick="doRelance('${d.id}','${d.client}',event)">Relancer</button></div>`).join(''):'<div style="color:var(--text3);font-size:13px;padding:8px 0">✓ Aucune relance urgente</div>';
+  g('ru').innerHTML=urg.length?urg.map(d=>`<div class="ai">
+    <div class="ad" style="background:var(--d)"></div>
+    <div class="ainfo"><div class="acl">${d.client}</div><div class="adet">${d.id} — ${fmtEur(d.montant)} — ${isOD(d)?Math.abs(dLeft(d.date_limite))+'j dépassé':dLeft(d.date_limite)+'j restants'}</div></div>
+    <button class="btn btn-d btn-sm" onclick="doRelance('${d.id}','${d.client}',event)">Relancer</button>
+  </div>`).join(''):'<div style="color:var(--t3);font-size:13px;padding:8px 0">✓ Aucune relance urgente</div>';
 }
 
-const KCOLS_D=[{k:'en_attente',l:'En attente',c:'#9AA3B2'},{k:'envoye',l:'Envoyé',c:'#3F51B5'},{k:'relance',l:'Relancé',c:'#F57C00'},{k:'signe',l:'Signé',c:'#2E7D32'},{k:'expire',l:'Expiré',c:'#9AA3B2'}];
-const KCOLS_C=[{k:'genere',l:'Généré',c:'#9AA3B2'},{k:'attente_validation',l:'⏳ Validation',c:'#6A5ACD'},{k:'envoye',l:'Envoyé',c:'#3F51B5'},{k:'signe',l:'Signé',c:'#2E7D32'}];
+const KD=[{k:'en_attente',l:'En attente',c:'#9AA3B2'},{k:'envoye',l:'Envoyé',c:'#3F51B5'},{k:'relance',l:'Relancé',c:'#F57C00'},{k:'signe',l:'Signé',c:'#2E7D32'},{k:'expire',l:'Expiré',c:'#9AA3B2'}];
+const KC=[{k:'genere',l:'Généré',c:'#9AA3B2'},{k:'attente_validation',l:'⏳ Validation',c:'#6A5ACD'},{k:'envoye',l:'Envoyé',c:'#3F51B5'},{k:'signe',l:'Signé',c:'#2E7D32'}];
 
-function renderDevisKanban(){
-  document.getElementById('kanban-devis').innerHTML=KCOLS_D.map(col=>{
+function renderDevisK(){
+  g('kbd').innerHTML=KD.map(col=>{
     const cards=D.devis.filter(d=>d.statut===col.k);
-    return`<div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'devis','${col.k}')">
-      <div class="col-header"><div class="col-title"><span class="col-pill" style="background:${col.c}"></span>${col.l}</div><span class="col-count" style="background:${col.c}">${cards.length}</span></div>
-      <div class="col-cards">${cards.length?cards.map(dCard).join(''):'<div class="empty-col">Déposez ici</div>'}</div>
+    return`<div class="kc" ondragover="onDO(event)" ondragleave="onDL(event)" ondrop="onDrop(event,'devis','${col.k}')">
+      <div class="ch"><div class="ct"><span class="cp" style="background:${col.c}"></span>${col.l}</div><span class="cc" style="background:${col.c}">${cards.length}</span></div>
+      <div>${cards.length?cards.map(dCard).join(''):'<div class="ec">Déposez ici</div>'}</div>
     </div>`;
   }).join('');
 }
 
-function renderContratsKanban(){
-  document.getElementById('kanban-contrats').innerHTML=KCOLS_C.map(col=>{
+function renderContratsK(){
+  g('kbc').innerHTML=KC.map(col=>{
     const cards=D.contrats.filter(c=>c.statut===col.k);
-    return`<div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'contrats','${col.k}')">
-      <div class="col-header"><div class="col-title"><span class="col-pill" style="background:${col.c}"></span>${col.l}</div><span class="col-count" style="background:${col.c}">${cards.length}</span></div>
-      <div class="col-cards">${cards.length?cards.map(cCard).join(''):'<div class="empty-col">Déposez ici</div>'}</div>
+    return`<div class="kc" ondragover="onDO(event)" ondragleave="onDL(event)" ondrop="onDrop(event,'contrats','${col.k}')">
+      <div class="ch"><div class="ct"><span class="cp" style="background:${col.c}"></span>${col.l}</div><span class="cc" style="background:${col.c}">${cards.length}</span></div>
+      <div>${cards.length?cards.map(cCard).join(''):'<div class="ec">Déposez ici</div>'}</div>
     </div>`;
   }).join('');
 }
@@ -596,85 +557,156 @@ function renderContratsKanban(){
 function dCard(d){
   const od=isOD(d),dl=d.date_limite?dLeft(d.date_limite):null,warn=dl!==null&&dl<=5&&dl>=0&&!['signe','expire'].includes(d.statut);
   const isAtt=d.statut==='en_attente';
-  const clickFn=isAtt?`ouvrirEdition('${d.id}',event)`:`showDetail(${JSON.stringify(d).replace(/'/g,"&#39;")})`;
-  return`<div class="deal-card ${od?'overdue':warn?'warn':''} ${isAtt?'editable':''}" draggable="true" data-id="${d.id}" data-board="devis" ondragstart="onDragStart(event,'${d.id}','devis')" ondragend="onDragEnd(event)" onclick="${clickFn}">
-    <div class="card-client">${d.client}</div>
-    <div class="card-mission">${d.type||''}</div>
-    <div class="card-footer">
-      <div class="card-amount">${fmtEur(d.montant)}</div>
-      <div class="card-date ${od?'overdue':warn?'warn':''}">${d.date_limite?(od?'⚠ '+Math.abs(dl)+'j dépassé':dl+'j restants'):'—'}</div>
+  const ds=JSON.stringify(d).replace(/'/g,"&#39;");
+  return`<div class="dc ${od?'overdue':warn?'warn':''} ${isAtt?'editable':''}" draggable="true" data-id="${d.id}" data-board="devis"
+    ondragstart="onDS(event,'${d.id}','devis')" ondragend="onDE(event)"
+    onclick='openDevisDetail(${ds})'>
+    <div class="cn">${d.client}</div>
+    <div class="cm">${d.type||''}</div>
+    <div class="cf"><div class="ca">${fmtEur(d.montant)}</div><div class="cd ${od?'overdue':warn?'warn':''}">${d.date_limite?(od?'⚠ '+Math.abs(dl)+'j':dl+'j restants'):'—'}</div></div>
+    <div class="cac">
+      <span class="ctag">${d.id}</span>
+      ${sBadge(d.statut)}
     </div>
-    <div class="card-actions">
-      <span class="card-tag">${d.id}</span>
-      ${isAtt?`<button class="btn btn-xs btn-primary" onclick="ouvrirEdition('${d.id}',event)">✏️ Modifier</button>`:''}
-      ${isAtt?`<button class="btn btn-xs" style="background:var(--success);color:white" onclick="envoyerEnDevis('${d.id}',event)">🚀 Envoyer en devis</button>`:''}
-      ${(od||warn)?`<button class="btn btn-xs btn-danger" onclick="doRelance('${d.id}','${d.client}',event)">Relancer</button>`:''}
-      ${d.statut==='signe'?`<button class="btn btn-xs btn-teal" onclick="toContrat('${d.id}','${d.client}',event)">→ Contrat</button>`:''}
-    </div>
-    ${isAtt?'<div class="card-edit-hint">✏️ Modifiez puis cliquez 🚀 Envoyer en devis</div>':''}
+    ${isAtt?'<div class="ceh">✏️ Cliquez pour modifier avant envoi</div>':''}
   </div>`;
 }
 
 function cCard(c){
   const ds=JSON.stringify(c).replace(/'/g,"&#39;");
-  return`<div class="deal-card" draggable="true" data-id="${c.id}" data-board="contrats" ondragstart="onDragStart(event,'${c.id}','contrats')" ondragend="onDragEnd(event)" onclick='showCDetail(${ds})'>
-    <div class="card-client">${c.client}</div>
-    <div class="card-mission">Lié au ${c.devis_id}</div>
-    <div class="card-footer"><div class="card-amount">${fmtEur(c.montant)}</div><div class="card-date">${c.date_envoi||'—'}</div></div>
-    <div class="card-actions">
-      <span class="card-tag">${c.id}</span>
-      ${c.statut==='attente_validation'?`<button class="btn btn-xs btn-primary" onclick="valider('${c.id}',event)">✓ Valider</button>`:''}
+  return`<div class="dc" draggable="true" data-id="${c.id}" data-board="contrats"
+    ondragstart="onDS(event,'${c.id}','contrats')" ondragend="onDE(event)"
+    onclick='showCDetail(${ds})'>
+    <div class="cn">${c.client}</div>
+    <div class="cm">Lié au ${c.devis_id}</div>
+    <div class="cf"><div class="ca">${fmtEur(c.montant)}</div><div class="cd">${c.date_envoi||'—'}</div></div>
+    <div class="cac">
+      <span class="ctag">${c.id}</span>
+      ${sBadge(c.statut)}
+      ${c.statut==='attente_validation'?`<button class="btn btn-xs btn-p" onclick="valider('${c.id}',event)">✓ Valider</button>`:''}
     </div>
   </div>`;
 }
 
-let dragId=null,dragBoard=null;
-function onDragStart(ev,id,board){dragId=id;dragBoard=board;ev.dataTransfer.effectAllowed='move';ev.dataTransfer.setData('text/plain',id);setTimeout(()=>{const el=document.querySelector(`[data-id="${id}"]`);if(el)el.classList.add('dragging');},0);}
-function onDragEnd(){document.querySelectorAll('.deal-card').forEach(c=>c.classList.remove('dragging'));document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over'));}
-function onDragOver(ev){ev.preventDefault();ev.currentTarget.classList.add('drag-over');}
-function onDragLeave(ev){if(!ev.currentTarget.contains(ev.relatedTarget))ev.currentTarget.classList.remove('drag-over');}
-
-function onDrop(ev,board,newStatus){
-  ev.preventDefault();ev.currentTarget.classList.remove('drag-over');
-  if(!dragId||dragBoard!==board)return;
-  if(board==='contrats'&&newStatus==='envoye'&&!confirm('Valider et envoyer ce contrat au client ?'))return;
-  if(board==='devis'&&newStatus==='signe'){if(confirm('Marquer comme signé et générer le contrat ?')){const d=D.devis.find(x=>x.id===dragId);if(d)setTimeout(()=>toContrat(dragId,d.client),500);}}
-  if(board==='devis'){const item=D.devis.find(x=>x.id===dragId);if(item){item.statut=newStatus;renderDevisKanban();updateBadges();toast(item.client+' → '+statusLabel(newStatus),'success');if(CFG.sbUrl&&CFG.sbKey)sbUpdate('devis',dragId,{statut:newStatus}).catch(()=>{});}}
-  else{const item=D.contrats.find(x=>x.id===dragId);if(item){item.statut=newStatus;if(newStatus==='signe')item.date_signature=fmt(NOW);renderContratsKanban();updateBadges();toast(item.client+' → '+statusLabel(newStatus),'success');if(CFG.sbUrl&&CFG.sbKey)sbUpdate('contrats',dragId,{statut:newStatus}).catch(()=>{});}}
-  dragId=null;dragBoard=null;
+function renderPO(){
+  g('pot').innerHTML=D.po.length?D.po.map(p=>`<tr><td><strong style="font-size:12px;font-family:monospace">${p.ref}</strong></td><td>${p.client}</td><td><span class="badge bp" style="font-size:10px">${p.devis_id}</span></td><td style="font-weight:600">${fmtEur(p.montant)}</td><td style="color:var(--t3);font-size:12px">${p.date_reception}</td><td>${sBadge(p.statut)}</td><td><button class="btn btn-t btn-sm" onclick="genContrat('${p.ref}','${p.client}','${p.devis_id}')">Générer contrat</button></td></tr>`).join(''):'<tr><td colspan="7" style="text-align:center;color:var(--t3);padding:32px">Aucun bon de commande</td></tr>';
 }
-function statusLabel(s){return{en_attente:'En attente',envoye:'Envoyé',relance:'Relancé',signe:'Signé',expire:'Expiré',genere:'Généré',attente_validation:'En validation'}[s]||s;}
 
-function renderPO(){document.getElementById('po-table').innerHTML=D.po.length?D.po.map(p=>`<tr><td><strong style="font-size:12px;font-family:monospace">${p.ref}</strong></td><td>${p.client}</td><td><span class="badge badge-primary" style="font-size:10px">${p.devis_id}</span></td><td style="font-weight:600">${fmtEur(p.montant)}</td><td style="color:var(--text3);font-size:12px">${p.date_reception}</td><td>${sBadge(p.statut)}</td><td><button class="btn btn-teal btn-sm" onclick="genContrat('${p.ref}','${p.client}','${p.devis_id}')">Générer contrat</button></td></tr>`).join(''):'<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:32px">Aucun bon de commande reçu</td></tr>';}
-function renderRelances(){document.getElementById('relances-table').innerHTML=D.relances.length?D.relances.map(r=>`<tr><td><strong>${r.client}</strong></td><td>${r.type==='devis'?'📄 Devis':'📋 Contrat'}</td><td><span class="badge badge-neutral" style="font-size:11px">${r.palier}</span></td><td>${r.canal}</td><td style="color:var(--text3);font-size:12px">${r.date}</td><td>${sBadge(r.statut)}</td></tr>`).join(''):'<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:32px">Aucune relance</td></tr>';}
-function renderRenouv(){const soon=D.contrats.filter(c=>c.date_fin&&dLeft(c.date_fin)<=30&&dLeft(c.date_fin)>=0);document.getElementById('renouvellements-list').innerHTML=soon.length?soon.map(c=>`<div class="activity-item"><div class="activity-dot" style="background:var(--warning)"></div><div class="activity-info"><div class="activity-client">${c.client}</div><div class="activity-detail">${c.id} — expire dans <strong>${dLeft(c.date_fin)} jours</strong></div></div><button class="btn btn-secondary btn-sm">🔄 Proposer renouvellement</button></div>`).join(''):'<div class="activity-item" style="cursor:default"><div class="activity-dot" style="background:var(--success)"></div><div class="activity-info"><div class="activity-client" style="font-weight:400;color:var(--text3)">Aucun contrat à renouveler prochainement</div></div></div>';}
+function renderRelances(){
+  g('rlt').innerHTML=D.relances.length?D.relances.map(r=>`<tr><td><strong>${r.client}</strong></td><td>${r.type==='devis'?'📄 Devis':'📋 Contrat'}</td><td><span class="badge bn" style="font-size:11px">${r.palier}</span></td><td>${r.canal}</td><td style="color:var(--t3);font-size:12px">${r.date}</td><td>${sBadge(r.statut)}</td></tr>`).join(''):'<tr><td colspan="6" style="text-align:center;color:var(--t3);padding:32px">Aucune relance</td></tr>';
+}
 
+function renderRenouv(){
+  const rv=D.renouvellements||[];
+  g('rvl').innerHTML=rv.length?rv.map(r=>{
+    const dl=dLeft(r.date_fin);
+    const urgent=dl<=10;
+    return`<div class="rv-card">
+      <div class="rv-top">
+        <div>
+          <div class="rv-name">${r.client} <span class="badge ${urgent?'bd':'bw'}" style="margin-left:6px">${urgent?'🔴 Urgent':'🟡 À renouveler'} — ${dl}j</span></div>
+          <div style="font-size:12px;color:var(--t3);margin-top:2px">${r.entreprise} · ${r.type} · ${fmtEur(r.montant)}/an · Fin le ${r.date_fin}</div>
+        </div>
+      </div>
+      <div class="rv-info">${r.description}${r.notes?`<br><em style="color:var(--t3)">📝 ${r.notes}</em>`:''}</div>
+      <div class="rv-actions">
+        <button class="btn btn-s btn-sm" onclick="ouvrirEditionRenouv('${r.id}')">✏️ Modifier le contrat</button>
+        <button class="btn btn-ok btn-sm" onclick="envoyerRenouv('${r.id}','${r.client}')">🚀 Envoyer contrat de renouvellement</button>
+      </div>
+    </div>`;
+  }).join(''):'<div class="ai" style="cursor:default"><div class="ainfo"><div class="acl" style="font-weight:400;color:var(--t3)">✅ Aucun contrat à renouveler prochainement</div></div></div>';
+}
+
+// ═══ OPEN DEVIS DETAIL (toutes les cartes cliquables) ═══
+function openDevisDetail(d){
+  if(d.statut==='en_attente'){
+    ouvrirEdition(d.id);
+    return;
+  }
+  // Toutes les autres cartes ouvrent un modal détail complet avec actions
+  g('dtit').textContent=d.id+' — '+d.client;
+  const od=isOD(d);
+  g('dbody').innerHTML=`<div class="dg">
+    <div class="df"><div class="dlb">Statut</div><div class="dv">${sBadge(d.statut)}</div></div>
+    <div class="df"><div class="dlb">Montant HT</div><div class="dv" style="color:var(--p);font-size:18px;font-weight:700">${fmtEur(d.montant)}</div></div>
+    <div class="df"><div class="dlb">Client</div><div class="dv">${d.client}</div></div>
+    <div class="df"><div class="dlb">Entreprise</div><div class="dv">${d.entreprise||'—'}</div></div>
+    <div class="df"><div class="dlb">Email</div><div class="dv">${d.email||'—'}</div></div>
+    <div class="df"><div class="dlb">Téléphone</div><div class="dv">${d.tel||'—'}</div></div>
+    <div class="df"><div class="dlb">Type</div><div class="dv">${d.type||'—'}</div></div>
+    <div class="df"><div class="dlb">Délai</div><div class="dv">${d.delai||'—'}</div></div>
+    <div class="df"><div class="dlb">Date d'envoi</div><div class="dv">${d.date_envoi||'—'}</div></div>
+    <div class="df"><div class="dlb">Date limite</div><div class="dv" style="${od?'color:var(--d);font-weight:600':''}">${d.date_limite||'—'}${od?' ⚠ DÉPASSÉE':''}</div></div>
+    ${d.paiement?`<div class="df"><div class="dlb">Paiement</div><div class="dv">${d.paiement}</div></div>`:''}
+    ${d.notes?`<div class="df"><div class="dlb">Notes</div><div class="dv">${d.notes}</div></div>`:''}
+    <div class="df full"><div class="dlb">Description</div><div class="dv" style="line-height:1.6">${d.description||'—'}</div></div>
+  </div>`;
+  g('dfoot').innerHTML=`
+    <button class="btn btn-g" onclick="closeMo('detailModal')">Fermer</button>
+    <button class="btn btn-s btn-sm" onclick="ouvrirEditionDevis('${d.id}');closeMo('detailModal')">✏️ Modifier</button>
+    ${(od||dLeft(d.date_limite)<=5)?`<button class="btn btn-d btn-sm" onclick="doRelance('${d.id}','${d.client}',event);closeMo('detailModal')">🔔 Relancer</button>`:''}
+    ${d.statut==='signe'?`<button class="btn btn-t btn-sm" onclick="toContrat('${d.id}','${d.client}');closeMo('detailModal')">📋 Générer contrat</button>`:''}
+    ${d.statut==='envoye'?`<button class="btn btn-ok btn-sm" onclick="envoyerEnDevis('${d.id}',null)">🔄 Renvoyer N8N</button>`:''}
+  `;
+  openMo('detailModal');
+}
+
+function showCDetail(c){
+  g('dtit').textContent=c.id+' — '+c.client;
+  g('dbody').innerHTML=`<div class="dg">
+    <div class="df"><div class="dlb">Statut</div><div class="dv">${sBadge(c.statut)}</div></div>
+    <div class="df"><div class="dlb">Montant</div><div class="dv" style="color:var(--p);font-size:18px;font-weight:700">${fmtEur(c.montant)}</div></div>
+    <div class="df"><div class="dlb">Client</div><div class="dv">${c.client}</div></div>
+    <div class="df"><div class="dlb">Devis lié</div><div class="dv"><span class="badge bp">${c.devis_id}</span></div></div>
+    <div class="df"><div class="dlb">Envoyé le</div><div class="dv">${c.date_envoi||'—'}</div></div>
+    <div class="df"><div class="dlb">Signé le</div><div class="dv">${c.date_signature||'En attente'}</div></div>
+    ${c.date_fin?`<div class="df"><div class="dlb">Fin contrat</div><div class="dv">${c.date_fin}</div></div>`:''}
+  </div>`;
+  g('dfoot').innerHTML=`
+    <button class="btn btn-g" onclick="closeMo('detailModal')">Fermer</button>
+    ${c.statut==='attente_validation'?`<button class="btn btn-p btn-sm" onclick="valider('${c.id}');closeMo('detailModal')">✓ Valider & Envoyer</button>`:''}
+  `;
+  openMo('detailModal');
+}
+
+// ═══ DRAG & DROP ═══
+let dId=null,dBoard=null;
+function onDS(ev,id,board){dId=id;dBoard=board;ev.dataTransfer.effectAllowed='move';setTimeout(()=>{const el=document.querySelector(`[data-id="${id}"]`);if(el)el.classList.add('dragging');},0);}
+function onDE(){document.querySelectorAll('.dc').forEach(c=>c.classList.remove('dragging'));document.querySelectorAll('.kc').forEach(c=>c.classList.remove('drag-over'));}
+function onDO(ev){ev.preventDefault();ev.currentTarget.classList.add('drag-over');}
+function onDL(ev){if(!ev.currentTarget.contains(ev.relatedTarget))ev.currentTarget.classList.remove('drag-over');}
+function onDrop(ev,board,ns){
+  ev.preventDefault();ev.currentTarget.classList.remove('drag-over');
+  if(!dId||dBoard!==board)return;
+  if(board==='contrats'&&ns==='envoye'&&!confirm('Valider et envoyer ce contrat au client ?'))return;
+  if(board==='devis'&&ns==='signe'){if(confirm('Marquer comme signé et générer le contrat ?')){const d=D.devis.find(x=>x.id===dId);if(d)setTimeout(()=>toContrat(dId,d.client),500);}}
+  if(board==='devis'){const it=D.devis.find(x=>x.id===dId);if(it){it.statut=ns;renderDevisK();updateBadges();toast(it.client+' → '+stLbl(ns),'success');sbUpdate('devis',dId,{statut:ns});}}
+  else{const it=D.contrats.find(x=>x.id===dId);if(it){it.statut=ns;if(ns==='signe')it.date_signature=fmt(NOW);renderContratsK();updateBadges();toast(it.client+' → '+stLbl(ns),'success');sbUpdate('contrats',dId,{statut:ns});}}
+  dId=null;dBoard=null;
+}
+function stLbl(s){return{en_attente:'En attente',envoye:'Envoyé',relance:'Relancé',signe:'Signé',expire:'Expiré',genere:'Généré',attente_validation:'En validation'}[s]||s;}
+
+// ═══ ACTIONS ═══
 async function submitLead(){
-  const lead={nom:_v('f-nom'),entreprise:_v('f-entreprise'),siret:_v('f-siret'),email:_v('f-email'),tel:_v('f-tel'),adresse:_v('f-adresse'),type:_v('f-type'),delai:_v('f-delai'),description:_v('f-description'),budget:_v('f-budget'),paiement:_v('f-paiement')};
+  const lead={nom:_v('fn'),entreprise:_v('fent'),siret:_v('fsi'),email:_v('fem'),tel:_v('ftel'),adresse:_v('fadr'),type:_v('fty'),delai:_v('fdel'),description:_v('fdes'),montant:parseFloat(_v('fbud'))||0,paiement:_v('fpai')};
   if(!lead.nom||!lead.entreprise||!lead.email||!lead.type||!lead.description){alert('Champs obligatoires manquants (*)');return;}
-  closeModal('leadModal');
-  const nd={id:'DEV-'+String(D.devis.length+1).padStart(3,'0'),client:lead.nom,entreprise:lead.entreprise,email:lead.email,tel:lead.tel,adresse:lead.adresse,siret:lead.siret,montant:parseFloat(lead.budget)||0,type:lead.type,delai:lead.delai,paiement:lead.paiement,statut:'en_attente',date_envoi:fmt(NOW),date_limite:fmt(addD(NOW,30)),description:lead.description};
-  D.devis.unshift(nd);
-  render();
-  toast('Lead cree - cliquez Envoyer en devis sur la carte pour declencher N8N','info');
+  closeMo('leadModal');
+  const nd={id:'DEV-'+String(D.devis.length+1).padStart(3,'0'),client:lead.nom,...lead,statut:'en_attente',date_envoi:fmt(NOW),date_limite:fmt(addD(NOW,30))};
+  D.devis.unshift(nd);render();toast('Lead créé — cliquez la carte pour modifier puis envoyer','info');
 }
 
 async function envoyerEnDevis(id,ev){
   if(ev)ev.stopPropagation();
   const d=D.devis.find(x=>x.id===id);if(!d)return;
-  if(!confirm('Envoyer le devis pour '+d.client+' ? N8N va generer et envoyer le devis par email.'))return;
-  if(CFG.n8nUrl&&CFG.n8nDevis){
-    try{await fetch(CFG.n8nUrl+CFG.n8nDevis,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});}
-    catch(e){console.warn('N8N:',e);}
-  }
-  d.statut='envoye';d.date_envoi=fmt(NOW);
-  if(!d.date_limite)d.date_limite=fmt(addD(NOW,30));
-  render();toast('Devis '+id+' envoye a N8N - generation en cours','success');
+  if(!confirm('Envoyer le devis pour '+d.client+' via N8N ?'))return;
+  if(C.n8nUrl&&C.n8nD){try{await fetch(C.n8nUrl+C.n8nD,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});}catch(e){}}
+  d.statut='envoye';d.date_envoi=fmt(NOW);if(!d.date_limite)d.date_limite=fmt(addD(NOW,30));
+  render();toast('Devis '+id+' envoyé à N8N','success');
 }
 
 async function doRelance(id,client,ev){
-  if(ev)ev.stopPropagation();if(!confirm(`Envoyer une relance manuelle pour ${client} ?`))return;
-  if(CFG.n8nUrl&&CFG.n8nRelance){try{await fetch(CFG.n8nUrl+CFG.n8nRelance,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({devis_id:id,client})});}catch(e){}}
+  if(ev)ev.stopPropagation();if(!confirm('Envoyer une relance pour '+client+' ?'))return;
+  if(C.n8nUrl&&C.n8nR){try{await fetch(C.n8nUrl+C.n8nR,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({devis_id:id,client})});}catch(e){}}
   D.relances.unshift({client,type:'devis',palier:'Manuel',date:fmt(NOW),canal:'Email',statut:'envoye'});
   const d=D.devis.find(x=>x.id===id);if(d)d.statut='relance';
   render();toast('Relance envoyée pour '+client,'success');
@@ -682,111 +714,135 @@ async function doRelance(id,client,ev){
 
 function toContrat(id,client,ev){
   if(ev)ev.stopPropagation();const d=D.devis.find(x=>x.id===id);if(!d)return;
-  if(!confirm(`Générer le contrat pour ${client} ?\n\nN8N va créer le contrat et vous notifier via Slack pour validation.`))return;
+  if(!confirm('Générer le contrat pour '+client+' ?\nN8N va créer le contrat et vous notifier via Slack.'))return;
   const nc={id:'CTR-'+String(D.contrats.length+1).padStart(3,'0'),client:d.client,devis_id:id,montant:d.montant,statut:'attente_validation',date_envoi:fmt(NOW),date_signature:null,date_fin:null};
-  D.contrats.unshift(nc);render();toast('Contrat '+nc.id+' en attente validation Slack','success');
+  D.contrats.unshift(nc);render();toast('Contrat '+nc.id+' en attente validation','success');
 }
 
 function valider(id,ev){
   if(ev)ev.stopPropagation();const c=D.contrats.find(x=>x.id===id);if(!c)return;
-  if(!confirm(`Valider et envoyer le contrat ${id} à ${c.client} ?`))return;
+  if(!confirm('Valider et envoyer le contrat '+id+' à '+c.client+' ?'))return;
   c.statut='envoye';render();toast('Contrat validé et envoyé à '+c.client,'success');
 }
 
 function genContrat(ref,client,did){toast('N8N génère le contrat pour '+client+' ('+did+')','success');}
 
-function showDetail(d){
-  document.getElementById('detail-title').textContent=d.id+' — '+d.client;
-  const od=isOD(d);
-  document.getElementById('detail-body').innerHTML=`<div class="detail-grid">
-    <div class="detail-field"><div class="detail-label">Statut</div><div class="detail-val">${sBadge(d.statut)}</div></div>
-    <div class="detail-field"><div class="detail-label">Montant HT</div><div class="detail-val" style="color:var(--primary);font-size:18px;font-weight:700">${fmtEur(d.montant)}</div></div>
-    <div class="detail-field"><div class="detail-label">Client</div><div class="detail-val">${d.client}</div></div>
-    <div class="detail-field"><div class="detail-label">Entreprise</div><div class="detail-val">${d.entreprise||'—'}</div></div>
-    <div class="detail-field"><div class="detail-label">Email</div><div class="detail-val">${d.email||'—'}</div></div>
-    <div class="detail-field"><div class="detail-label">Type</div><div class="detail-val">${d.type||'—'}</div></div>
-    <div class="detail-field"><div class="detail-label">Date d'envoi</div><div class="detail-val">${d.date_envoi||'—'}</div></div>
-    <div class="detail-field"><div class="detail-label">Date limite</div><div class="detail-val" style="${od?'color:var(--danger);font-weight:600':''}">${d.date_limite||'—'}${od?' ⚠ DÉPASSÉE':''}</div></div>
-    <div class="detail-field full"><div class="detail-label">Description</div><div class="detail-val">${d.description||'—'}</div></div>
-  </div>`;
-  document.getElementById('detail-footer').innerHTML=`
-    <button class="btn btn-ghost" onclick="closeModal('detailModal')">Fermer</button>
-    <button class="btn btn-secondary btn-sm" onclick="doRelance('${d.id}','${d.client}');closeModal('detailModal')">🔔 Relancer</button>
-    ${d.statut==='signe'?`<button class="btn btn-teal btn-sm" onclick="toContrat('${d.id}','${d.client}');closeModal('detailModal')">Générer contrat →</button>`:''}`;
-  openModal('detailModal');
+// ═══ EDIT DEVIS ═══
+function ouvrirEdition(id){
+  const d=D.devis.find(x=>x.id===id);if(!d)return;
+  g('eid').value=id;g('emode').value='edit';
+  g('etitle').textContent='Modifier — '+id;
+  g('esub').textContent=d.statut==='en_attente'?'✏️ En attente — modifiez avant envoi':'✏️ Modifier ce devis';
+  g('ebtn-send').textContent=d.statut==='en_attente'?'🚀 Envoyer via N8N':'🔄 Renvoyer via N8N';
+  g('en').value=d.client||'';g('eent').value=d.entreprise||'';g('esi').value=d.siret||'';
+  g('eem').value=d.email||'';g('etel').value=d.tel||'';g('eadr').value=d.adresse||'';
+  g('edes').value=d.description||'';g('ebud').value=d.montant||'';g('enot').value=d.notes||'';
+  g('edlim').value=d.date_limite||'';
+  const setS=(id,val)=>{const el=g(id);for(let o of el.options)if(o.value===val||o.text===val){el.value=o.value;break;}};
+  setS('ety',d.type||'');setS('edel',d.delai||'');setS('epai',d.paiement||'');
+  openMo('editModal');
 }
 
-function showCDetail(c){
-  document.getElementById('detail-title').textContent=c.id+' — '+c.client;
-  document.getElementById('detail-body').innerHTML=`<div class="detail-grid">
-    <div class="detail-field"><div class="detail-label">Statut</div><div class="detail-val">${sBadge(c.statut)}</div></div>
-    <div class="detail-field"><div class="detail-label">Montant</div><div class="detail-val" style="color:var(--primary);font-size:18px;font-weight:700">${fmtEur(c.montant)}</div></div>
-    <div class="detail-field"><div class="detail-label">Client</div><div class="detail-val">${c.client}</div></div>
-    <div class="detail-field"><div class="detail-label">Devis lié</div><div class="detail-val"><span class="badge badge-primary">${c.devis_id}</span></div></div>
-    <div class="detail-field"><div class="detail-label">Envoyé le</div><div class="detail-val">${c.date_envoi||'—'}</div></div>
-    <div class="detail-field"><div class="detail-label">Signé le</div><div class="detail-val">${c.date_signature||'En attente'}</div></div>
-    ${c.date_fin?`<div class="detail-field"><div class="detail-label">Fin de contrat</div><div class="detail-val">${c.date_fin}</div></div>`:''}
-  </div>`;
-  document.getElementById('detail-footer').innerHTML=`
-    <button class="btn btn-ghost" onclick="closeModal('detailModal')">Fermer</button>
-    ${c.statut==='attente_validation'?`<button class="btn btn-primary btn-sm" onclick="valider('${c.id}');closeModal('detailModal')">✓ Valider & Envoyer</button>`:''}`;
-  openModal('detailModal');
-}
+// Alias pour ouverture depuis le modal détail
+function ouvrirEditionDevis(id){ouvrirEdition(id);}
 
-function ouvrirEdition(id,ev){
-  if(ev)ev.stopPropagation();
-  const d=D.devis.find(x=>x.id===id);if(!d||d.statut!=='en_attente')return;
-  document.getElementById('edit-id').value=id;
-  document.getElementById('edit-modal-title').textContent='Modifier — '+id;
-  document.getElementById('edit-nom').value=d.client||'';
-  document.getElementById('edit-entreprise').value=d.entreprise||'';
-  document.getElementById('edit-siret').value=d.siret||'';
-  document.getElementById('edit-email').value=d.email||'';
-  document.getElementById('edit-tel').value=d.tel||'';
-  document.getElementById('edit-adresse').value=d.adresse||'';
-  document.getElementById('edit-description').value=d.description||'';
-  document.getElementById('edit-budget').value=d.montant||'';
-  document.getElementById('edit-notes').value=d.notes||'';
-  document.getElementById('edit-date-limite').value=d.date_limite||'';
-  const setS=(id,val)=>{const el=document.getElementById(id);for(let o of el.options)if(o.value===val||o.text===val){el.value=o.value;break;}};
-  setS('edit-type',d.type||'');setS('edit-delai',d.delai||'');setS('edit-paiement',d.paiement||'');
-  openModal('editModal');
-}
-
-function sauvegarderDevis(envoyer){
-  const id=document.getElementById('edit-id').value;const d=D.devis.find(x=>x.id===id);if(!d)return;
-  const nom=_v('edit-nom'),entreprise=_v('edit-entreprise'),email=_v('edit-email'),type=_v('edit-type'),description=_v('edit-description');
-  if(!nom||!entreprise||!email||!type||!description){alert('Champs obligatoires manquants (*)');return;}
-  d.client=nom;d.entreprise=entreprise;d.siret=_v('edit-siret');d.email=email;d.tel=_v('edit-tel');d.adresse=_v('edit-adresse');d.type=type;d.delai=_v('edit-delai');d.description=description;d.montant=parseFloat(_v('edit-budget'))||d.montant;d.paiement=_v('edit-paiement');d.notes=_v('edit-notes');
-  const dl=document.getElementById('edit-date-limite').value;if(dl)d.date_limite=dl;
-  if(envoyer){if(CFG.n8nUrl&&CFG.n8nDevis){fetch(CFG.n8nUrl+CFG.n8nDevis,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(()=>{});}d.statut='envoye';d.date_envoi=fmt(NOW);if(!d.date_limite)d.date_limite=fmt(addD(NOW,30));toast('Devis '+id+' envoyé à N8N','success');}
-  else{toast('Devis '+id+' sauvegardé','info');}
-  if(CFG.sbUrl&&CFG.sbKey)sbUpdate('devis',id,d).catch(()=>{});
-  closeModal('editModal');render();
+function saveDevis(envoyer){
+  const id=g('eid').value;const d=D.devis.find(x=>x.id===id);if(!d)return;
+  const nom=_v('en'),ent=_v('eent'),em=_v('eem'),ty=_v('ety'),des=_v('edes');
+  if(!nom||!ent||!em||!ty||!des){alert('Champs obligatoires manquants (*)');return;}
+  d.client=nom;d.entreprise=ent;d.siret=_v('esi');d.email=em;d.tel=_v('etel');d.adresse=_v('eadr');
+  d.type=ty;d.delai=_v('edel');d.description=des;d.montant=parseFloat(_v('ebud'))||d.montant;
+  d.paiement=_v('epai');d.notes=_v('enot');
+  const dl=g('edlim').value;if(dl)d.date_limite=dl;
+  if(envoyer){
+    if(C.n8nUrl&&C.n8nD){fetch(C.n8nUrl+C.n8nD,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(()=>{});}
+    d.statut='envoye';d.date_envoi=fmt(NOW);if(!d.date_limite)d.date_limite=fmt(addD(NOW,30));
+    toast('Devis '+id+' envoyé à N8N','success');
+  }else{toast('Devis '+id+' sauvegardé','info');}
+  sbUpdate('devis',id,d);closeMo('editModal');render();
 }
 
 function supprimerDevis(){
-  const id=document.getElementById('edit-id').value;const d=D.devis.find(x=>x.id===id);if(!d)return;
+  const id=g('eid').value;const d=D.devis.find(x=>x.id===id);if(!d)return;
   if(!confirm('Supprimer définitivement '+id+' pour '+d.client+' ?'))return;
-  D.devis=D.devis.filter(x=>x.id!==id);closeModal('editModal');render();toast('Devis '+id+' supprimé','danger');
+  D.devis=D.devis.filter(x=>x.id!==id);closeMo('editModal');render();toast('Devis '+id+' supprimé','danger');
 }
 
-const chatHist=[];
-function quickAsk(msg){document.getElementById('chat-input').value=msg;sendChat();}
+// ═══ RENOUVELLEMENTS ═══
+function ouvrirEditionRenouv(id){
+  const r=D.renouvellements?.find(x=>x.id===id);if(!r)return;
+  g('eid').value=id;g('emode').value='renouv';
+  g('etitle').textContent='Contrat de renouvellement — '+r.client;
+  g('esub').textContent='🔄 Modifiez avant d\'envoyer le renouvellement';
+  g('ebtn-send').textContent='🚀 Envoyer le renouvellement';
+  g('ebtn-del').style.display='none';
+  g('en').value=r.client||'';g('eent').value=r.entreprise||'';g('esi').value='';
+  g('eem').value=r.email||'';g('etel').value='';g('eadr').value='';
+  g('edes').value=r.description||'';g('ebud').value=r.montant||'';g('enot').value=r.notes||'';
+  g('edlim').value=fmt(addD(NOW,365));
+  const setS=(id,val)=>{const el=g(id);for(let o of el.options)if(o.value===val||o.text===val){el.value=o.value;break;}};
+  setS('ety',r.type||'');setS('edel','Standard — 1 mois');setS('epai','Virement bancaire');
+  openMo('editModal');
+}
+
+function envoyerRenouv(id,client){
+  ouvrirEditionRenouv(id);
+}
+
+// Override saveDevis pour le mode renouv
+const _saveDevis=saveDevis;
+function saveDevis(envoyer){
+  const mode=g('emode').value;
+  if(mode==='renouv'){
+    if(envoyer){
+      const client=_v('en');
+      if(C.n8nUrl&&C.n8nD){
+        const data={type:'renouvellement',client:_v('en'),entreprise:_v('eent'),email:_v('eem'),description:_v('edes'),montant:parseFloat(_v('ebud'))||0,date_fin:g('edlim').value};
+        fetch(C.n8nUrl+C.n8nD,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(()=>{});
+      }
+      g('ebtn-del').style.display='';
+      closeMo('editModal');
+      toast('Contrat de renouvellement envoyé pour '+client,'success');
+    }else{
+      g('ebtn-del').style.display='';
+      closeMo('editModal');
+      toast('Modifications sauvegardées','info');
+    }
+    return;
+  }
+  // Mode normal
+  const id=g('eid').value;const d=D.devis.find(x=>x.id===id);if(!d)return;
+  const nom=_v('en'),ent=_v('eent'),em=_v('eem'),ty=_v('ety'),des=_v('edes');
+  if(!nom||!ent||!em||!ty||!des){alert('Champs obligatoires manquants (*)');return;}
+  d.client=nom;d.entreprise=ent;d.siret=_v('esi');d.email=em;d.tel=_v('etel');d.adresse=_v('eadr');
+  d.type=ty;d.delai=_v('edel');d.description=des;d.montant=parseFloat(_v('ebud'))||d.montant;
+  d.paiement=_v('epai');d.notes=_v('enot');
+  const dl=g('edlim').value;if(dl)d.date_limite=dl;
+  if(envoyer){
+    if(C.n8nUrl&&C.n8nD){fetch(C.n8nUrl+C.n8nD,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(()=>{});}
+    d.statut='envoye';d.date_envoi=fmt(NOW);if(!d.date_limite)d.date_limite=fmt(addD(NOW,30));
+    toast('Devis '+id+' envoyé à N8N','success');
+  }else{toast('Devis '+id+' sauvegardé','info');}
+  sbUpdate('devis',id,d);closeMo('editModal');render();
+}
+
+// ═══ CHAT ═══
+const cH=[];
+function qa(msg){g('ci').value=msg;sendChat();}
 
 async function sendChat(){
-  const inp=document.getElementById('chat-input'),msg=inp.value.trim();if(!msg)return;
-  inp.value='';addMsg('user',msg);chatHist.push({role:'user',content:msg});
-  const btn=document.getElementById('chat-send-btn');btn.disabled=true;
+  const inp=g('ci'),msg=inp.value.trim();if(!msg)return;
+  inp.value='';addMsg('user',msg);cH.push({role:'user',content:msg});
+  const btn=g('csb');btn.disabled=true;
   const tid=addTyping();
-  try{const rep=CFG.claudeKey?await callClaude(msg):demoRep(msg);removeTyping(tid);addMsg('agent',rep);chatHist.push({role:'assistant',content:rep});}
-  catch(e){removeTyping(tid);addMsg('agent','❌ Erreur : '+e.message);}
+  try{const rep=C.ck?await callClaude(msg):demoRep(msg);rmTyping(tid);addMsg('agent',rep);cH.push({role:'assistant',content:rep});}
+  catch(e){rmTyping(tid);addMsg('agent','❌ Erreur : '+e.message);}
   btn.disabled=false;
 }
 
 async function callClaude(msg){
-  const ctx=`Données (${fmt(NOW)}): DEVIS:${JSON.stringify(D.devis)} CONTRATS:${JSON.stringify(D.contrats)} PO:${JSON.stringify(D.po)} RELANCES:${JSON.stringify(D.relances)}`;
-  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':CFG.claudeKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,system:'Tu es un agent commercial assistant. Réponds en français, concis et actionnable. '+ctx,messages:chatHist.slice(-8).concat([{role:'user',content:msg}])})});
+  const ctx=`Données (${fmt(NOW)}): DEVIS:${JSON.stringify(D.devis)} CONTRATS:${JSON.stringify(D.contrats)} RENOUVELLEMENTS:${JSON.stringify(D.renouvellements)}`;
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':C.ck,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,system:'Tu es un agent commercial assistant. Réponds en français, concis. '+ctx,messages:cH.slice(-8).concat([{role:'user',content:msg}])})});
   const data=await r.json();if(data.error)throw new Error(data.error.message);
   return data.content?.[0]?.text||'—';
 }
@@ -797,40 +853,47 @@ function demoRep(msg){
   const ca=D.devis.filter(d=>['envoye','relance'].includes(d.statut)).reduce((s,d)=>s+(d.montant||0),0);
   if(l.includes('retard')||l.includes('relance')||l.includes('urgent'))return retard.length?`⚠ **${retard.length} devis en retard :**\n\n${retard.map(d=>`• **${d.client}** (${d.id}) — ${fmtEur(d.montant)} — ${Math.abs(dLeft(d.date_limite))}j dépassé`).join('\n')}`:'✓ Aucun devis en retard.';
   if(l.includes('ca')||l.includes('chiffre')||l.includes('montant'))return `**Résumé financier :**\n\n• CA en cours : **${fmtEur(ca)}**\n• CA signé : **${fmtEur(signes.reduce((s,d)=>s+(d.montant||0),0))}**\n• Taux : ${D.devis.length?Math.round(signes.length/D.devis.length*100):0}%`;
+  if(l.includes('renouvell'))return `**${D.renouvellements?.length||0} contrats à renouveler :**\n\n${(D.renouvellements||[]).map(r=>`• **${r.client}** — ${fmtEur(r.montant)} — expire dans ${dLeft(r.date_fin)}j`).join('\n')}`;
   if(l.includes('contrat'))return `**${D.contrats.length} contrats :**\n\n${D.contrats.map(c=>`• **${c.client}** — ${fmtEur(c.montant)} — ${c.statut}`).join('\n')}`;
   if(l.includes('client')||l.includes('pipeline')||l.includes('liste'))return `**Pipeline — ${D.devis.length} deals :**\n\n${D.devis.map(d=>`• **${d.client}** — ${fmtEur(d.montant)} — ${d.statut}`).join('\n')}`;
-  return `Configurez votre clé Anthropic dans ⚙️ pour des réponses complètes.\n\nEn démo :\n• "Quels devis sont en retard ?"\n• "Quel est mon CA ?"\n• "Résumé pipeline"`;
+  return `Configurez votre clé Anthropic dans ⚙️ pour des réponses complètes.\n\nEn démo :\n• "Devis en retard"\n• "Mon CA"\n• "Renouvellements"`;
 }
 
 function addMsg(role,text){
-  const w=document.getElementById('chat-messages'),d=document.createElement('div');
-  d.className='chat-msg '+role;
-  d.innerHTML=`<div class="chat-avatar">${role==='agent'?'IA':'Moi'}</div><div class="chat-bubble">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
+  const w=g('cms'),d=document.createElement('div');
+  d.className='cmsg '+role;
+  d.innerHTML=`<div class="cav">${role==='agent'?'IA':'Moi'}</div><div class="cbbl">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
   w.appendChild(d);w.scrollTop=w.scrollHeight;
 }
-function addTyping(){const w=document.getElementById('chat-messages'),d=document.createElement('div'),id='t'+Date.now();d.className='chat-msg agent';d.id=id;d.innerHTML=`<div class="chat-avatar">IA</div><div class="chat-bubble"><div class="typing-row"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div></div>`;w.appendChild(d);w.scrollTop=w.scrollHeight;return id;}
-function removeTyping(id){const e=document.getElementById(id);if(e)e.remove();}
-function handleChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+function addTyping(){const w=g('cms'),d=document.createElement('div'),id='t'+Date.now();d.className='cmsg agent';d.id=id;d.innerHTML=`<div class="cav">IA</div><div class="cbbl"><div style="display:flex;gap:4px;align-items:center;padding:3px 0"><span class="tdot"></span><span class="tdot"></span><span class="tdot"></span></div></div>`;w.appendChild(d);w.scrollTop=w.scrollHeight;return id;}
+function rmTyping(id){const e=g(id);if(e)e.remove();}
+function hKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
 
-function toast(msg,type='info'){const t=document.createElement('div');t.className='toast '+(type||'info');t.textContent=msg;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(()=>t.remove(),300);},2600);}
+// ═══ TOAST ═══
+function toast(msg,type='info'){const t=document.createElement('div');t.className='toast '+(type||'info');t.textContent=msg;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity .3s';setTimeout(()=>t.remove(),300);},2600);}
 
-function showView(id,btn){
+// ═══ NAV ═══
+function showV(id,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
-  const v=document.getElementById('view-'+id);if(v)v.classList.add('active');
+  document.querySelectorAll('.ni').forEach(b=>b.classList.remove('active'));
+  const v=g('view-'+id);if(v)v.classList.add('active');
   if(btn)btn.classList.add('active');
-  const T={dashboard:'Dashboard',devis:'Suivi des Devis',contrats:'Suivi des Contrats',po:'Bons de Commande',relances:'Historique des Relances',renouvellements:'Renouvellements',chat:'Agent IA'};
-  document.getElementById('topbar-title').textContent=T[id]||id;
+  const T={dashboard:'Dashboard',devis:'Suivi des Devis',contrats:'Suivi des Contrats',po:'Bons de Commande',relances:'Historique des Relances',renouv:'Renouvellements',chat:'Agent IA'};
+  g('ttl').textContent=T[id]||id;
 }
 
-function openModal(id){
-  if(id==='configModal'){document.getElementById('cfg-sb-url').value=CFG.sbUrl;document.getElementById('cfg-sb-key').value=CFG.sbKey;document.getElementById('cfg-claude').value=CFG.claudeKey;document.getElementById('cfg-n8n-url').value=CFG.n8nUrl;document.getElementById('cfg-n8n-devis').value=CFG.n8nDevis;document.getElementById('cfg-n8n-relance').value=CFG.n8nRelance;}
-  document.getElementById(id).classList.add('open');
+function openMo(id){
+  if(id==='configModal'){g('csu').value=C.sbUrl;g('csk').value=C.sbKey;g('cck').value=C.ck;g('cnu').value=C.n8nUrl;g('cnd').value=C.n8nD;g('cnr').value=C.n8nR;}
+  g(id).classList.add('open');
 }
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+function closeMo(id){
+  g(id).classList.remove('open');
+  // Reset edit modal state
+  if(id==='editModal'){g('emode').value='edit';g('ebtn-del').style.display='';}
+}
+document.querySelectorAll('.mo').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeMo(o.id);}));
 
-loadData();
+initAuth();
 </script>
 </body>
 </html>
