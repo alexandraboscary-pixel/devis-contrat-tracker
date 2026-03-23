@@ -14,7 +14,6 @@
   --secondary-light: #E0F2F1;
   --tertiary: #6A5ACD;
   --tertiary-light: #EDE7F6;
-  --neutral: #1A1C1E;
   --danger: #D32F2F;
   --danger-light: #FFEBEE;
   --warning: #F57C00;
@@ -32,16 +31,17 @@
   --radius: 8px;
   --radius-lg: 12px;
   --radius-xl: 16px;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
   --shadow: 0 4px 12px rgba(0,0,0,0.08);
-  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.12);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
 .app { display: flex; height: 100vh; }
 
-/* SIDEBAR */
+/* ── SIDEBAR ── */
 .sidebar { width: 240px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
 .logo { padding: 20px; border-bottom: 1px solid var(--border-light); }
 .logo-mark { width: 36px; height: 36px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
@@ -61,13 +61,13 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 .nav-badge.blue { background: var(--primary); }
 .sidebar-footer { padding: 12px 10px; border-top: 1px solid var(--border-light); }
 
-/* MAIN */
+/* ── MAIN ── */
 .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 .topbar { height: 56px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 12px; flex-shrink: 0; }
 .topbar-title { font-size: 17px; font-weight: 700; color: var(--text); flex: 1; letter-spacing: -0.3px; }
 .content { flex: 1; overflow-y: auto; padding: 24px; }
 
-/* BUTTONS */
+/* ── BUTTONS ── */
 .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--radius); border: none; cursor: pointer; font-family: var(--font); font-size: 13px; font-weight: 600; transition: all 0.12s; white-space: nowrap; }
 .btn-primary { background: var(--primary); color: white; }
 .btn-primary:hover { background: var(--primary-dark); }
@@ -78,73 +78,50 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 .btn-teal { background: var(--secondary); color: white; }
 .btn-teal:hover { background: #006666; }
 .btn-danger { background: var(--danger); color: white; }
+.btn-danger:hover { background: #b71c1c; }
 .btn-sm { padding: 5px 12px; font-size: 12px; }
 .btn-xs { padding: 3px 8px; font-size: 11px; }
 
-/* VIEWS */
+/* ── VIEWS ── */
 .view { display: none; }
 .view.active { display: block; }
 
-/* STATS */
+/* ── STATS ── */
 .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
 .stat-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
-.stat-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+.stat-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 12px 0 0 12px; }
 .stat-label { font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
 .stat-value { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -1px; margin-bottom: 4px; }
 .stat-sub { font-size: 12px; color: var(--text3); }
 
-/* KANBAN */
+/* ── SECTION ── */
+.section-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; letter-spacing: -0.4px; }
+.section-sub { font-size: 13px; color: var(--text3); margin-bottom: 20px; }
 .kanban-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+
+/* ── KANBAN ── */
 .kanban-board { display: grid; gap: 14px; }
 .kanban-board.k5 { grid-template-columns: repeat(5,1fr); }
 .kanban-board.k4 { grid-template-columns: repeat(4,1fr); }
 
-.kanban-col {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 12px;
-  min-height: 200px;
-  transition: background 0.15s, border-color 0.15s;
-}
-
-/* DRAG OVER STATE */
-.kanban-col.drag-over {
-  background: var(--primary-light);
-  border-color: var(--primary);
-  border-style: dashed;
-}
-
-.kanban-col.drag-over-teal {
-  background: var(--secondary-light);
-  border-color: var(--secondary);
-  border-style: dashed;
-}
+.kanban-col { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px; min-height: 200px; transition: background 0.15s, border-color 0.15s; }
+.kanban-col.drag-over { background: var(--primary-light); border-color: var(--primary); border-style: dashed; }
 
 .col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
 .col-title { font-size: 12px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
 .col-pill { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .col-count { font-size: 11px; font-weight: 700; color: white; padding: 1px 8px; border-radius: 10px; }
 .col-cards { min-height: 60px; }
+.empty-col { text-align: center; padding: 24px 12px; color: var(--text3); font-size: 12px; }
 
-/* DEAL CARD */
-.deal-card {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px;
-  margin-bottom: 8px;
-  cursor: grab;
-  transition: all 0.12s;
-  box-shadow: var(--shadow-sm);
-  user-select: none;
-}
-
+/* ── DEAL CARD ── */
+.deal-card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; margin-bottom: 8px; cursor: grab; transition: all 0.12s; box-shadow: var(--shadow-sm); user-select: none; }
 .deal-card:hover { box-shadow: var(--shadow); border-color: var(--primary); transform: translateY(-1px); }
 .deal-card:active { cursor: grabbing; }
 .deal-card.dragging { opacity: 0.4; transform: rotate(2deg) scale(0.97); box-shadow: none; }
 .deal-card.overdue { border-left: 3px solid var(--danger); }
 .deal-card.warn { border-left: 3px solid var(--warning); }
+.deal-card.editable { border: 1.5px dashed var(--primary); background: var(--primary-light); }
 
 .card-client { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
 .card-mission { font-size: 11.5px; color: var(--text3); margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -155,25 +132,9 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 .card-date.warn { color: var(--warning); font-weight: 600; }
 .card-actions { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
 .card-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: var(--bg); color: var(--text3); border: 1px solid var(--border); }
+.card-edit-hint { font-size: 10px; color: var(--primary); font-weight: 500; margin-top: 5px; opacity: 0.8; }
 
-/* DROP PLACEHOLDER */
-.drop-placeholder {
-  height: 60px;
-  border: 2px dashed var(--primary);
-  border-radius: var(--radius);
-  background: var(--primary-light);
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary);
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.empty-col { text-align: center; padding: 24px 12px; color: var(--text3); font-size: 12px; }
-
-/* BADGES */
+/* ── BADGES ── */
 .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
 .badge-primary { background: var(--primary-light); color: var(--primary); }
 .badge-teal { background: var(--secondary-light); color: var(--secondary); }
@@ -183,11 +144,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); min-
 .badge-warning { background: var(--warning-light); color: var(--warning); }
 .badge-neutral { background: var(--bg); color: var(--text3); border: 1px solid var(--border); }
 
-/* SECTION */
-.section-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; letter-spacing: -0.4px; }
-.section-sub { font-size: 13px; color: var(--text3); margin-bottom: 20px; }
-
-/* TABLE */
+/* ── TABLE ── */
 .table-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
 table { width: 100%; border-collapse: collapse; }
 thead { background: var(--bg); }
@@ -196,17 +153,28 @@ td { padding: 12px 16px; border-bottom: 1px solid var(--border-light); vertical-
 tr:last-child td { border-bottom: none; }
 tr:hover td { background: #FAFBFC; }
 
-/* MODAL */
+/* ── ACTIVITY ── */
+.activity-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: var(--radius); background: white; border: 1px solid var(--border); margin-bottom: 8px; cursor: pointer; transition: all 0.12s; box-shadow: var(--shadow-sm); }
+.activity-item:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+.activity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.activity-info { flex: 1; min-width: 0; }
+.activity-client { font-size: 13px; font-weight: 600; }
+.activity-detail { font-size: 12px; color: var(--text3); margin-top: 1px; }
+
+.alert-banner { background: var(--danger-light); border: 1px solid rgba(211,47,47,0.2); border-left: 4px solid var(--danger); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--danger); font-weight: 500; }
+
+/* ── MODAL ── */
 .modal-overlay { position: fixed; inset: 0; background: rgba(26,28,30,0.4); backdrop-filter: blur(3px); z-index: 200; display: none; align-items: center; justify-content: center; }
 .modal-overlay.open { display: flex; }
 .modal { background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); width: 620px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); animation: mIn 0.18s ease; }
-@keyframes mIn { from { opacity:0; transform: translateY(12px) scale(0.98); } to { opacity:1; transform: translateY(0) scale(1); } }
-.modal-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: white; z-index: 1; }
+@keyframes mIn { from{opacity:0;transform:translateY(12px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)} }
+.modal-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; justify-content: space-between; position: sticky; top: 0; background: white; z-index: 1; }
 .modal-title { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+.modal-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
 .modal-body { padding: 24px; }
 .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; position: sticky; bottom: 0; background: white; }
 
-/* FORM */
+/* ── FORM ── */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-full { grid-column: 1/-1; }
 .form-group { display: flex; flex-direction: column; gap: 5px; }
@@ -219,7 +187,18 @@ input:focus, select:focus, textarea:focus { border-color: var(--primary); box-sh
 input::placeholder, textarea::placeholder { color: var(--text3); }
 textarea { resize: vertical; min-height: 80px; }
 
-/* CHAT */
+/* ── CONFIG ── */
+.config-block { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 14px; }
+.config-block-title { font-size: 13px; font-weight: 700; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; gap: 8px; }
+
+/* ── DETAIL ── */
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.detail-field { background: var(--bg); border-radius: var(--radius); padding: 12px; }
+.detail-field.full { grid-column: 1/-1; }
+.detail-label { font-size: 10px; font-weight: 700; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+.detail-val { font-size: 13.5px; font-weight: 500; color: var(--text); }
+
+/* ── CHAT ── */
 .chat-wrap { display: flex; flex-direction: column; height: calc(100vh - 56px); }
 .chat-messages { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
 .chat-msg { display: flex; gap: 10px; }
@@ -231,7 +210,7 @@ textarea { resize: vertical; min-height: 80px; }
 .chat-bubble { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; font-size: 13.5px; line-height: 1.6; box-shadow: var(--shadow-sm); }
 .chat-msg.user .chat-bubble { background: var(--primary); color: white; border-color: var(--primary); }
 .chat-chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 24px 12px; }
-.chip { padding: 5px 12px; background: white; border: 1.5px solid var(--border); border-radius: 20px; font-size: 12px; font-weight: 500; color: var(--text2); cursor: pointer; transition: all 0.12s; }
+.chip { padding: 5px 12px; background: white; border: 1.5px solid var(--border); border-radius: 20px; font-size: 12px; font-weight: 500; color: var(--text2); cursor: pointer; transition: all 0.12s; box-shadow: var(--shadow-sm); }
 .chip:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
 .chat-footer { padding: 16px 24px; background: white; border-top: 1px solid var(--border); display: flex; gap: 10px; align-items: flex-end; }
 .chat-input { flex: 1; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: var(--font); font-size: 13.5px; padding: 11px 16px; outline: none; resize: none; min-height: 44px; max-height: 120px; transition: border-color 0.12s; }
@@ -240,45 +219,17 @@ textarea { resize: vertical; min-height: 80px; }
 .chat-send:hover { background: var(--primary-dark); }
 .chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
 
-/* ACTIVITY */
-.activity-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: var(--radius); background: white; border: 1px solid var(--border); margin-bottom: 8px; cursor: pointer; transition: all 0.12s; box-shadow: var(--shadow-sm); }
-.activity-item:hover { border-color: var(--primary); }
-.activity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.activity-info { flex: 1; min-width: 0; }
-.activity-client { font-size: 13px; font-weight: 600; }
-.activity-detail { font-size: 12px; color: var(--text3); margin-top: 1px; }
+/* ── TOAST ── */
+.toast { position: fixed; bottom: 24px; right: 24px; padding: 12px 18px; border-radius: var(--radius-lg); font-size: 13px; font-weight: 500; box-shadow: var(--shadow-lg); z-index: 999; animation: tIn 0.2s ease; max-width: 320px; }
+.toast.success { background: var(--success); color: white; }
+.toast.danger { background: var(--danger); color: white; }
+.toast.info { background: var(--primary); color: white; }
+@keyframes tIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
 
-.alert-banner { background: var(--danger-light); border: 1px solid rgba(211,47,47,0.2); border-left: 4px solid var(--danger); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--danger); font-weight: 500; }
-
-/* CONFIG */
-.config-block { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 14px; }
-.config-block-title { font-size: 13px; font-weight: 700; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; gap: 8px; }
-
-/* DETAIL */
-.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.detail-field { background: var(--bg); border-radius: var(--radius); padding: 12px; }
-.detail-field.full { grid-column: 1/-1; }
-.detail-label { font-size: 10px; font-weight: 700; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
-.detail-val { font-size: 13.5px; font-weight: 500; color: var(--text); }
-
-/* TOAST */
-.toast { position: fixed; bottom: 24px; right: 24px; background: var(--neutral); color: white; padding: 12px 18px; border-radius: var(--radius-lg); font-size: 13px; font-weight: 500; box-shadow: var(--shadow-lg); z-index: 999; animation: toastIn 0.2s ease; max-width: 320px; }
-@keyframes toastIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
-.toast.success { background: var(--success); }
-.toast.warning { background: var(--warning); }
-.toast.danger { background: var(--danger); }
-
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-/* EDIT CARD INDICATOR */
-.card-editable-hint {
-  display: flex; align-items: center; gap: 4px;
-  font-size: 10px; color: var(--primary); font-weight: 600;
-  margin-top: 6px; opacity: 0.7;
-}
-.card-editable-hint::before { content: '✏️'; font-size: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text3); }
 
 .typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); display: inline-block; animation: blink 1.2s infinite; }
 .typing-dot:nth-child(2) { animation-delay: 0.2s; }
@@ -292,7 +243,7 @@ textarea { resize: vertical; min-height: 80px; }
 <!-- CONFIG MODAL -->
 <div class="modal-overlay" id="configModal">
   <div class="modal" style="width:520px">
-    <div class="modal-header"><div class="modal-title">⚙️ Configuration</div><button class="btn btn-ghost btn-sm" onclick="closeModal('configModal')">✕</button></div>
+    <div class="modal-header"><div><div class="modal-title">⚙️ Configuration</div></div><button class="btn btn-ghost btn-sm" onclick="closeModal('configModal')">✕</button></div>
     <div class="modal-body">
       <div class="config-block">
         <div class="config-block-title"><span style="color:var(--secondary)">▣</span> Supabase</div>
@@ -314,17 +265,14 @@ textarea { resize: vertical; min-height: 80px; }
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('configModal')">Annuler</button>
-      <button class="btn btn-primary" onclick="saveConfig()">Sauvegarder</button>
-    </div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('configModal')">Annuler</button><button class="btn btn-primary" onclick="saveConfig()">Sauvegarder</button></div>
   </div>
 </div>
 
 <!-- LEAD MODAL -->
 <div class="modal-overlay" id="leadModal">
   <div class="modal">
-    <div class="modal-header"><div class="modal-title">✨ Nouveau lead</div><button class="btn btn-ghost btn-sm" onclick="closeModal('leadModal')">✕</button></div>
+    <div class="modal-header"><div><div class="modal-title">✨ Nouveau lead</div><div class="modal-sub">Déclenche la génération du devis via N8N</div></div><button class="btn btn-ghost btn-sm" onclick="closeModal('leadModal')">✕</button></div>
     <div class="modal-body">
       <div class="form-grid">
         <div class="form-section">Informations client</div>
@@ -338,7 +286,7 @@ textarea { resize: vertical; min-height: 80px; }
         <div class="form-group"><label class="req">Type de prestation</label>
           <select id="f-type"><option value="">Sélectionner...</option><option>Création site web</option><option>Automatisation & IA</option><option>Conseil & audit</option><option>Formation</option><option>Développement application</option><option>Stratégie digitale</option><option>Autre</option></select>
         </div>
-        <div class="form-group"><label class="req">Délai souhaité</label>
+        <div class="form-group"><label>Délai souhaité</label>
           <select id="f-delai"><option value="">Sélectionner...</option><option>Urgent — 1 semaine</option><option>Court — 2 semaines</option><option>Standard — 1 mois</option><option>Long — 2 à 3 mois</option><option>Flexible</option></select>
         </div>
         <div class="form-group form-full"><label class="req">Description de la mission</label><textarea id="f-description" placeholder="Décrivez le besoin, les objectifs, les livrables..."></textarea></div>
@@ -348,9 +296,49 @@ textarea { resize: vertical; min-height: 80px; }
         </div>
       </div>
     </div>
+    <div class="modal-footer"><button class="btn btn-ghost" onclick="closeModal('leadModal')">Annuler</button><button class="btn btn-primary" onclick="submitLead()">💾 Créer le lead</button></div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal" style="width:680px">
+    <div class="modal-header">
+      <div><div class="modal-title" id="edit-modal-title">Modifier le devis</div><div class="modal-sub">✏️ En attente d'envoi — modifiez avant génération</div></div>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('editModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-id">
+      <div class="form-grid">
+        <div class="form-section">Informations client</div>
+        <div class="form-group"><label class="req">Prénom & Nom</label><input id="edit-nom"></div>
+        <div class="form-group"><label class="req">Entreprise</label><input id="edit-entreprise"></div>
+        <div class="form-group"><label>SIRET</label><input id="edit-siret"></div>
+        <div class="form-group"><label class="req">Email</label><input type="email" id="edit-email"></div>
+        <div class="form-group"><label>Téléphone</label><input id="edit-tel"></div>
+        <div class="form-group"><label>Adresse</label><input id="edit-adresse"></div>
+        <div class="form-section">Détails de la mission</div>
+        <div class="form-group"><label class="req">Type de prestation</label>
+          <select id="edit-type"><option value="">Sélectionner...</option><option>Création site web</option><option>Automatisation & IA</option><option>Conseil & audit</option><option>Formation</option><option>Développement application</option><option>Stratégie digitale</option><option>Autre</option></select>
+        </div>
+        <div class="form-group"><label>Délai</label>
+          <select id="edit-delai"><option value="">Sélectionner...</option><option>Urgent — 1 semaine</option><option>Court — 2 semaines</option><option>Standard — 1 mois</option><option>Long — 2 à 3 mois</option><option>Flexible</option></select>
+        </div>
+        <div class="form-group form-full"><label class="req">Description</label><textarea id="edit-description" rows="3"></textarea></div>
+        <div class="form-section">Conditions commerciales</div>
+        <div class="form-group"><label class="req">Budget (€ HT)</label><input type="number" id="edit-budget"></div>
+        <div class="form-group"><label>Mode de paiement</label>
+          <select id="edit-paiement"><option value="">Sélectionner...</option><option>Virement bancaire</option><option>Chèque</option><option>Carte bancaire</option></select>
+        </div>
+        <div class="form-group"><label>Date limite signature</label><input type="date" id="edit-date-limite"></div>
+        <div class="form-group"><label>Notes internes</label><input id="edit-notes" placeholder="Remarques, conditions particulières..."></div>
+      </div>
+    </div>
     <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('leadModal')">Annuler</button>
-      <button class="btn btn-primary" onclick="submitLead()">Générer le devis via N8N →</button>
+      <button class="btn btn-ghost" onclick="closeModal('editModal')">Annuler</button>
+      <button class="btn btn-xs" style="background:var(--danger-light);color:var(--danger);border:1px solid rgba(211,47,47,0.2);font-weight:600;padding:5px 12px;margin-right:auto" onclick="supprimerDevis()">🗑 Supprimer</button>
+      <button class="btn btn-secondary" onclick="sauvegarderDevis(false)">💾 Sauvegarder</button>
+      <button class="btn btn-primary" onclick="sauvegarderDevis(true)">🚀 Sauvegarder & Envoyer N8N</button>
     </div>
   </div>
 </div>
@@ -358,76 +346,9 @@ textarea { resize: vertical; min-height: 80px; }
 <!-- DETAIL MODAL -->
 <div class="modal-overlay" id="detailModal">
   <div class="modal" style="width:680px">
-    <div class="modal-header"><div class="modal-title" id="detail-title">Détail</div><button class="btn btn-ghost btn-sm" onclick="closeModal('detailModal')">✕</button></div>
+    <div class="modal-header"><div><div class="modal-title" id="detail-title">Détail</div></div><button class="btn btn-ghost btn-sm" onclick="closeModal('detailModal')">✕</button></div>
     <div class="modal-body" id="detail-body"></div>
     <div class="modal-footer" id="detail-footer"></div>
-  </div>
-</div>
-
-<!-- EDIT DEVIS MODAL -->
-<div class="modal-overlay" id="editModal">
-  <div class="modal" style="width:680px">
-    <div class="modal-header">
-      <div>
-        <div class="modal-title" id="edit-modal-title">Modifier le devis</div>
-        <div style="font-size:12px;color:var(--text3);margin-top:2px">✏️ En attente d'envoi — modifiez avant génération</div>
-      </div>
-      <button class="btn btn-ghost btn-sm" onclick="closeModal('editModal')">✕</button>
-    </div>
-    <div class="modal-body">
-      <input type="hidden" id="edit-id">
-      <div class="form-grid">
-        <div class="form-section">Informations client</div>
-        <div class="form-group"><label class="req">Prénom & Nom</label><input id="edit-nom" placeholder="Jean Dupont"></div>
-        <div class="form-group"><label class="req">Entreprise</label><input id="edit-entreprise" placeholder="Agence Dupont SARL"></div>
-        <div class="form-group"><label>SIRET</label><input id="edit-siret" placeholder="123 456 789 00012"></div>
-        <div class="form-group"><label class="req">Email</label><input type="email" id="edit-email" placeholder="jean@entreprise.com"></div>
-        <div class="form-group"><label>Téléphone</label><input id="edit-tel" placeholder="+33 6 12 34 56 78"></div>
-        <div class="form-group"><label>Adresse</label><input id="edit-adresse" placeholder="12 rue de la Paix, 75001 Paris"></div>
-        <div class="form-section">Détails de la mission</div>
-        <div class="form-group"><label class="req">Type de prestation</label>
-          <select id="edit-type">
-            <option value="">Sélectionner...</option>
-            <option>Création site web</option>
-            <option>Automatisation & IA</option>
-            <option>Conseil & audit</option>
-            <option>Formation</option>
-            <option>Développement application</option>
-            <option>Stratégie digitale</option>
-            <option>Autre</option>
-          </select>
-        </div>
-        <div class="form-group"><label>Délai souhaité</label>
-          <select id="edit-delai">
-            <option value="">Sélectionner...</option>
-            <option>Urgent — 1 semaine</option>
-            <option>Court — 2 semaines</option>
-            <option>Standard — 1 mois</option>
-            <option>Long — 2 à 3 mois</option>
-            <option>Flexible</option>
-          </select>
-        </div>
-        <div class="form-group form-full"><label class="req">Description de la mission</label><textarea id="edit-description" rows="3" placeholder="Décrivez le besoin, les objectifs, les livrables..."></textarea></div>
-        <div class="form-section">Conditions commerciales</div>
-        <div class="form-group"><label class="req">Budget estimé (€ HT)</label><input type="number" id="edit-budget" placeholder="2500"></div>
-        <div class="form-group"><label>Mode de paiement</label>
-          <select id="edit-paiement">
-            <option value="">Sélectionner...</option>
-            <option>Virement bancaire</option>
-            <option>Chèque</option>
-            <option>Carte bancaire</option>
-          </select>
-        </div>
-        <div class="form-group"><label>Date limite de signature</label><input type="date" id="edit-date-limite"></div>
-        <div class="form-group"><label>Notes internes</label><input id="edit-notes" placeholder="Remarques, conditions particulières..."></div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost" onclick="closeModal('editModal')">Annuler</button>
-      <button class="btn btn-sm" style="background:var(--danger-light);color:var(--danger);border:1px solid rgba(211,47,47,0.2);margin-right:auto;font-weight:600" onclick="supprimerDevis()">🗑 Supprimer</button>
-      <button class="btn btn-secondary" onclick="sauvegarderDevis(false)">💾 Sauvegarder</button>
-      <button class="btn btn-primary" onclick="sauvegarderDevis(true)">🚀 Sauvegarder & Envoyer via N8N</button>
-    </div>
   </div>
 </div>
 
@@ -489,19 +410,19 @@ textarea { resize: vertical; min-height: 80px; }
         </div>
       </div>
 
-      <!-- DEVIS KANBAN -->
+      <!-- DEVIS -->
       <div class="view" id="view-devis">
         <div class="kanban-header">
-          <div><div class="section-title">Suivi des Devis</div><div class="section-sub">Glissez-déposez les cartes pour changer leur statut</div></div>
+          <div><div class="section-title">Suivi des Devis</div><div class="section-sub">Glissez-déposez · Cliquez sur une carte "En attente" pour modifier</div></div>
           <button class="btn btn-primary" onclick="openModal('leadModal')">+ Nouveau devis</button>
         </div>
         <div class="kanban-board k5" id="kanban-devis"></div>
       </div>
 
-      <!-- CONTRATS KANBAN -->
+      <!-- CONTRATS -->
       <div class="view" id="view-contrats">
         <div class="kanban-header">
-          <div><div class="section-title">Suivi des Contrats</div><div class="section-sub">Glissez-déposez — validation obligatoire avant envoi au client</div></div>
+          <div><div class="section-title">Suivi des Contrats</div><div class="section-sub">Human-in-the-loop — validation obligatoire avant envoi · Glissez-déposez</div></div>
         </div>
         <div class="kanban-board k4" id="kanban-contrats"></div>
       </div>
@@ -539,7 +460,7 @@ textarea { resize: vertical; min-height: 80px; }
                 • <em>"Quels devis sont en retard ?"</em><br>
                 • <em>"Quel est mon CA en cours ?"</em><br>
                 • <em>"Résumé du pipeline"</em><br><br>
-                <small style="opacity:0.7">💡 Configurez votre clé Anthropic dans ⚙️ pour des réponses complètes.</small>
+                <small style="opacity:0.7">💡 Configurez votre clé Anthropic dans ⚙️ Configuration pour activer l'IA complète.</small>
               </div>
             </div>
           </div>
@@ -551,7 +472,7 @@ textarea { resize: vertical; min-height: 80px; }
             <div class="chip" onclick="quickAsk('Quels contrats sont en attente de validation ?')">Contrats en attente</div>
           </div>
           <div class="chat-footer">
-            <textarea class="chat-input" id="chat-input" placeholder="Posez une question..." rows="1" onkeydown="handleChatKey(event)"></textarea>
+            <textarea class="chat-input" id="chat-input" placeholder="Posez une question sur vos devis, contrats ou relances..." rows="1" onkeydown="handleChatKey(event)"></textarea>
             <button class="chat-send" onclick="sendChat()" id="chat-send-btn">➤</button>
           </div>
         </div>
@@ -562,26 +483,21 @@ textarea { resize: vertical; min-height: 80px; }
 </div>
 
 <script>
-// ═══════════════════════════════════
-// CONFIG
-// ═══════════════════════════════════
-let CFG = { sbUrl:'', sbKey:'', claudeKey:'', n8nUrl:'https://n8n.srv1088521.hstgr.cloud', n8nDevis:'/webhook/nouveau-devis', n8nRelance:'/webhook/relance-manuelle' };
-try { const s=localStorage.getItem('dct-v2'); if(s) CFG={...CFG,...JSON.parse(s)}; } catch(e){}
+// ═══ CONFIG ═══
+let CFG={sbUrl:'',sbKey:'',claudeKey:'',n8nUrl:'https://n8n.srv1088521.hstgr.cloud',n8nDevis:'/webhook/nouveau-devis',n8nRelance:'/webhook/relance-manuelle'};
+try{const s=localStorage.getItem('dct-v2');if(s)CFG={...CFG,...JSON.parse(s)};}catch(e){}
 
 function saveConfig(){
-  CFG.sbUrl=_v('cfg-sb-url'); CFG.sbKey=_v('cfg-sb-key'); CFG.claudeKey=_v('cfg-claude');
-  CFG.n8nUrl=_v('cfg-n8n-url'); CFG.n8nDevis=_v('cfg-n8n-devis'); CFG.n8nRelance=_v('cfg-n8n-relance');
+  CFG.sbUrl=_v('cfg-sb-url');CFG.sbKey=_v('cfg-sb-key');CFG.claudeKey=_v('cfg-claude');
+  CFG.n8nUrl=_v('cfg-n8n-url');CFG.n8nDevis=_v('cfg-n8n-devis');CFG.n8nRelance=_v('cfg-n8n-relance');
   try{localStorage.setItem('dct-v2',JSON.stringify(CFG));}catch(e){}
-  closeModal('configModal'); loadData();
+  closeModal('configModal');loadData();
 }
 
-// ═══════════════════════════════════
-// DEMO DATA
-// ═══════════════════════════════════
+// ═══ DEMO DATA ═══
 const NOW=new Date();
 const fmt=d=>new Date(d).toISOString().split('T')[0];
 const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
-
 const DEMO={
   devis:[
     {id:'DEV-001',client:'Agence des Lilas',entreprise:'Agence des Lilas SARL',email:'contact@lilas.fr',montant:2500,type:'Automatisation & IA',statut:'envoye',date_envoi:fmt(addD(NOW,-12)),date_limite:fmt(addD(NOW,-2)),description:'Automatisation des relances clients et génération de devis'},
@@ -606,28 +522,23 @@ const DEMO={
 
 let D={devis:[],contrats:[],po:[],relances:[]};
 
-// ═══════════════════════════════════
-// DATA
-// ═══════════════════════════════════
 async function loadData(){
   if(CFG.sbUrl&&CFG.sbKey){
-    try{
-      const[dv,ct,po,rl]=await Promise.all([sb('devis'),sb('contrats'),sb('bons_commande'),sb('relances')]);
-      D={devis:dv||[],contrats:ct||[],po:po||[],relances:rl||[]};
-    }catch(e){console.warn('Supabase→demo:',e.message);D=DEMO;}
+    try{const[dv,ct,po,rl]=await Promise.all([sb('devis'),sb('contrats'),sb('bons_commande'),sb('relances')]);D={devis:dv||[],contrats:ct||[],po:po||[],relances:rl||[]};}
+    catch(e){D=DEMO;}
   }else{D=DEMO;}
   render();
 }
 
 async function sb(t){
   const r=await fetch(`${CFG.sbUrl}/rest/v1/${t}?select=*&order=created_at.desc`,{headers:{'apikey':CFG.sbKey,'Authorization':'Bearer '+CFG.sbKey}});
-  if(!r.ok) throw new Error(t+':'+r.status);
-  return r.json();
+  if(!r.ok)throw new Error(t+':'+r.status);return r.json();
 }
 
-// ═══════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════
+async function sbUpdate(table,id,data){
+  await fetch(`${CFG.sbUrl}/rest/v1/${table}?id=eq.${id}`,{method:'PATCH',headers:{'apikey':CFG.sbKey,'Authorization':'Bearer '+CFG.sbKey,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(data)});
+}
+
 const isOD=d=>d.date_limite&&new Date(d.date_limite)<NOW&&!['signe','expire'].includes(d.statut);
 const dLeft=ds=>Math.round((new Date(ds)-NOW)/86400000);
 const fmtEur=n=>(n||0).toLocaleString('fr-FR')+'€';
@@ -636,9 +547,6 @@ const _v=id=>document.getElementById(id)?.value?.trim()||'';
 function sColor(s){return{envoye:'#3F51B5',relance:'#F57C00',signe:'#2E7D32',expire:'#9AA3B2',en_attente:'#9AA3B2',genere:'#3F51B5',attente_validation:'#6A5ACD',traite:'#2E7D32',planifie:'#F57C00'}[s]||'#9AA3B2';}
 function sBadge(s){const m={envoye:['badge-primary','Envoyé'],relance:['badge-warning','Relancé'],signe:['badge-success','Signé ✓'],expire:['badge-neutral','Expiré'],en_attente:['badge-neutral','En attente'],genere:['badge-primary','Généré'],attente_validation:['badge-purple','⏳ Validation'],traite:['badge-success','Traité'],planifie:['badge-warning','Planifié']};const[c,l]=m[s]||['badge-neutral',s];return`<span class="badge ${c}">${l}</span>`;}
 
-// ═══════════════════════════════════
-// RENDER
-// ═══════════════════════════════════
 function render(){renderDash();renderDevisKanban();renderContratsKanban();renderPO();renderRelances();renderRenouv();updateBadges();}
 
 function updateBadges(){
@@ -662,45 +570,34 @@ function renderDash(){
   document.getElementById('relances-urgent').innerHTML=urg.length?urg.map(d=>`<div class="activity-item"><div class="activity-dot" style="background:var(--danger)"></div><div class="activity-info"><div class="activity-client">${d.client}</div><div class="activity-detail">${d.id} — ${fmtEur(d.montant)} — ${isOD(d)?Math.abs(dLeft(d.date_limite))+'j dépassé':dLeft(d.date_limite)+'j restants'}</div></div><button class="btn btn-danger btn-sm" onclick="doRelance('${d.id}','${d.client}',event)">Relancer</button></div>`).join(''):'<div style="color:var(--text3);font-size:13px;padding:8px 0">✓ Aucune relance urgente</div>';
 }
 
-// ═══════════════════════════════════
-// KANBAN COLS
-// ═══════════════════════════════════
 const KCOLS_D=[{k:'en_attente',l:'En attente',c:'#9AA3B2'},{k:'envoye',l:'Envoyé',c:'#3F51B5'},{k:'relance',l:'Relancé',c:'#F57C00'},{k:'signe',l:'Signé',c:'#2E7D32'},{k:'expire',l:'Expiré',c:'#9AA3B2'}];
 const KCOLS_C=[{k:'genere',l:'Généré',c:'#9AA3B2'},{k:'attente_validation',l:'⏳ Validation',c:'#6A5ACD'},{k:'envoye',l:'Envoyé',c:'#3F51B5'},{k:'signe',l:'Signé',c:'#2E7D32'}];
 
 function renderDevisKanban(){
-  const board=document.getElementById('kanban-devis');
-  board.innerHTML=KCOLS_D.map(col=>{
+  document.getElementById('kanban-devis').innerHTML=KCOLS_D.map(col=>{
     const cards=D.devis.filter(d=>d.statut===col.k);
-    return `<div class="kanban-col" data-col="${col.k}" data-board="devis" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'devis','${col.k}')">
-      <div class="col-header">
-        <div class="col-title"><span class="col-pill" style="background:${col.c}"></span>${col.l}</div>
-        <span class="col-count" style="background:${col.c}">${cards.length}</span>
-      </div>
-      <div class="col-cards" id="col-devis-${col.k}">${cards.length?cards.map(dCard).join(''):'<div class="empty-col">Déposez ici</div>'}</div>
+    return`<div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'devis','${col.k}')">
+      <div class="col-header"><div class="col-title"><span class="col-pill" style="background:${col.c}"></span>${col.l}</div><span class="col-count" style="background:${col.c}">${cards.length}</span></div>
+      <div class="col-cards">${cards.length?cards.map(dCard).join(''):'<div class="empty-col">Déposez ici</div>'}</div>
     </div>`;
   }).join('');
 }
 
 function renderContratsKanban(){
-  const board=document.getElementById('kanban-contrats');
-  board.innerHTML=KCOLS_C.map(col=>{
+  document.getElementById('kanban-contrats').innerHTML=KCOLS_C.map(col=>{
     const cards=D.contrats.filter(c=>c.statut===col.k);
-    return `<div class="kanban-col" data-col="${col.k}" data-board="contrats" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'contrats','${col.k}')">
-      <div class="col-header">
-        <div class="col-title"><span class="col-pill" style="background:${col.c}"></span>${col.l}</div>
-        <span class="col-count" style="background:${col.c}">${cards.length}</span>
-      </div>
-      <div class="col-cards" id="col-contrats-${col.k}">${cards.length?cards.map(cCard).join(''):'<div class="empty-col">Déposez ici</div>'}</div>
+    return`<div class="kanban-col" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'contrats','${col.k}')">
+      <div class="col-header"><div class="col-title"><span class="col-pill" style="background:${col.c}"></span>${col.l}</div><span class="col-count" style="background:${col.c}">${cards.length}</span></div>
+      <div class="col-cards">${cards.length?cards.map(cCard).join(''):'<div class="empty-col">Déposez ici</div>'}</div>
     </div>`;
   }).join('');
 }
 
 function dCard(d){
   const od=isOD(d),dl=d.date_limite?dLeft(d.date_limite):null,warn=dl!==null&&dl<=5&&dl>=0&&!['signe','expire'].includes(d.statut);
-  const isAttente = d.statut==='en_attente';
-  const clickFn = isAttente ? `ouvrirEdition('${d.id}',event)` : `showDetail(${JSON.stringify(d).replace(/'/g,"&#39;")})`;
-  return `<div class="deal-card ${od?'overdue':warn?'warn':''} ${isAttente?'card-editable':''}" draggable="true" data-id="${d.id}" data-board="devis" ondragstart="onDragStart(event,'${d.id}','devis')" ondragend="onDragEnd(event)" onclick="${clickFn}" style="${isAttente?'border:1.5px dashed var(--primary);background:var(--primary-light);':''}">
+  const isAtt=d.statut==='en_attente';
+  const clickFn=isAtt?`ouvrirEdition('${d.id}',event)`:`showDetail(${JSON.stringify(d).replace(/'/g,"&#39;")})`;
+  return`<div class="deal-card ${od?'overdue':warn?'warn':''} ${isAtt?'editable':''}" draggable="true" data-id="${d.id}" data-board="devis" ondragstart="onDragStart(event,'${d.id}','devis')" ondragend="onDragEnd(event)" onclick="${clickFn}">
     <div class="card-client">${d.client}</div>
     <div class="card-mission">${d.type||''}</div>
     <div class="card-footer">
@@ -709,23 +606,21 @@ function dCard(d){
     </div>
     <div class="card-actions">
       <span class="card-tag">${d.id}</span>
-      ${isAttente?`<button class="btn btn-xs btn-primary" onclick="ouvrirEdition('${d.id}',event)">✏️ Modifier</button>`:''}
-      ${(od||warn)?`<button class="btn btn-danger btn-xs" onclick="doRelance('${d.id}','${d.client}',event)">Relancer</button>`:''}
+      ${isAtt?`<button class="btn btn-xs btn-primary" onclick="ouvrirEdition('${d.id}',event)">✏️ Modifier</button>`:''}
+      ${isAtt?`<button class="btn btn-xs" style="background:var(--success);color:white" onclick="envoyerEnDevis('${d.id}',event)">🚀 Envoyer en devis</button>`:''}
+      ${(od||warn)?`<button class="btn btn-xs btn-danger" onclick="doRelance('${d.id}','${d.client}',event)">Relancer</button>`:''}
       ${d.statut==='signe'?`<button class="btn btn-xs btn-teal" onclick="toContrat('${d.id}','${d.client}',event)">→ Contrat</button>`:''}
     </div>
-    ${isAttente?'<div style="font-size:10px;color:var(--primary);margin-top:6px;font-weight:600">✏️ Cliquez pour modifier avant envoi</div>':''}
+    ${isAtt?'<div class="card-edit-hint">✏️ Modifiez puis cliquez 🚀 Envoyer en devis</div>':''}
   </div>`;
 }
 
 function cCard(c){
   const ds=JSON.stringify(c).replace(/'/g,"&#39;");
-  return `<div class="deal-card" draggable="true" data-id="${c.id}" data-board="contrats" ondragstart="onDragStart(event,'${c.id}','contrats')" ondragend="onDragEnd(event)" onclick='showCDetail(${ds})'>
+  return`<div class="deal-card" draggable="true" data-id="${c.id}" data-board="contrats" ondragstart="onDragStart(event,'${c.id}','contrats')" ondragend="onDragEnd(event)" onclick='showCDetail(${ds})'>
     <div class="card-client">${c.client}</div>
     <div class="card-mission">Lié au ${c.devis_id}</div>
-    <div class="card-footer">
-      <div class="card-amount">${fmtEur(c.montant)}</div>
-      <div class="card-date">${c.date_envoi||'—'}</div>
-    </div>
+    <div class="card-footer"><div class="card-amount">${fmtEur(c.montant)}</div><div class="card-date">${c.date_envoi||'—'}</div></div>
     <div class="card-actions">
       <span class="card-tag">${c.id}</span>
       ${c.statut==='attente_validation'?`<button class="btn btn-xs btn-primary" onclick="valider('${c.id}',event)">✓ Valider</button>`:''}
@@ -733,140 +628,72 @@ function cCard(c){
   </div>`;
 }
 
-// ═══════════════════════════════════
-// DRAG & DROP
-// ═══════════════════════════════════
-let dragId=null, dragBoard=null;
+let dragId=null,dragBoard=null;
+function onDragStart(ev,id,board){dragId=id;dragBoard=board;ev.dataTransfer.effectAllowed='move';ev.dataTransfer.setData('text/plain',id);setTimeout(()=>{const el=document.querySelector(`[data-id="${id}"]`);if(el)el.classList.add('dragging');},0);}
+function onDragEnd(){document.querySelectorAll('.deal-card').forEach(c=>c.classList.remove('dragging'));document.querySelectorAll('.kanban-col').forEach(c=>c.classList.remove('drag-over'));}
+function onDragOver(ev){ev.preventDefault();ev.currentTarget.classList.add('drag-over');}
+function onDragLeave(ev){if(!ev.currentTarget.contains(ev.relatedTarget))ev.currentTarget.classList.remove('drag-over');}
 
-function onDragStart(ev, id, board){
-  dragId=id; dragBoard=board;
-  ev.dataTransfer.effectAllowed='move';
-  ev.dataTransfer.setData('text/plain', id);
-  setTimeout(()=>{ const el=document.querySelector(`[data-id="${id}"]`); if(el) el.classList.add('dragging'); },0);
+function onDrop(ev,board,newStatus){
+  ev.preventDefault();ev.currentTarget.classList.remove('drag-over');
+  if(!dragId||dragBoard!==board)return;
+  if(board==='contrats'&&newStatus==='envoye'&&!confirm('Valider et envoyer ce contrat au client ?'))return;
+  if(board==='devis'&&newStatus==='signe'){if(confirm('Marquer comme signé et générer le contrat ?')){const d=D.devis.find(x=>x.id===dragId);if(d)setTimeout(()=>toContrat(dragId,d.client),500);}}
+  if(board==='devis'){const item=D.devis.find(x=>x.id===dragId);if(item){item.statut=newStatus;renderDevisKanban();updateBadges();toast(item.client+' → '+statusLabel(newStatus),'success');if(CFG.sbUrl&&CFG.sbKey)sbUpdate('devis',dragId,{statut:newStatus}).catch(()=>{});}}
+  else{const item=D.contrats.find(x=>x.id===dragId);if(item){item.statut=newStatus;if(newStatus==='signe')item.date_signature=fmt(NOW);renderContratsKanban();updateBadges();toast(item.client+' → '+statusLabel(newStatus),'success');if(CFG.sbUrl&&CFG.sbKey)sbUpdate('contrats',dragId,{statut:newStatus}).catch(()=>{});}}
+  dragId=null;dragBoard=null;
 }
-
-function onDragEnd(ev){
-  document.querySelectorAll('.deal-card').forEach(c=>c.classList.remove('dragging'));
-  document.querySelectorAll('.kanban-col').forEach(c=>{ c.classList.remove('drag-over','drag-over-teal'); });
-}
-
-function onDragOver(ev){
-  ev.preventDefault();
-  ev.dataTransfer.dropEffect='move';
-  const col=ev.currentTarget;
-  col.classList.add('drag-over');
-}
-
-function onDragLeave(ev){
-  const col=ev.currentTarget;
-  if(!col.contains(ev.relatedTarget)) col.classList.remove('drag-over','drag-over-teal');
-}
-
-function onDrop(ev, board, newStatus){
-  ev.preventDefault();
-  const col=ev.currentTarget;
-  col.classList.remove('drag-over','drag-over-teal');
-
-  if(!dragId || dragBoard!==board) return;
-
-  // Confirm certain transitions
-  if(board==='contrats' && newStatus==='envoye'){
-    if(!confirm('Valider et envoyer ce contrat au client ?')) return;
-  }
-  if(board==='devis' && newStatus==='signe'){
-    if(confirm('Marquer ce devis comme signé et générer le contrat automatiquement ?')){
-      const d=D.devis.find(x=>x.id===dragId);
-      if(d) setTimeout(()=>toContrat(dragId,d.client),500);
-    }
-  }
-
-  // Update status
-  if(board==='devis'){
-    const item=D.devis.find(x=>x.id===dragId);
-    if(item){
-      const old=item.statut;
-      item.statut=newStatus;
-      renderDevisKanban();
-      updateBadges();
-      toast(`${item.client} → ${statusLabel(newStatus)}`,'success');
-      // Push to Supabase if connected
-      if(CFG.sbUrl && CFG.sbKey) sbUpdate('devis', dragId, {statut:newStatus}).catch(console.warn);
-    }
-  } else if(board==='contrats'){
-    const item=D.contrats.find(x=>x.id===dragId);
-    if(item){
-      item.statut=newStatus;
-      if(newStatus==='signe') item.date_signature=fmt(NOW);
-      renderContratsKanban();
-      updateBadges();
-      toast(`${item.client} → ${statusLabel(newStatus)}`,'success');
-      if(CFG.sbUrl && CFG.sbKey) sbUpdate('contrats', dragId, {statut:newStatus}).catch(console.warn);
-    }
-  }
-
-  dragId=null; dragBoard=null;
-}
-
 function statusLabel(s){return{en_attente:'En attente',envoye:'Envoyé',relance:'Relancé',signe:'Signé',expire:'Expiré',genere:'Généré',attente_validation:'En validation'}[s]||s;}
 
-async function sbUpdate(table, id, data){
-  await fetch(`${CFG.sbUrl}/rest/v1/${table}?id=eq.${id}`,{method:'PATCH',headers:{'apikey':CFG.sbKey,'Authorization':'Bearer '+CFG.sbKey,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(data)});
-}
+function renderPO(){document.getElementById('po-table').innerHTML=D.po.length?D.po.map(p=>`<tr><td><strong style="font-size:12px;font-family:monospace">${p.ref}</strong></td><td>${p.client}</td><td><span class="badge badge-primary" style="font-size:10px">${p.devis_id}</span></td><td style="font-weight:600">${fmtEur(p.montant)}</td><td style="color:var(--text3);font-size:12px">${p.date_reception}</td><td>${sBadge(p.statut)}</td><td><button class="btn btn-teal btn-sm" onclick="genContrat('${p.ref}','${p.client}','${p.devis_id}')">Générer contrat</button></td></tr>`).join(''):'<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:32px">Aucun bon de commande reçu</td></tr>';}
+function renderRelances(){document.getElementById('relances-table').innerHTML=D.relances.length?D.relances.map(r=>`<tr><td><strong>${r.client}</strong></td><td>${r.type==='devis'?'📄 Devis':'📋 Contrat'}</td><td><span class="badge badge-neutral" style="font-size:11px">${r.palier}</span></td><td>${r.canal}</td><td style="color:var(--text3);font-size:12px">${r.date}</td><td>${sBadge(r.statut)}</td></tr>`).join(''):'<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:32px">Aucune relance</td></tr>';}
+function renderRenouv(){const soon=D.contrats.filter(c=>c.date_fin&&dLeft(c.date_fin)<=30&&dLeft(c.date_fin)>=0);document.getElementById('renouvellements-list').innerHTML=soon.length?soon.map(c=>`<div class="activity-item"><div class="activity-dot" style="background:var(--warning)"></div><div class="activity-info"><div class="activity-client">${c.client}</div><div class="activity-detail">${c.id} — expire dans <strong>${dLeft(c.date_fin)} jours</strong></div></div><button class="btn btn-secondary btn-sm">🔄 Proposer renouvellement</button></div>`).join(''):'<div class="activity-item" style="cursor:default"><div class="activity-dot" style="background:var(--success)"></div><div class="activity-info"><div class="activity-client" style="font-weight:400;color:var(--text3)">Aucun contrat à renouveler prochainement</div></div></div>';}
 
-// ═══════════════════════════════════
-// TABLES
-// ═══════════════════════════════════
-function renderPO(){
-  document.getElementById('po-table').innerHTML=D.po.length?D.po.map(p=>`<tr><td><strong style="font-size:12px;font-family:monospace">${p.ref}</strong></td><td>${p.client}</td><td><span class="badge badge-primary" style="font-size:10px">${p.devis_id}</span></td><td style="font-weight:600">${fmtEur(p.montant)}</td><td style="color:var(--text3);font-size:12px">${p.date_reception}</td><td>${sBadge(p.statut)}</td><td><button class="btn btn-teal btn-sm" onclick="genContrat('${p.ref}','${p.client}','${p.devis_id}')">Générer contrat</button></td></tr>`).join(''):'<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:32px">Aucun bon de commande reçu</td></tr>';
-}
-
-function renderRelances(){
-  document.getElementById('relances-table').innerHTML=D.relances.length?D.relances.map(r=>`<tr><td><strong>${r.client}</strong></td><td>${r.type==='devis'?'📄 Devis':'📋 Contrat'}</td><td><span class="badge badge-neutral" style="font-size:11px">${r.palier}</span></td><td>${r.canal}</td><td style="color:var(--text3);font-size:12px">${r.date}</td><td>${sBadge(r.statut)}</td></tr>`).join(''):'<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:32px">Aucune relance</td></tr>';
-}
-
-function renderRenouv(){
-  const soon=D.contrats.filter(c=>c.date_fin&&dLeft(c.date_fin)<=30&&dLeft(c.date_fin)>=0);
-  document.getElementById('renouvellements-list').innerHTML=soon.length?soon.map(c=>`<div class="activity-item"><div class="activity-dot" style="background:var(--warning)"></div><div class="activity-info"><div class="activity-client">${c.client}</div><div class="activity-detail">${c.id} — expire dans <strong>${dLeft(c.date_fin)} jours</strong></div></div><button class="btn btn-secondary btn-sm">🔄 Proposer renouvellement</button></div>`).join(''):'<div class="activity-item" style="cursor:default"><div class="activity-dot" style="background:var(--success)"></div><div class="activity-info"><div class="activity-client" style="font-weight:400;color:var(--text3)">Aucun contrat à renouveler prochainement</div></div></div>';
-}
-
-// ═══════════════════════════════════
-// ACTIONS
-// ═══════════════════════════════════
 async function submitLead(){
   const lead={nom:_v('f-nom'),entreprise:_v('f-entreprise'),siret:_v('f-siret'),email:_v('f-email'),tel:_v('f-tel'),adresse:_v('f-adresse'),type:_v('f-type'),delai:_v('f-delai'),description:_v('f-description'),budget:_v('f-budget'),paiement:_v('f-paiement')};
   if(!lead.nom||!lead.entreprise||!lead.email||!lead.type||!lead.description){alert('Champs obligatoires manquants (*)');return;}
   closeModal('leadModal');
-  if(CFG.n8nUrl&&CFG.n8nDevis){try{await fetch(CFG.n8nUrl+CFG.n8nDevis,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(lead)});}catch(e){console.warn('N8N:',e);}}
-  const nd={id:'DEV-'+String(D.devis.length+1).padStart(3,'0'),client:lead.nom,entreprise:lead.entreprise,email:lead.email,montant:parseFloat(lead.budget)||0,type:lead.type,statut:'en_attente',date_envoi:fmt(NOW),date_limite:fmt(addD(NOW,30)),description:lead.description};
-  D.devis.unshift(nd); render(); toast('Devis envoyé à N8N pour génération','success');
-  setTimeout(()=>{const d=D.devis.find(x=>x.id===nd.id);if(d){d.statut='envoye';render();}},4000);
+  const nd={id:'DEV-'+String(D.devis.length+1).padStart(3,'0'),client:lead.nom,entreprise:lead.entreprise,email:lead.email,tel:lead.tel,adresse:lead.adresse,siret:lead.siret,montant:parseFloat(lead.budget)||0,type:lead.type,delai:lead.delai,paiement:lead.paiement,statut:'en_attente',date_envoi:fmt(NOW),date_limite:fmt(addD(NOW,30)),description:lead.description};
+  D.devis.unshift(nd);
+  render();
+  toast('Lead cree - cliquez Envoyer en devis sur la carte pour declencher N8N','info');
+}
+
+async function envoyerEnDevis(id,ev){
+  if(ev)ev.stopPropagation();
+  const d=D.devis.find(x=>x.id===id);if(!d)return;
+  if(!confirm('Envoyer le devis pour '+d.client+' ? N8N va generer et envoyer le devis par email.'))return;
+  if(CFG.n8nUrl&&CFG.n8nDevis){
+    try{await fetch(CFG.n8nUrl+CFG.n8nDevis,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});}
+    catch(e){console.warn('N8N:',e);}
+  }
+  d.statut='envoye';d.date_envoi=fmt(NOW);
+  if(!d.date_limite)d.date_limite=fmt(addD(NOW,30));
+  render();toast('Devis '+id+' envoye a N8N - generation en cours','success');
 }
 
 async function doRelance(id,client,ev){
-  if(ev) ev.stopPropagation();
-  if(!confirm(`Envoyer une relance manuelle pour ${client} ?`)) return;
+  if(ev)ev.stopPropagation();if(!confirm(`Envoyer une relance manuelle pour ${client} ?`))return;
   if(CFG.n8nUrl&&CFG.n8nRelance){try{await fetch(CFG.n8nUrl+CFG.n8nRelance,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({devis_id:id,client})});}catch(e){}}
   D.relances.unshift({client,type:'devis',palier:'Manuel',date:fmt(NOW),canal:'Email',statut:'envoye'});
-  const d=D.devis.find(x=>x.id===id); if(d) d.statut='relance';
-  render(); toast(`Relance envoyée pour ${client}`,'success');
+  const d=D.devis.find(x=>x.id===id);if(d)d.statut='relance';
+  render();toast('Relance envoyée pour '+client,'success');
 }
 
 function toContrat(id,client,ev){
-  if(ev) ev.stopPropagation();
-  const d=D.devis.find(x=>x.id===id); if(!d) return;
-  if(!confirm(`Déclencher la génération du contrat pour ${client} ?\n\nN8N va générer le contrat et vous notifier via Slack pour validation.`)) return;
+  if(ev)ev.stopPropagation();const d=D.devis.find(x=>x.id===id);if(!d)return;
+  if(!confirm(`Générer le contrat pour ${client} ?\n\nN8N va créer le contrat et vous notifier via Slack pour validation.`))return;
   const nc={id:'CTR-'+String(D.contrats.length+1).padStart(3,'0'),client:d.client,devis_id:id,montant:d.montant,statut:'attente_validation',date_envoi:fmt(NOW),date_signature:null,date_fin:null};
-  D.contrats.unshift(nc); render(); toast(`Contrat ${nc.id} en attente de validation Slack`,'success');
+  D.contrats.unshift(nc);render();toast('Contrat '+nc.id+' en attente validation Slack','success');
 }
 
 function valider(id,ev){
-  if(ev) ev.stopPropagation();
-  const c=D.contrats.find(x=>x.id===id); if(!c) return;
-  if(!confirm(`Valider et envoyer le contrat ${id} à ${c.client} ?`)) return;
-  c.statut='envoye'; render(); toast(`Contrat validé et envoyé à ${c.client}`,'success');
+  if(ev)ev.stopPropagation();const c=D.contrats.find(x=>x.id===id);if(!c)return;
+  if(!confirm(`Valider et envoyer le contrat ${id} à ${c.client} ?`))return;
+  c.statut='envoye';render();toast('Contrat validé et envoyé à '+c.client,'success');
 }
 
-function genContrat(ref,client,did){toast(`N8N génère le contrat pour ${client} (${did}) — notification Slack en cours...`,'success');}
+function genContrat(ref,client,did){toast('N8N génère le contrat pour '+client+' ('+did+')','success');}
 
 function showDetail(d){
   document.getElementById('detail-title').textContent=d.id+' — '+d.client;
@@ -884,8 +711,8 @@ function showDetail(d){
   </div>`;
   document.getElementById('detail-footer').innerHTML=`
     <button class="btn btn-ghost" onclick="closeModal('detailModal')">Fermer</button>
-    <button class="btn btn-secondary" onclick="doRelance('${d.id}','${d.client}');closeModal('detailModal')">🔔 Relancer</button>
-    ${d.statut==='signe'?`<button class="btn btn-teal" onclick="toContrat('${d.id}','${d.client}');closeModal('detailModal')">Générer contrat →</button>`:''}`;
+    <button class="btn btn-secondary btn-sm" onclick="doRelance('${d.id}','${d.client}');closeModal('detailModal')">🔔 Relancer</button>
+    ${d.statut==='signe'?`<button class="btn btn-teal btn-sm" onclick="toContrat('${d.id}','${d.client}');closeModal('detailModal')">Générer contrat →</button>`:''}`;
   openModal('detailModal');
 }
 
@@ -902,102 +729,48 @@ function showCDetail(c){
   </div>`;
   document.getElementById('detail-footer').innerHTML=`
     <button class="btn btn-ghost" onclick="closeModal('detailModal')">Fermer</button>
-    ${c.statut==='attente_validation'?`<button class="btn btn-primary" onclick="valider('${c.id}');closeModal('detailModal')">✓ Valider & Envoyer</button>`:''}`;
+    ${c.statut==='attente_validation'?`<button class="btn btn-primary btn-sm" onclick="valider('${c.id}');closeModal('detailModal')">✓ Valider & Envoyer</button>`:''}`;
   openModal('detailModal');
 }
 
-// ═══════════════════════════════════
-// EDIT DEVIS (en_attente only)
-// ═══════════════════════════════════
-function ouvrirEdition(id, ev){
-  if(ev) ev.stopPropagation();
-  const d = D.devis.find(x=>x.id===id);
-  if(!d || d.statut !== 'en_attente') return;
-
-  document.getElementById('edit-id').value = id;
-  document.getElementById('edit-modal-title').textContent = `Modifier — ${id}`;
-  document.getElementById('edit-nom').value = d.client||'';
-  document.getElementById('edit-entreprise').value = d.entreprise||'';
-  document.getElementById('edit-siret').value = d.siret||'';
-  document.getElementById('edit-email').value = d.email||'';
-  document.getElementById('edit-tel').value = d.tel||'';
-  document.getElementById('edit-adresse').value = d.adresse||'';
-  document.getElementById('edit-description').value = d.description||'';
-  document.getElementById('edit-budget').value = d.montant||'';
-  document.getElementById('edit-notes').value = d.notes||'';
-  document.getElementById('edit-date-limite').value = d.date_limite||'';
-
-  // Set selects
-  const setSelect = (id, val) => {
-    const el = document.getElementById(id);
-    for(let o of el.options) if(o.value===val||o.text===val){el.value=o.value;break;}
-  };
-  setSelect('edit-type', d.type||'');
-  setSelect('edit-delai', d.delai||'');
-  setSelect('edit-paiement', d.paiement||'');
-
+function ouvrirEdition(id,ev){
+  if(ev)ev.stopPropagation();
+  const d=D.devis.find(x=>x.id===id);if(!d||d.statut!=='en_attente')return;
+  document.getElementById('edit-id').value=id;
+  document.getElementById('edit-modal-title').textContent='Modifier — '+id;
+  document.getElementById('edit-nom').value=d.client||'';
+  document.getElementById('edit-entreprise').value=d.entreprise||'';
+  document.getElementById('edit-siret').value=d.siret||'';
+  document.getElementById('edit-email').value=d.email||'';
+  document.getElementById('edit-tel').value=d.tel||'';
+  document.getElementById('edit-adresse').value=d.adresse||'';
+  document.getElementById('edit-description').value=d.description||'';
+  document.getElementById('edit-budget').value=d.montant||'';
+  document.getElementById('edit-notes').value=d.notes||'';
+  document.getElementById('edit-date-limite').value=d.date_limite||'';
+  const setS=(id,val)=>{const el=document.getElementById(id);for(let o of el.options)if(o.value===val||o.text===val){el.value=o.value;break;}};
+  setS('edit-type',d.type||'');setS('edit-delai',d.delai||'');setS('edit-paiement',d.paiement||'');
   openModal('editModal');
 }
 
 function sauvegarderDevis(envoyer){
-  const id = document.getElementById('edit-id').value;
-  const d = D.devis.find(x=>x.id===id);
-  if(!d) return;
-
-  // Validation
-  const nom = _v('edit-nom'), entreprise = _v('edit-entreprise'), email = _v('edit-email'), type = _v('edit-type'), description = _v('edit-description');
-  if(!nom||!entreprise||!email||!type||!description){ alert('Champs obligatoires manquants (*)'); return; }
-
-  // Update object
-  d.client = nom;
-  d.entreprise = entreprise;
-  d.siret = _v('edit-siret');
-  d.email = email;
-  d.tel = _v('edit-tel');
-  d.adresse = _v('edit-adresse');
-  d.type = type;
-  d.delai = _v('edit-delai');
-  d.description = description;
-  d.montant = parseFloat(_v('edit-budget'))||d.montant;
-  d.paiement = _v('edit-paiement');
-  d.notes = _v('edit-notes');
-  const dl = document.getElementById('edit-date-limite').value;
-  if(dl) d.date_limite = dl;
-
-  if(envoyer){
-    // Send to N8N for regeneration
-    if(CFG.n8nUrl && CFG.n8nDevis){
-      fetch(CFG.n8nUrl+CFG.n8nDevis, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(console.warn);
-    }
-    d.statut = 'envoye';
-    d.date_envoi = fmt(NOW);
-    if(!d.date_limite) d.date_limite = fmt(addD(NOW,30));
-    toast(`Devis ${id} envoyé à N8N pour génération`, 'success');
-  } else {
-    toast(`Devis ${id} sauvegardé`, 'success');
-  }
-
-  // Update Supabase if connected
-  if(CFG.sbUrl && CFG.sbKey) sbUpdate('devis', id, d).catch(console.warn);
-
-  closeModal('editModal');
-  render();
+  const id=document.getElementById('edit-id').value;const d=D.devis.find(x=>x.id===id);if(!d)return;
+  const nom=_v('edit-nom'),entreprise=_v('edit-entreprise'),email=_v('edit-email'),type=_v('edit-type'),description=_v('edit-description');
+  if(!nom||!entreprise||!email||!type||!description){alert('Champs obligatoires manquants (*)');return;}
+  d.client=nom;d.entreprise=entreprise;d.siret=_v('edit-siret');d.email=email;d.tel=_v('edit-tel');d.adresse=_v('edit-adresse');d.type=type;d.delai=_v('edit-delai');d.description=description;d.montant=parseFloat(_v('edit-budget'))||d.montant;d.paiement=_v('edit-paiement');d.notes=_v('edit-notes');
+  const dl=document.getElementById('edit-date-limite').value;if(dl)d.date_limite=dl;
+  if(envoyer){if(CFG.n8nUrl&&CFG.n8nDevis){fetch(CFG.n8nUrl+CFG.n8nDevis,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(()=>{});}d.statut='envoye';d.date_envoi=fmt(NOW);if(!d.date_limite)d.date_limite=fmt(addD(NOW,30));toast('Devis '+id+' envoyé à N8N','success');}
+  else{toast('Devis '+id+' sauvegardé','info');}
+  if(CFG.sbUrl&&CFG.sbKey)sbUpdate('devis',id,d).catch(()=>{});
+  closeModal('editModal');render();
 }
 
 function supprimerDevis(){
-  const id = document.getElementById('edit-id').value;
-  const d = D.devis.find(x=>x.id===id);
-  if(!d) return;
-  if(!confirm(`Supprimer définitivement le devis ${id} pour ${d.client} ?\n\nCette action est irréversible.`)) return;
-  D.devis = D.devis.filter(x=>x.id!==id);
-  closeModal('editModal');
-  render();
-  toast(`Devis ${id} supprimé`, 'danger');
+  const id=document.getElementById('edit-id').value;const d=D.devis.find(x=>x.id===id);if(!d)return;
+  if(!confirm('Supprimer définitivement '+id+' pour '+d.client+' ?'))return;
+  D.devis=D.devis.filter(x=>x.id!==id);closeModal('editModal');render();toast('Devis '+id+' supprimé','danger');
 }
 
-// ═══════════════════════════════════
-// CHAT
-// ═══════════════════════════════════
 const chatHist=[];
 function quickAsk(msg){document.getElementById('chat-input').value=msg;sendChat();}
 
@@ -1013,7 +786,7 @@ async function sendChat(){
 
 async function callClaude(msg){
   const ctx=`Données (${fmt(NOW)}): DEVIS:${JSON.stringify(D.devis)} CONTRATS:${JSON.stringify(D.contrats)} PO:${JSON.stringify(D.po)} RELANCES:${JSON.stringify(D.relances)}`;
-  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':CFG.claudeKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,system:`Tu es un agent commercial assistant. Réponds en français, concis et actionnable. ${ctx}`,messages:chatHist.slice(-8).concat([{role:'user',content:msg}])})});
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':CFG.claudeKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,system:'Tu es un agent commercial assistant. Réponds en français, concis et actionnable. '+ctx,messages:chatHist.slice(-8).concat([{role:'user',content:msg}])})});
   const data=await r.json();if(data.error)throw new Error(data.error.message);
   return data.content?.[0]?.text||'—';
 }
@@ -1026,7 +799,7 @@ function demoRep(msg){
   if(l.includes('ca')||l.includes('chiffre')||l.includes('montant'))return `**Résumé financier :**\n\n• CA en cours : **${fmtEur(ca)}**\n• CA signé : **${fmtEur(signes.reduce((s,d)=>s+(d.montant||0),0))}**\n• Taux : ${D.devis.length?Math.round(signes.length/D.devis.length*100):0}%`;
   if(l.includes('contrat'))return `**${D.contrats.length} contrats :**\n\n${D.contrats.map(c=>`• **${c.client}** — ${fmtEur(c.montant)} — ${c.statut}`).join('\n')}`;
   if(l.includes('client')||l.includes('pipeline')||l.includes('liste'))return `**Pipeline — ${D.devis.length} deals :**\n\n${D.devis.map(d=>`• **${d.client}** — ${fmtEur(d.montant)} — ${d.statut}`).join('\n')}`;
-  return `Configurez votre clé Anthropic dans ⚙️ pour des réponses complètes.\n\nEn démo, essayez :\n• "Quels devis sont en retard ?"\n• "Quel est mon CA ?"\n• "Résumé pipeline"`;
+  return `Configurez votre clé Anthropic dans ⚙️ pour des réponses complètes.\n\nEn démo :\n• "Quels devis sont en retard ?"\n• "Quel est mon CA ?"\n• "Résumé pipeline"`;
 }
 
 function addMsg(role,text){
@@ -1035,29 +808,12 @@ function addMsg(role,text){
   d.innerHTML=`<div class="chat-avatar">${role==='agent'?'IA':'Moi'}</div><div class="chat-bubble">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
   w.appendChild(d);w.scrollTop=w.scrollHeight;
 }
-
-function addTyping(){
-  const w=document.getElementById('chat-messages'),d=document.createElement('div'),id='t'+Date.now();
-  d.className='chat-msg agent';d.id=id;
-  d.innerHTML=`<div class="chat-avatar">IA</div><div class="chat-bubble"><div class="typing-row"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div></div>`;
-  w.appendChild(d);w.scrollTop=w.scrollHeight;return id;
-}
+function addTyping(){const w=document.getElementById('chat-messages'),d=document.createElement('div'),id='t'+Date.now();d.className='chat-msg agent';d.id=id;d.innerHTML=`<div class="chat-avatar">IA</div><div class="chat-bubble"><div class="typing-row"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div></div>`;w.appendChild(d);w.scrollTop=w.scrollHeight;return id;}
 function removeTyping(id){const e=document.getElementById(id);if(e)e.remove();}
 function handleChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
 
-// ═══════════════════════════════════
-// TOAST
-// ═══════════════════════════════════
-function toast(msg, type=''){
-  const t=document.createElement('div');
-  t.className='toast '+(type||'');t.textContent=msg;
-  document.body.appendChild(t);
-  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(()=>t.remove(),300);},2800);
-}
+function toast(msg,type='info'){const t=document.createElement('div');t.className='toast '+(type||'info');t.textContent=msg;document.body.appendChild(t);setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(()=>t.remove(),300);},2600);}
 
-// ═══════════════════════════════════
-// NAV & MODALS
-// ═══════════════════════════════════
 function showView(id,btn){
   document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
