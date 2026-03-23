@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devis & Contrat Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #3F51B5;
+  --primary-light: #E8EAF6;
+  --primary-dark: #283593;
+  --secondary: #008080;
+  --secondary-light: #E0F2F1;
+  --tertiary: #6A5ACD;
+  --tertiary-light: #EDE7F6;
+  --neutral: #1A1C1E;
+  --danger: #D32F2F;
+  --danger-light: #FFEBEE;
+  --warning: #F57C00;
+  --warning-light: #FFF3E0;
+  --success: #2E7D32;
+  --success-light: #E8F5E9;
+  --bg: #F4F5F7;
+  --surface: #FFFFFF;
+  --border: #E0E3E9;
+  --border-light: #F0F2F5;
+  --text: #1A1C1E;
+  --text2: #4A5568;
+  --text3: #9AA3B2;
+  --font: 'Inter', -apple-system, sans-serif;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
+.app { display: flex; height: 100vh; }
+
+/* SIDEBAR */
+.sidebar { width: 240px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
+.logo { padding: 20px; border-bottom: 1px solid var(--border-light); }
+.logo-mark { width: 36px; height: 36px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.logo-mark svg { width: 20px; height: 20px; fill: white; }
+.logo-title { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; line-height: 1.2; }
+.logo-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.nav-body { flex: 1; padding: 12px 10px; overflow-y: auto; }
+.nav-section { margin-bottom: 20px; }
+.nav-section-label { font-size: 10px; font-weight: 700; color: var(--text3); letter-spacing: 0.08em; text-transform: uppercase; padding: 0 10px; margin-bottom: 4px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: var(--radius); cursor: pointer; color: var(--text2); font-size: 13.5px; font-weight: 400; transition: all 0.12s; border: none; background: none; width: 100%; text-align: left; }
+.nav-item:hover { background: var(--bg); color: var(--text); }
+.nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 600; }
+.nav-icon { width: 20px; text-align: center; font-size: 15px; flex-shrink: 0; }
+.nav-badge { margin-left: auto; color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; min-width: 18px; text-align: center; }
+.nav-badge.red { background: var(--danger); }
+.nav-badge.orange { background: var(--warning); }
+.nav-badge.blue { background: var(--primary); }
+.sidebar-footer { padding: 12px 10px; border-top: 1px solid var(--border-light); }
+
+/* MAIN */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.topbar { height: 56px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 24px; gap: 12px; flex-shrink: 0; }
+.topbar-title { font-size: 17px; font-weight: 700; color: var(--text); flex: 1; letter-spacing: -0.3px; }
+.content { flex: 1; overflow-y: auto; padding: 24px; }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--radius); border: none; cursor: pointer; font-family: var(--font); font-size: 13px; font-weight: 600; transition: all 0.12s; white-space: nowrap; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-secondary { background: white; color: var(--text); border: 1.5px solid var(--border); }
+.btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+.btn-ghost { background: none; color: var(--text2); }
+.btn-ghost:hover { background: var(--bg); color: var(--text); }
+.btn-teal { background: var(--secondary); color: white; }
+.btn-teal:hover { background: #006666; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-sm { padding: 5px 12px; font-size: 12px; }
+.btn-xs { padding: 3px 8px; font-size: 11px; }
+
+/* VIEWS */
+.view { display: none; }
+.view.active { display: block; }
+
+/* STATS */
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 24px; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
+.stat-accent { position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+.stat-label { font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+.stat-value { font-size: 26px; font-weight: 700; color: var(--text); letter-spacing: -1px; margin-bottom: 4px; }
+.stat-sub { font-size: 12px; color: var(--text3); }
+
+/* KANBAN */
+.kanban-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.kanban-board { display: grid; gap: 14px; }
+.kanban-board.k5 { grid-template-columns: repeat(5,1fr); }
+.kanban-board.k4 { grid-template-columns: repeat(4,1fr); }
+
+.kanban-col {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  min-height: 200px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+/* DRAG OVER STATE */
+.kanban-col.drag-over {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  border-style: dashed;
+}
+
+.kanban-col.drag-over-teal {
+  background: var(--secondary-light);
+  border-color: var(--secondary);
+  border-style: dashed;
+}
+
+.col-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.col-title { font-size: 12px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 6px; }
+.col-pill { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.col-count { font-size: 11px; font-weight: 700; color: white; padding: 1px 8px; border-radius: 10px; }
+.col-cards { min-height: 60px; }
+
+/* DEAL CARD */
+.deal-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-bottom: 8px;
+  cursor: grab;
+  transition: all 0.12s;
+  box-shadow: var(--shadow-sm);
+  user-select: none;
+}
+
+.deal-card:hover { box-shadow: var(--shadow); border-color: var(--primary); transform: translateY(-1px); }
+.deal-card:active { cursor: grabbing; }
+.deal-card.dragging { opacity: 0.4; transform: rotate(2deg) scale(0.97); box-shadow: none; }
+.deal-card.overdue { border-left: 3px solid var(--danger); }
+.deal-card.warn { border-left: 3px solid var(--warning); }
+
+.card-client { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.card-mission { font-size: 11.5px; color: var(--text3); margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-footer { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.card-amount { font-size: 13px; font-weight: 700; color: var(--primary); }
+.card-date { font-size: 11px; color: var(--text3); }
+.card-date.overdue { color: var(--danger); font-weight: 600; }
+.card-date.warn { color: var(--warning); font-weight: 600; }
+.card-actions { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.card-tag { font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: var(--bg); color: var(--text3); border: 1px solid var(--border); }
+
+/* DROP PLACEHOLDER */
+.drop-placeholder {
+  height: 60px;
+  border: 2px dashed var(--primary);
+  border-radius: var(--radius);
+  background: var(--primary-light);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.empty-col { text-align: center; padding: 24px 12px; color: var(--text3); font-size: 12px; }
+
+/* BADGES */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.badge-primary { background: var(--primary-light); color: var(--primary); }
+.badge-teal { background: var(--secondary-light); color: var(--secondary); }
+.badge-purple { background: var(--tertiary-light); color: var(--tertiary); }
+.badge-success { background: var(--success-light); color: var(--success); }
+.badge-danger { background: var(--danger-light); color: var(--danger); }
+.badge-warning { background: var(--warning-light); color: var(--warning); }
+.badge-neutral { background: var(--bg); color: var(--text3); border: 1px solid var(--border); }
+
+/* SECTION */
+.section-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 4px; letter-spacing: -0.4px; }
+.section-sub { font-size: 13px; color: var(--text3); margin-bottom: 20px; }
+
+/* TABLE */
+.table-card { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
+table { width: 100%; border-collapse: collapse; }
+thead { background: var(--bg); }
+th { text-align: left; padding: 10px 16px; font-size: 11px; font-weight: 700; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+td { padding: 12px 16px; border-bottom: 1px solid var(--border-light); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #FAFBFC; }
+
+/* MODAL */
+.modal-overlay { position: fixed; inset: 0; background: rgba(26,28,30,0.4); backdrop-filter: blur(3px); z-index: 200; display: none; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: white; border: 1px solid var(--border); border-radius: var(--radius-xl); width: 620px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); animation: mIn 0.18s ease; }
+@keyframes mIn { from { opacity:0; transform: translateY(12px) scale(0.98); } to { opacity:1; transform: translateY(0) scale(1); } }
+.modal-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: white; z-index: 1; }
+.modal-title { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+.modal-body { padding: 24px; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 10px; justify-content: flex-end; position: sticky; bottom: 0; background: white; }
+
+/* FORM */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-full { grid-column: 1/-1; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-section { grid-column: 1/-1; font-size: 11px; font-weight: 700; color: var(--primary); letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 0 4px; border-top: 1px solid var(--border-light); margin-top: 4px; }
+.form-section:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+label { font-size: 12px; font-weight: 600; color: var(--text2); }
+.req::after { content: ' *'; color: var(--danger); }
+input, select, textarea { background: white; border: 1.5px solid var(--border); border-radius: var(--radius); color: var(--text); font-family: var(--font); font-size: 13.5px; padding: 9px 12px; outline: none; transition: border-color 0.12s, box-shadow 0.12s; width: 100%; }
+input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(63,81,181,0.1); }
+input::placeholder, textarea::placeholder { color: var(--text3); }
+textarea { resize: vertical; min-height: 80px; }
+
+/* CHAT */
+.chat-wrap { display: flex; flex-direction: column; height: calc(100vh - 56px); }
+.chat-messages { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.chat-msg { display: flex; gap: 10px; }
+.chat-msg.user { align-self: flex-end; flex-direction: row-reverse; max-width: 600px; }
+.chat-msg.agent { max-width: 700px; }
+.chat-avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.chat-msg.agent .chat-avatar { background: var(--primary); color: white; }
+.chat-msg.user .chat-avatar { background: var(--secondary); color: white; }
+.chat-bubble { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; font-size: 13.5px; line-height: 1.6; box-shadow: var(--shadow-sm); }
+.chat-msg.user .chat-bubble { background: var(--primary); color: white; border-color: var(--primary); }
+.chat-chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 24px 12px; }
+.chip { padding: 5px 12px; background: white; border: 1.5px solid var(--border); border-radius: 20px; font-size: 12px; font-weight: 500; color: var(--text2); cursor: pointer; transition: all 0.12s; }
+.chip:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+.chat-footer { padding: 16px 24px; background: white; border-top: 1px solid var(--border); display: flex; gap: 10px; align-items: flex-end; }
+.chat-input { flex: 1; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text); font-family: var(--font); font-size: 13.5px; padding: 11px 16px; outline: none; resize: none; min-height: 44px; max-height: 120px; transition: border-color 0.12s; }
+.chat-input:focus { border-color: var(--primary); background: white; }
+.chat-send { background: var(--primary); border: none; border-radius: 10px; width: 44px; height: 44px; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; transition: background 0.12s; }
+.chat-send:hover { background: var(--primary-dark); }
+.chat-send:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ACTIVITY */
+.activity-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: var(--radius); background: white; border: 1px solid var(--border); margin-bottom: 8px; cursor: pointer; transition: all 0.12s; box-shadow: var(--shadow-sm); }
+.activity-item:hover { border-color: var(--primary); }
+.activity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.activity-info { flex: 1; min-width: 0; }
+.activity-client { font-size: 13px; font-weight: 600; }
+.activity-detail { font-size: 12px; color: var(--text3); margin-top: 1px; }
+
+.alert-banner { background: var(--danger-light); border: 1px solid rgba(211,47,47,0.2); border-left: 4px solid var(--danger); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--danger); font-weight: 500; }
+
+/* CONFIG */
+.config-block { background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 14px; }
+.config-block-title { font-size: 13px; font-weight: 700; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; gap: 8px; }
+
+/* DETAIL */
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.detail-field { background: var(--bg); border-radius: var(--radius); padding: 12px; }
+.detail-field.full { grid-column: 1/-1; }
+.detail-label { font-size: 10px; font-weight: 700; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+.detail-val { font-size: 13.5px; font-weight: 500; color: var(--text); }
+
+/* TOAST */
+.toast { position: fixed; bottom: 24px; right: 24px; background: var(--neutral); color: white; padding: 12px 18px; border-radius: var(--radius-lg); font-size: 13px; font-weight: 500; box-shadow: var(--shadow-lg); z-index: 999; animation: toastIn 0.2s ease; max-width: 320px; }
+@keyframes toastIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
+.toast.success { background: var(--success); }
+.toast.warning { background: var(--warning); }
+.toast.danger { background: var(--danger); }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* EDIT CARD INDICATOR */
+.card-editable-hint {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 10px; color: var(--primary); font-weight: 600;
+  margin-top: 6px; opacity: 0.7;
+}
+.card-editable-hint::before { content: '✏️'; font-size: 10px; }
+
+.typing-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); display: inline-block; animation: blink 1.2s infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%,60%,100%{opacity:0.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)} }
+.typing-row { display: flex; gap: 4px; align-items: center; padding: 4px 2px; }
+</style>
+</head>
+<body>
+
+<!-- CONFIG MODAL -->
+<div class="modal-overlay" id="configModal">
+  <div class="modal" style="width:520px">
+    <div class="modal-header"><div class="modal-title">⚙️ Configuration</div><button class="btn btn-ghost btn-sm" onclick="closeModal('configModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="config-block">
+        <div class="config-block-title"><span style="color:var(--secondary)">▣</span> Supabase</div>
+        <div class="form-grid">
+          <div class="form-group form-full"><label>Project URL</label><input id="cfg-sb-url" placeholder="https://xxxx.supabase.co"></div>
+          <div class="form-group form-full"><label>Anon / Publishable Key</label><input type="password" id="cfg-sb-key" placeholder="eyJhbGci..."></div>
+        </div>
+      </div>
+      <div class="config-block">
+        <div class="config-block-title"><span style="color:var(--primary)">◈</span> Agent IA — Anthropic</div>
+        <div class="form-group"><label>API Key</label><input type="password" id="cfg-claude" placeholder="sk-ant-..."></div>
+      </div>
+      <div class="config-block">
+        <div class="config-block-title"><span style="color:var(--tertiary)">⚡</span> N8N Webhooks</div>
+        <div class="form-grid">
+          <div class="form-group form-full"><label>URL N8N</label><input id="cfg-n8n-url" placeholder="https://n8n.srv1088521.hstgr.cloud"></div>
+          <div class="form-group"><label>Webhook nouveau devis</label><input id="cfg-n8n-devis" placeholder="/webhook/nouveau-devis"></div>
+          <div class="form-group"><label>Webhook relance</label><input id="cfg-n8n-relance" placeholder="/webhook/relance-manuelle"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('configModal')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveConfig()">Sauvegarder</button>
+    </div>
+  </div>
+</div>
+
+<!-- LEAD MODAL -->
+<div class="modal-overlay" id="leadModal">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">✨ Nouveau lead</div><button class="btn btn-ghost btn-sm" onclick="closeModal('leadModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-section">Informations client</div>
+        <div class="form-group"><label class="req">Prénom & Nom</label><input id="f-nom" placeholder="Jean Dupont"></div>
+        <div class="form-group"><label class="req">Entreprise</label><input id="f-entreprise" placeholder="Agence Dupont SARL"></div>
+        <div class="form-group"><label>SIRET</label><input id="f-siret" placeholder="123 456 789 00012"></div>
+        <div class="form-group"><label class="req">Email</label><input type="email" id="f-email" placeholder="jean@entreprise.com"></div>
+        <div class="form-group"><label>Téléphone</label><input id="f-tel" placeholder="+33 6 12 34 56 78"></div>
+        <div class="form-group"><label>Adresse</label><input id="f-adresse" placeholder="12 rue de la Paix, 75001 Paris"></div>
+        <div class="form-section">Détails de la mission</div>
+        <div class="form-group"><label class="req">Type de prestation</label>
+          <select id="f-type"><option value="">Sélectionner...</option><option>Création site web</option><option>Automatisation & IA</option><option>Conseil & audit</option><option>Formation</option><option>Développement application</option><option>Stratégie digitale</option><option>Autre</option></select>
+        </div>
+        <div class="form-group"><label class="req">Délai souhaité</label>
+          <select id="f-delai"><option value="">Sélectionner...</option><option>Urgent — 1 semaine</option><option>Court — 2 semaines</option><option>Standard — 1 mois</option><option>Long — 2 à 3 mois</option><option>Flexible</option></select>
+        </div>
+        <div class="form-group form-full"><label class="req">Description de la mission</label><textarea id="f-description" placeholder="Décrivez le besoin, les objectifs, les livrables..."></textarea></div>
+        <div class="form-group"><label>Budget estimé (€ HT)</label><input type="number" id="f-budget" placeholder="2500"></div>
+        <div class="form-group"><label>Mode de paiement</label>
+          <select id="f-paiement"><option value="">Sélectionner...</option><option>Virement bancaire</option><option>Chèque</option><option>Carte bancaire</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('leadModal')">Annuler</button>
+      <button class="btn btn-primary" onclick="submitLead()">Générer le devis via N8N →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal" style="width:680px">
+    <div class="modal-header"><div class="modal-title" id="detail-title">Détail</div><button class="btn btn-ghost btn-sm" onclick="closeModal('detailModal')">✕</button></div>
+    <div class="modal-body" id="detail-body"></div>
+    <div class="modal-footer" id="detail-footer"></div>
+  </div>
+</div>
+
+<!-- EDIT DEVIS MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal" style="width:680px">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="edit-modal-title">Modifier le devis</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px">✏️ En attente d'envoi — modifiez avant génération</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('editModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-id">
+      <div class="form-grid">
+        <div class="form-section">Informations client</div>
+        <div class="form-group"><label class="req">Prénom & Nom</label><input id="edit-nom" placeholder="Jean Dupont"></div>
+        <div class="form-group"><label class="req">Entreprise</label><input id="edit-entreprise" placeholder="Agence Dupont SARL"></div>
+        <div class="form-group"><label>SIRET</label><input id="edit-siret" placeholder="123 456 789 00012"></div>
+        <div class="form-group"><label class="req">Email</label><input type="email" id="edit-email" placeholder="jean@entreprise.com"></div>
+        <div class="form-group"><label>Téléphone</label><input id="edit-tel" placeholder="+33 6 12 34 56 78"></div>
+        <div class="form-group"><label>Adresse</label><input id="edit-adresse" placeholder="12 rue de la Paix, 75001 Paris"></div>
+        <div class="form-section">Détails de la mission</div>
+        <div class="form-group"><label class="req">Type de prestation</label>
+          <select id="edit-type">
+            <option value="">Sélectionner...</option>
+            <option>Création site web</option>
+            <option>Automatisation & IA</option>
+            <option>Conseil & audit</option>
+            <option>Formation</option>
+            <option>Développement application</option>
+            <option>Stratégie digitale</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Délai souhaité</label>
+          <select id="edit-delai">
+            <option value="">Sélectionner...</option>
+            <option>Urgent — 1 semaine</option>
+            <option>Court — 2 semaines</option>
+            <option>Standard — 1 mois</option>
+            <option>Long — 2 à 3 mois</option>
+            <option>Flexible</option>
+          </select>
+        </div>
+        <div class="form-group form-full"><label class="req">Description de la mission</label><textarea id="edit-description" rows="3" placeholder="Décrivez le besoin, les objectifs, les livrables..."></textarea></div>
+        <div class="form-section">Conditions commerciales</div>
+        <div class="form-group"><label class="req">Budget estimé (€ HT)</label><input type="number" id="edit-budget" placeholder="2500"></div>
+        <div class="form-group"><label>Mode de paiement</label>
+          <select id="edit-paiement">
+            <option value="">Sélectionner...</option>
+            <option>Virement bancaire</option>
+            <option>Chèque</option>
+            <option>Carte bancaire</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Date limite de signature</label><input type="date" id="edit-date-limite"></div>
+        <div class="form-group"><label>Notes internes</label><input id="edit-notes" placeholder="Remarques, conditions particulières..."></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('editModal')">Annuler</button>
+      <button class="btn btn-sm" style="background:var(--danger-light);color:var(--danger);border:1px solid rgba(211,47,47,0.2);margin-right:auto;font-weight:600" onclick="supprimerDevis()">🗑 Supprimer</button>
+      <button class="btn btn-secondary" onclick="sauvegarderDevis(false)">💾 Sauvegarder</button>
+      <button class="btn btn-primary" onclick="sauvegarderDevis(true)">🚀 Sauvegarder & Envoyer via N8N</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+  <div class="sidebar">
+    <div class="logo">
+      <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8 13h8v1.5H8V13zm0 3h8v1.5H8V16zm0-6h3v1.5H8V10z"/></svg></div>
+      <div class="logo-title">Devis & Contrat<br>Tracker</div>
+      <div class="logo-sub">Agent IA — N8N Connected</div>
+    </div>
+    <div class="nav-body">
+      <div class="nav-section">
+        <div class="nav-section-label">Vue d'ensemble</div>
+        <button class="nav-item active" onclick="showView('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</button>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-label">Commercial</div>
+        <button class="nav-item" onclick="showView('devis',this)"><span class="nav-icon">📄</span> Devis <span class="nav-badge red" id="badge-devis" style="display:none">0</span></button>
+        <button class="nav-item" onclick="showView('contrats',this)"><span class="nav-icon">📋</span> Contrats <span class="nav-badge blue" id="badge-contrats" style="display:none">0</span></button>
+        <button class="nav-item" onclick="showView('po',this)"><span class="nav-icon">🛒</span> Bons de commande</button>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-label">Automatisation</div>
+        <button class="nav-item" onclick="showView('relances',this)"><span class="nav-icon">🔔</span> Relances <span class="nav-badge orange" id="badge-relances" style="display:none">0</span></button>
+        <button class="nav-item" onclick="showView('renouvellements',this)"><span class="nav-icon">🔄</span> Renouvellements</button>
+      </div>
+      <div class="nav-section">
+        <div class="nav-section-label">Intelligence</div>
+        <button class="nav-item" onclick="showView('chat',this)"><span class="nav-icon">🤖</span> Agent IA</button>
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="nav-item" onclick="openModal('configModal')"><span class="nav-icon">⚙️</span> Configuration</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <button class="btn btn-ghost btn-sm" onclick="loadData()" style="color:var(--text3)">↻ Actualiser</button>
+      <button class="btn btn-secondary btn-sm" onclick="openModal('configModal')">⚙️ Config</button>
+      <button class="btn btn-primary" onclick="openModal('leadModal')">+ Nouveau lead</button>
+    </div>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="view active" id="view-dashboard">
+        <div id="alert-zone"></div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-accent" style="background:var(--primary)"></div><div class="stat-label">CA en cours</div><div class="stat-value" id="stat-ca">—</div><div class="stat-sub">en attente de signature</div></div>
+          <div class="stat-card"><div class="stat-accent" style="background:var(--secondary)"></div><div class="stat-label">Taux de signature</div><div class="stat-value" id="stat-taux">—</div><div class="stat-sub">devis signés / envoyés</div></div>
+          <div class="stat-card"><div class="stat-accent" style="background:var(--success)"></div><div class="stat-label">CA signé</div><div class="stat-value" id="stat-signe">—</div><div class="stat-sub">contrats actifs</div></div>
+          <div class="stat-card"><div class="stat-accent" style="background:var(--danger)"></div><div class="stat-label">En retard</div><div class="stat-value" id="stat-retard">—</div><div class="stat-sub">à relancer</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div><div class="section-title" style="font-size:15px;margin-bottom:12px">Activité récente</div><div id="recent-activity"></div></div>
+          <div><div class="section-title" style="font-size:15px;margin-bottom:12px;color:var(--danger)">⚠ Relances urgentes</div><div id="relances-urgent"></div></div>
+        </div>
+      </div>
+
+      <!-- DEVIS KANBAN -->
+      <div class="view" id="view-devis">
+        <div class="kanban-header">
+          <div><div class="section-title">Suivi des Devis</div><div class="section-sub">Glissez-déposez les cartes pour changer leur statut</div></div>
+          <button class="btn btn-primary" onclick="openModal('leadModal')">+ Nouveau devis</button>
+        </div>
+        <div class="kanban-board k5" id="kanban-devis"></div>
+      </div>
+
+      <!-- CONTRATS KANBAN -->
+      <div class="view" id="view-contrats">
+        <div class="kanban-header">
+          <div><div class="section-title">Suivi des Contrats</div><div class="section-sub">Glissez-déposez — validation obligatoire avant envoi au client</div></div>
+        </div>
+        <div class="kanban-board k4" id="kanban-contrats"></div>
+      </div>
+
+      <!-- PO -->
+      <div class="view" id="view-po">
+        <div class="section-title">Bons de Commande</div>
+        <div class="section-sub">La réception d'un PO déclenche automatiquement la génération du contrat via N8N</div>
+        <div class="table-card"><table><thead><tr><th>Référence</th><th>Client</th><th>Devis lié</th><th>Montant</th><th>Reçu le</th><th>Statut</th><th></th></tr></thead><tbody id="po-table"></tbody></table></div>
+      </div>
+
+      <!-- RELANCES -->
+      <div class="view" id="view-relances">
+        <div class="section-title">Historique des Relances</div>
+        <div class="section-sub">Relances automatiques N8N et manuelles</div>
+        <div class="table-card"><table><thead><tr><th>Client</th><th>Type</th><th>Palier</th><th>Canal</th><th>Date</th><th>Statut</th></tr></thead><tbody id="relances-table"></tbody></table></div>
+      </div>
+
+      <!-- RENOUVELLEMENTS -->
+      <div class="view" id="view-renouvellements">
+        <div class="section-title">Renouvellements</div>
+        <div class="section-sub">Contrats arrivant à échéance dans les 30 jours</div>
+        <div id="renouvellements-list"></div>
+      </div>
+
+      <!-- CHAT -->
+      <div class="view" id="view-chat" style="padding:0;margin:-24px">
+        <div class="chat-wrap">
+          <div class="chat-messages" id="chat-messages">
+            <div class="chat-msg agent">
+              <div class="chat-avatar">IA</div>
+              <div class="chat-bubble">
+                Bonjour ! Je suis votre agent commercial IA. Je lis vos données en temps réel.<br><br>
+                Posez-moi des questions comme :<br>
+                • <em>"Quels devis sont en retard ?"</em><br>
+                • <em>"Quel est mon CA en cours ?"</em><br>
+                • <em>"Résumé du pipeline"</em><br><br>
+                <small style="opacity:0.7">💡 Configurez votre clé Anthropic dans ⚙️ pour des réponses complètes.</small>
+              </div>
+            </div>
+          </div>
+          <div class="chat-chips">
+            <div class="chip" onclick="quickAsk('Quels devis sont en retard ?')">Devis en retard</div>
+            <div class="chip" onclick="quickAsk('Quel est mon CA en cours ?')">CA en cours</div>
+            <div class="chip" onclick="quickAsk('Liste les clients à relancer')">À relancer</div>
+            <div class="chip" onclick="quickAsk('Résumé du pipeline commercial')">Résumé pipeline</div>
+            <div class="chip" onclick="quickAsk('Quels contrats sont en attente de validation ?')">Contrats en attente</div>
+          </div>
+          <div class="chat-footer">
+            <textarea class="chat-input" id="chat-input" placeholder="Posez une question..." rows="1" onkeydown="handleChatKey(event)"></textarea>
+            <button class="chat-send" onclick="sendChat()" id="chat-send-btn">➤</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════
+let CFG = { sbUrl:'', sbKey:'', claudeKey:'', n8nUrl:'https://n8n.srv1088521.hstgr.cloud', n8nDevis:'/webhook/nouveau-devis', n8nRelance:'/webhook/relance-manuelle' };
+try { const s=localStorage.getItem('dct-v2'); if(s) CFG={...CFG,...JSON.parse(s)}; } catch(e){}
+
+function saveConfig(){
+  CFG.sbUrl=_v('cfg-sb-url'); CFG.sbKey=_v('cfg-sb-key'); CFG.claudeKey=_v('cfg-claude');
+  CFG.n8nUrl=_v('cfg-n8n-url'); CFG.n8nDevis=_v('cfg-n8n-devis'); CFG.n8nRelance=_v('cfg-n8n-relance');
+  try{localStorage.setItem('dct-v2',JSON.stringify(CFG));}catch(e){}
+  closeModal('configModal'); loadData();
+}
+
+// ═══════════════════════════════════
+// DEMO DATA
+// ═══════════════════════════════════
+const NOW=new Date();
+const fmt=d=>new Date(d).toISOString().split('T')[0];
+const addD=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x;};
+
+const DEMO={
+  devis:[
+    {id:'DEV-001',client:'Agence des Lilas',entreprise:'Agence des Lilas SARL',email:'contact@lilas.fr',montant:2500,type:'Automatisation & IA',statut:'envoye',date_envoi:fmt(addD(NOW,-12)),date_limite:fmt(addD(NOW,-2)),description:'Automatisation des relances clients et génération de devis'},
+    {id:'DEV-002',client:'Cabinet Renard',entreprise:'Cabinet Renard & Associés',email:'j.renard@cabinet.fr',montant:4200,type:'Conseil & audit',statut:'envoye',date_envoi:fmt(addD(NOW,-6)),date_limite:fmt(addD(NOW,24)),description:'Audit RH et digitalisation des processus'},
+    {id:'DEV-003',client:'E-Shop Mode',entreprise:'E-Shop Mode SAS',email:'ceo@eshopmode.fr',montant:8500,type:'Création site web',statut:'relance',date_envoi:fmt(addD(NOW,-18)),date_limite:fmt(addD(NOW,-8)),description:'Refonte e-commerce avec personnalisation IA'},
+    {id:'DEV-004',client:'Institut Arabe',entreprise:'Institut Arabe de Paris',email:'contact@institutarabe.fr',montant:1800,type:'Formation',statut:'signe',date_envoi:fmt(addD(NOW,-20)),date_limite:fmt(addD(NOW,10)),description:'Formation automatisation des process administratifs'},
+    {id:'DEV-005',client:'StartupTech',entreprise:'StartupTech SASU',email:'founder@startuptech.io',montant:12000,type:'Développement application',statut:'expire',date_envoi:fmt(addD(NOW,-35)),date_limite:fmt(addD(NOW,-5)),description:'MVP application mobile B2B'},
+    {id:'DEV-006',client:'Maison Dupont',entreprise:'Maison Dupont & Fils',email:'g.dupont@maison.fr',montant:3600,type:'Stratégie digitale',statut:'en_attente',date_envoi:fmt(NOW),date_limite:fmt(addD(NOW,30)),description:'Présence digitale et réseaux sociaux'},
+  ],
+  contrats:[
+    {id:'CTR-001',client:'Institut Arabe',devis_id:'DEV-004',montant:1800,statut:'signe',date_envoi:fmt(addD(NOW,-15)),date_signature:fmt(addD(NOW,-10)),date_fin:fmt(addD(NOW,350))},
+    {id:'CTR-002',client:'Cabinet Renard',devis_id:'DEV-002',montant:4200,statut:'attente_validation',date_envoi:fmt(addD(NOW,-1)),date_signature:null,date_fin:null},
+  ],
+  po:[{ref:'PO-2026-001',client:'Institut Arabe',devis_id:'DEV-004',montant:1800,date_reception:fmt(addD(NOW,-16)),statut:'traite'}],
+  relances:[
+    {client:'E-Shop Mode',type:'devis',palier:'J+18',date:fmt(addD(NOW,-1)),canal:'Email',statut:'envoye'},
+    {client:'E-Shop Mode',type:'devis',palier:'J+10',date:fmt(addD(NOW,-8)),canal:'Email',statut:'envoye'},
+    {client:'Agence des Lilas',type:'devis',palier:'J+10',date:fmt(addD(NOW,-2)),canal:'Email',statut:'envoye'},
+    {client:'Cabinet Renard',type:'contrat',palier:'J+1',date:fmt(NOW),canal:'Slack',statut:'planifie'},
+  ],
+};
+
+let D={devis:[],contrats:[],po:[],relances:[]};
+
+// ═══════════════════════════════════
+// DATA
+// ═══════════════════════════════════
+async function loadData(){
+  if(CFG.sbUrl&&CFG.sbKey){
+    try{
+      const[dv,ct,po,rl]=await Promise.all([sb('devis'),sb('contrats'),sb('bons_commande'),sb('relances')]);
+      D={devis:dv||[],contrats:ct||[],po:po||[],relances:rl||[]};
+    }catch(e){console.warn('Supabase→demo:',e.message);D=DEMO;}
+  }else{D=DEMO;}
+  render();
+}
+
+async function sb(t){
+  const r=await fetch(`${CFG.sbUrl}/rest/v1/${t}?select=*&order=created_at.desc`,{headers:{'apikey':CFG.sbKey,'Authorization':'Bearer '+CFG.sbKey}});
+  if(!r.ok) throw new Error(t+':'+r.status);
+  return r.json();
+}
+
+// ═══════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════
+const isOD=d=>d.date_limite&&new Date(d.date_limite)<NOW&&!['signe','expire'].includes(d.statut);
+const dLeft=ds=>Math.round((new Date(ds)-NOW)/86400000);
+const fmtEur=n=>(n||0).toLocaleString('fr-FR')+'€';
+const _v=id=>document.getElementById(id)?.value?.trim()||'';
+
+function sColor(s){return{envoye:'#3F51B5',relance:'#F57C00',signe:'#2E7D32',expire:'#9AA3B2',en_attente:'#9AA3B2',genere:'#3F51B5',attente_validation:'#6A5ACD',traite:'#2E7D32',planifie:'#F57C00'}[s]||'#9AA3B2';}
+function sBadge(s){const m={envoye:['badge-primary','Envoyé'],relance:['badge-warning','Relancé'],signe:['badge-success','Signé ✓'],expire:['badge-neutral','Expiré'],en_attente:['badge-neutral','En attente'],genere:['badge-primary','Généré'],attente_validation:['badge-purple','⏳ Validation'],traite:['badge-success','Traité'],planifie:['badge-warning','Planifié']};const[c,l]=m[s]||['badge-neutral',s];return`<span class="badge ${c}">${l}</span>`;}
+
+// ═══════════════════════════════════
+// RENDER
+// ═══════════════════════════════════
+function render(){renderDash();renderDevisKanban();renderContratsKanban();renderPO();renderRelances();renderRenouv();updateBadges();}
+
+function updateBadges(){
+  const r=D.devis.filter(isOD).length,p=D.relances.filter(x=>x.statut==='planifie').length,c=D.contrats.filter(x=>x.statut==='attente_validation').length;
+  const setB=(id,n)=>{const b=document.getElementById(id);if(b){b.textContent=n;b.style.display=n?'':'none';}};
+  setB('badge-devis',r);setB('badge-relances',p);setB('badge-contrats',c);
+}
+
+function renderDash(){
+  const actifs=D.devis.filter(d=>['envoye','relance'].includes(d.statut));
+  const signes=D.devis.filter(d=>d.statut==='signe');
+  const pool=D.devis.filter(d=>['envoye','relance','signe'].includes(d.statut));
+  const retard=D.devis.filter(isOD);
+  document.getElementById('stat-ca').textContent=fmtEur(actifs.reduce((s,d)=>s+(d.montant||0),0));
+  document.getElementById('stat-taux').textContent=(pool.length?Math.round(signes.length/pool.length*100):0)+'%';
+  document.getElementById('stat-signe').textContent=fmtEur(signes.reduce((s,d)=>s+(d.montant||0),0));
+  document.getElementById('stat-retard').textContent=retard.length;
+  document.getElementById('alert-zone').innerHTML=retard.length?`<div class="alert-banner">⚠ ${retard.length} devis dépassé${retard.length>1?'s':''} — action requise</div>`:'';
+  document.getElementById('recent-activity').innerHTML=D.devis.slice(0,5).map(d=>`<div class="activity-item" onclick='showDetail(${JSON.stringify(d).replace(/'/g,"&#39;")})'><div class="activity-dot" style="background:${sColor(d.statut)}"></div><div class="activity-info"><div class="activity-client">${d.client}</div><div class="activity-detail">${d.type||''} — ${fmtEur(d.montant)} HT</div></div>${sBadge(d.statut)}</div>`).join('');
+  const urg=D.devis.filter(d=>isOD(d)||(d.date_limite&&dLeft(d.date_limite)<=5&&!['signe','expire'].includes(d.statut)));
+  document.getElementById('relances-urgent').innerHTML=urg.length?urg.map(d=>`<div class="activity-item"><div class="activity-dot" style="background:var(--danger)"></div><div class="activity-info"><div class="activity-client">${d.client}</div><div class="activity-detail">${d.id} — ${fmtEur(d.montant)} — ${isOD(d)?Math.abs(dLeft(d.date_limite))+'j dépassé':dLeft(d.date_limite)+'j restants'}</div></div><button class="btn btn-danger btn-sm" onclick="doRelance('${d.id}','${d.client}',event)">Relancer</button></div>`).join(''):'<div style="color:var(--text3);font-size:13px;padding:8px 0">✓ Aucune relance urgente</div>';
+}
+
+// ═══════════════════════════════════
+// KANBAN COLS
+// ═══════════════════════════════════
+const KCOLS_D=[{k:'en_attente',l:'En attente',c:'#9AA3B2'},{k:'envoye',l:'Envoyé',c:'#3F51B5'},{k:'relance',l:'Relancé',c:'#F57C00'},{k:'signe',l:'Signé',c:'#2E7D32'},{k:'expire',l:'Expiré',c:'#9AA3B2'}];
+const KCOLS_C=[{k:'genere',l:'Généré',c:'#9AA3B2'},{k:'attente_validation',l:'⏳ Validation',c:'#6A5ACD'},{k:'envoye',l:'Envoyé',c:'#3F51B5'},{k:'signe',l:'Signé',c:'#2E7D32'}];
+
+function renderDevisKanban(){
+  const board=document.getElementById('kanban-devis');
+  board.innerHTML=KCOLS_D.map(col=>{
+    const cards=D.devis.filter(d=>d.statut===col.k);
+    return `<div class="kanban-col" data-col="${col.k}" data-board="devis" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'devis','${col.k}')">
+      <div class="col-header">
+        <div class="col-title"><span class="col-pill" style="background:${col.c}"></span>${col.l}</div>
+        <span class="col-count" style="background:${col.c}">${cards.length}</span>
+      </div>
+      <div class="col-cards" id="col-devis-${col.k}">${cards.length?cards.map(dCard).join(''):'<div class="empty-col">Déposez ici</div>'}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderContratsKanban(){
+  const board=document.getElementById('kanban-contrats');
+  board.innerHTML=KCOLS_C.map(col=>{
+    const cards=D.contrats.filter(c=>c.statut===col.k);
+    return `<div class="kanban-col" data-col="${col.k}" data-board="contrats" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event,'contrats','${col.k}')">
+      <div class="col-header">
+        <div class="col-title"><span class="col-pill" style="background:${col.c}"></span>${col.l}</div>
+        <span class="col-count" style="background:${col.c}">${cards.length}</span>
+      </div>
+      <div class="col-cards" id="col-contrats-${col.k}">${cards.length?cards.map(cCard).join(''):'<div class="empty-col">Déposez ici</div>'}</div>
+    </div>`;
+  }).join('');
+}
+
+function dCard(d){
+  const od=isOD(d),dl=d.date_limite?dLeft(d.date_limite):null,warn=dl!==null&&dl<=5&&dl>=0&&!['signe','expire'].includes(d.statut);
+  const isAttente = d.statut==='en_attente';
+  const clickFn = isAttente ? `ouvrirEdition('${d.id}',event)` : `showDetail(${JSON.stringify(d).replace(/'/g,"&#39;")})`;
+  return `<div class="deal-card ${od?'overdue':warn?'warn':''} ${isAttente?'card-editable':''}" draggable="true" data-id="${d.id}" data-board="devis" ondragstart="onDragStart(event,'${d.id}','devis')" ondragend="onDragEnd(event)" onclick="${clickFn}" style="${isAttente?'border:1.5px dashed var(--primary);background:var(--primary-light);':''}">
+    <div class="card-client">${d.client}</div>
+    <div class="card-mission">${d.type||''}</div>
+    <div class="card-footer">
+      <div class="card-amount">${fmtEur(d.montant)}</div>
+      <div class="card-date ${od?'overdue':warn?'warn':''}">${d.date_limite?(od?'⚠ '+Math.abs(dl)+'j dépassé':dl+'j restants'):'—'}</div>
+    </div>
+    <div class="card-actions">
+      <span class="card-tag">${d.id}</span>
+      ${isAttente?`<button class="btn btn-xs btn-primary" onclick="ouvrirEdition('${d.id}',event)">✏️ Modifier</button>`:''}
+      ${(od||warn)?`<button class="btn btn-danger btn-xs" onclick="doRelance('${d.id}','${d.client}',event)">Relancer</button>`:''}
+      ${d.statut==='signe'?`<button class="btn btn-xs btn-teal" onclick="toContrat('${d.id}','${d.client}',event)">→ Contrat</button>`:''}
+    </div>
+    ${isAttente?'<div style="font-size:10px;color:var(--primary);margin-top:6px;font-weight:600">✏️ Cliquez pour modifier avant envoi</div>':''}
+  </div>`;
+}
+
+function cCard(c){
+  const ds=JSON.stringify(c).replace(/'/g,"&#39;");
+  return `<div class="deal-card" draggable="true" data-id="${c.id}" data-board="contrats" ondragstart="onDragStart(event,'${c.id}','contrats')" ondragend="onDragEnd(event)" onclick='showCDetail(${ds})'>
+    <div class="card-client">${c.client}</div>
+    <div class="card-mission">Lié au ${c.devis_id}</div>
+    <div class="card-footer">
+      <div class="card-amount">${fmtEur(c.montant)}</div>
+      <div class="card-date">${c.date_envoi||'—'}</div>
+    </div>
+    <div class="card-actions">
+      <span class="card-tag">${c.id}</span>
+      ${c.statut==='attente_validation'?`<button class="btn btn-xs btn-primary" onclick="valider('${c.id}',event)">✓ Valider</button>`:''}
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════
+// DRAG & DROP
+// ═══════════════════════════════════
+let dragId=null, dragBoard=null;
+
+function onDragStart(ev, id, board){
+  dragId=id; dragBoard=board;
+  ev.dataTransfer.effectAllowed='move';
+  ev.dataTransfer.setData('text/plain', id);
+  setTimeout(()=>{ const el=document.querySelector(`[data-id="${id}"]`); if(el) el.classList.add('dragging'); },0);
+}
+
+function onDragEnd(ev){
+  document.querySelectorAll('.deal-card').forEach(c=>c.classList.remove('dragging'));
+  document.querySelectorAll('.kanban-col').forEach(c=>{ c.classList.remove('drag-over','drag-over-teal'); });
+}
+
+function onDragOver(ev){
+  ev.preventDefault();
+  ev.dataTransfer.dropEffect='move';
+  const col=ev.currentTarget;
+  col.classList.add('drag-over');
+}
+
+function onDragLeave(ev){
+  const col=ev.currentTarget;
+  if(!col.contains(ev.relatedTarget)) col.classList.remove('drag-over','drag-over-teal');
+}
+
+function onDrop(ev, board, newStatus){
+  ev.preventDefault();
+  const col=ev.currentTarget;
+  col.classList.remove('drag-over','drag-over-teal');
+
+  if(!dragId || dragBoard!==board) return;
+
+  // Confirm certain transitions
+  if(board==='contrats' && newStatus==='envoye'){
+    if(!confirm('Valider et envoyer ce contrat au client ?')) return;
+  }
+  if(board==='devis' && newStatus==='signe'){
+    if(confirm('Marquer ce devis comme signé et générer le contrat automatiquement ?')){
+      const d=D.devis.find(x=>x.id===dragId);
+      if(d) setTimeout(()=>toContrat(dragId,d.client),500);
+    }
+  }
+
+  // Update status
+  if(board==='devis'){
+    const item=D.devis.find(x=>x.id===dragId);
+    if(item){
+      const old=item.statut;
+      item.statut=newStatus;
+      renderDevisKanban();
+      updateBadges();
+      toast(`${item.client} → ${statusLabel(newStatus)}`,'success');
+      // Push to Supabase if connected
+      if(CFG.sbUrl && CFG.sbKey) sbUpdate('devis', dragId, {statut:newStatus}).catch(console.warn);
+    }
+  } else if(board==='contrats'){
+    const item=D.contrats.find(x=>x.id===dragId);
+    if(item){
+      item.statut=newStatus;
+      if(newStatus==='signe') item.date_signature=fmt(NOW);
+      renderContratsKanban();
+      updateBadges();
+      toast(`${item.client} → ${statusLabel(newStatus)}`,'success');
+      if(CFG.sbUrl && CFG.sbKey) sbUpdate('contrats', dragId, {statut:newStatus}).catch(console.warn);
+    }
+  }
+
+  dragId=null; dragBoard=null;
+}
+
+function statusLabel(s){return{en_attente:'En attente',envoye:'Envoyé',relance:'Relancé',signe:'Signé',expire:'Expiré',genere:'Généré',attente_validation:'En validation'}[s]||s;}
+
+async function sbUpdate(table, id, data){
+  await fetch(`${CFG.sbUrl}/rest/v1/${table}?id=eq.${id}`,{method:'PATCH',headers:{'apikey':CFG.sbKey,'Authorization':'Bearer '+CFG.sbKey,'Content-Type':'application/json','Prefer':'return=minimal'},body:JSON.stringify(data)});
+}
+
+// ═══════════════════════════════════
+// TABLES
+// ═══════════════════════════════════
+function renderPO(){
+  document.getElementById('po-table').innerHTML=D.po.length?D.po.map(p=>`<tr><td><strong style="font-size:12px;font-family:monospace">${p.ref}</strong></td><td>${p.client}</td><td><span class="badge badge-primary" style="font-size:10px">${p.devis_id}</span></td><td style="font-weight:600">${fmtEur(p.montant)}</td><td style="color:var(--text3);font-size:12px">${p.date_reception}</td><td>${sBadge(p.statut)}</td><td><button class="btn btn-teal btn-sm" onclick="genContrat('${p.ref}','${p.client}','${p.devis_id}')">Générer contrat</button></td></tr>`).join(''):'<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:32px">Aucun bon de commande reçu</td></tr>';
+}
+
+function renderRelances(){
+  document.getElementById('relances-table').innerHTML=D.relances.length?D.relances.map(r=>`<tr><td><strong>${r.client}</strong></td><td>${r.type==='devis'?'📄 Devis':'📋 Contrat'}</td><td><span class="badge badge-neutral" style="font-size:11px">${r.palier}</span></td><td>${r.canal}</td><td style="color:var(--text3);font-size:12px">${r.date}</td><td>${sBadge(r.statut)}</td></tr>`).join(''):'<tr><td colspan="6" style="text-align:center;color:var(--text3);padding:32px">Aucune relance</td></tr>';
+}
+
+function renderRenouv(){
+  const soon=D.contrats.filter(c=>c.date_fin&&dLeft(c.date_fin)<=30&&dLeft(c.date_fin)>=0);
+  document.getElementById('renouvellements-list').innerHTML=soon.length?soon.map(c=>`<div class="activity-item"><div class="activity-dot" style="background:var(--warning)"></div><div class="activity-info"><div class="activity-client">${c.client}</div><div class="activity-detail">${c.id} — expire dans <strong>${dLeft(c.date_fin)} jours</strong></div></div><button class="btn btn-secondary btn-sm">🔄 Proposer renouvellement</button></div>`).join(''):'<div class="activity-item" style="cursor:default"><div class="activity-dot" style="background:var(--success)"></div><div class="activity-info"><div class="activity-client" style="font-weight:400;color:var(--text3)">Aucun contrat à renouveler prochainement</div></div></div>';
+}
+
+// ═══════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════
+async function submitLead(){
+  const lead={nom:_v('f-nom'),entreprise:_v('f-entreprise'),siret:_v('f-siret'),email:_v('f-email'),tel:_v('f-tel'),adresse:_v('f-adresse'),type:_v('f-type'),delai:_v('f-delai'),description:_v('f-description'),budget:_v('f-budget'),paiement:_v('f-paiement')};
+  if(!lead.nom||!lead.entreprise||!lead.email||!lead.type||!lead.description){alert('Champs obligatoires manquants (*)');return;}
+  closeModal('leadModal');
+  if(CFG.n8nUrl&&CFG.n8nDevis){try{await fetch(CFG.n8nUrl+CFG.n8nDevis,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(lead)});}catch(e){console.warn('N8N:',e);}}
+  const nd={id:'DEV-'+String(D.devis.length+1).padStart(3,'0'),client:lead.nom,entreprise:lead.entreprise,email:lead.email,montant:parseFloat(lead.budget)||0,type:lead.type,statut:'en_attente',date_envoi:fmt(NOW),date_limite:fmt(addD(NOW,30)),description:lead.description};
+  D.devis.unshift(nd); render(); toast('Devis envoyé à N8N pour génération','success');
+  setTimeout(()=>{const d=D.devis.find(x=>x.id===nd.id);if(d){d.statut='envoye';render();}},4000);
+}
+
+async function doRelance(id,client,ev){
+  if(ev) ev.stopPropagation();
+  if(!confirm(`Envoyer une relance manuelle pour ${client} ?`)) return;
+  if(CFG.n8nUrl&&CFG.n8nRelance){try{await fetch(CFG.n8nUrl+CFG.n8nRelance,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({devis_id:id,client})});}catch(e){}}
+  D.relances.unshift({client,type:'devis',palier:'Manuel',date:fmt(NOW),canal:'Email',statut:'envoye'});
+  const d=D.devis.find(x=>x.id===id); if(d) d.statut='relance';
+  render(); toast(`Relance envoyée pour ${client}`,'success');
+}
+
+function toContrat(id,client,ev){
+  if(ev) ev.stopPropagation();
+  const d=D.devis.find(x=>x.id===id); if(!d) return;
+  if(!confirm(`Déclencher la génération du contrat pour ${client} ?\n\nN8N va générer le contrat et vous notifier via Slack pour validation.`)) return;
+  const nc={id:'CTR-'+String(D.contrats.length+1).padStart(3,'0'),client:d.client,devis_id:id,montant:d.montant,statut:'attente_validation',date_envoi:fmt(NOW),date_signature:null,date_fin:null};
+  D.contrats.unshift(nc); render(); toast(`Contrat ${nc.id} en attente de validation Slack`,'success');
+}
+
+function valider(id,ev){
+  if(ev) ev.stopPropagation();
+  const c=D.contrats.find(x=>x.id===id); if(!c) return;
+  if(!confirm(`Valider et envoyer le contrat ${id} à ${c.client} ?`)) return;
+  c.statut='envoye'; render(); toast(`Contrat validé et envoyé à ${c.client}`,'success');
+}
+
+function genContrat(ref,client,did){toast(`N8N génère le contrat pour ${client} (${did}) — notification Slack en cours...`,'success');}
+
+function showDetail(d){
+  document.getElementById('detail-title').textContent=d.id+' — '+d.client;
+  const od=isOD(d);
+  document.getElementById('detail-body').innerHTML=`<div class="detail-grid">
+    <div class="detail-field"><div class="detail-label">Statut</div><div class="detail-val">${sBadge(d.statut)}</div></div>
+    <div class="detail-field"><div class="detail-label">Montant HT</div><div class="detail-val" style="color:var(--primary);font-size:18px;font-weight:700">${fmtEur(d.montant)}</div></div>
+    <div class="detail-field"><div class="detail-label">Client</div><div class="detail-val">${d.client}</div></div>
+    <div class="detail-field"><div class="detail-label">Entreprise</div><div class="detail-val">${d.entreprise||'—'}</div></div>
+    <div class="detail-field"><div class="detail-label">Email</div><div class="detail-val">${d.email||'—'}</div></div>
+    <div class="detail-field"><div class="detail-label">Type</div><div class="detail-val">${d.type||'—'}</div></div>
+    <div class="detail-field"><div class="detail-label">Date d'envoi</div><div class="detail-val">${d.date_envoi||'—'}</div></div>
+    <div class="detail-field"><div class="detail-label">Date limite</div><div class="detail-val" style="${od?'color:var(--danger);font-weight:600':''}">${d.date_limite||'—'}${od?' ⚠ DÉPASSÉE':''}</div></div>
+    <div class="detail-field full"><div class="detail-label">Description</div><div class="detail-val">${d.description||'—'}</div></div>
+  </div>`;
+  document.getElementById('detail-footer').innerHTML=`
+    <button class="btn btn-ghost" onclick="closeModal('detailModal')">Fermer</button>
+    <button class="btn btn-secondary" onclick="doRelance('${d.id}','${d.client}');closeModal('detailModal')">🔔 Relancer</button>
+    ${d.statut==='signe'?`<button class="btn btn-teal" onclick="toContrat('${d.id}','${d.client}');closeModal('detailModal')">Générer contrat →</button>`:''}`;
+  openModal('detailModal');
+}
+
+function showCDetail(c){
+  document.getElementById('detail-title').textContent=c.id+' — '+c.client;
+  document.getElementById('detail-body').innerHTML=`<div class="detail-grid">
+    <div class="detail-field"><div class="detail-label">Statut</div><div class="detail-val">${sBadge(c.statut)}</div></div>
+    <div class="detail-field"><div class="detail-label">Montant</div><div class="detail-val" style="color:var(--primary);font-size:18px;font-weight:700">${fmtEur(c.montant)}</div></div>
+    <div class="detail-field"><div class="detail-label">Client</div><div class="detail-val">${c.client}</div></div>
+    <div class="detail-field"><div class="detail-label">Devis lié</div><div class="detail-val"><span class="badge badge-primary">${c.devis_id}</span></div></div>
+    <div class="detail-field"><div class="detail-label">Envoyé le</div><div class="detail-val">${c.date_envoi||'—'}</div></div>
+    <div class="detail-field"><div class="detail-label">Signé le</div><div class="detail-val">${c.date_signature||'En attente'}</div></div>
+    ${c.date_fin?`<div class="detail-field"><div class="detail-label">Fin de contrat</div><div class="detail-val">${c.date_fin}</div></div>`:''}
+  </div>`;
+  document.getElementById('detail-footer').innerHTML=`
+    <button class="btn btn-ghost" onclick="closeModal('detailModal')">Fermer</button>
+    ${c.statut==='attente_validation'?`<button class="btn btn-primary" onclick="valider('${c.id}');closeModal('detailModal')">✓ Valider & Envoyer</button>`:''}`;
+  openModal('detailModal');
+}
+
+// ═══════════════════════════════════
+// EDIT DEVIS (en_attente only)
+// ═══════════════════════════════════
+function ouvrirEdition(id, ev){
+  if(ev) ev.stopPropagation();
+  const d = D.devis.find(x=>x.id===id);
+  if(!d || d.statut !== 'en_attente') return;
+
+  document.getElementById('edit-id').value = id;
+  document.getElementById('edit-modal-title').textContent = `Modifier — ${id}`;
+  document.getElementById('edit-nom').value = d.client||'';
+  document.getElementById('edit-entreprise').value = d.entreprise||'';
+  document.getElementById('edit-siret').value = d.siret||'';
+  document.getElementById('edit-email').value = d.email||'';
+  document.getElementById('edit-tel').value = d.tel||'';
+  document.getElementById('edit-adresse').value = d.adresse||'';
+  document.getElementById('edit-description').value = d.description||'';
+  document.getElementById('edit-budget').value = d.montant||'';
+  document.getElementById('edit-notes').value = d.notes||'';
+  document.getElementById('edit-date-limite').value = d.date_limite||'';
+
+  // Set selects
+  const setSelect = (id, val) => {
+    const el = document.getElementById(id);
+    for(let o of el.options) if(o.value===val||o.text===val){el.value=o.value;break;}
+  };
+  setSelect('edit-type', d.type||'');
+  setSelect('edit-delai', d.delai||'');
+  setSelect('edit-paiement', d.paiement||'');
+
+  openModal('editModal');
+}
+
+function sauvegarderDevis(envoyer){
+  const id = document.getElementById('edit-id').value;
+  const d = D.devis.find(x=>x.id===id);
+  if(!d) return;
+
+  // Validation
+  const nom = _v('edit-nom'), entreprise = _v('edit-entreprise'), email = _v('edit-email'), type = _v('edit-type'), description = _v('edit-description');
+  if(!nom||!entreprise||!email||!type||!description){ alert('Champs obligatoires manquants (*)'); return; }
+
+  // Update object
+  d.client = nom;
+  d.entreprise = entreprise;
+  d.siret = _v('edit-siret');
+  d.email = email;
+  d.tel = _v('edit-tel');
+  d.adresse = _v('edit-adresse');
+  d.type = type;
+  d.delai = _v('edit-delai');
+  d.description = description;
+  d.montant = parseFloat(_v('edit-budget'))||d.montant;
+  d.paiement = _v('edit-paiement');
+  d.notes = _v('edit-notes');
+  const dl = document.getElementById('edit-date-limite').value;
+  if(dl) d.date_limite = dl;
+
+  if(envoyer){
+    // Send to N8N for regeneration
+    if(CFG.n8nUrl && CFG.n8nDevis){
+      fetch(CFG.n8nUrl+CFG.n8nDevis, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)}).catch(console.warn);
+    }
+    d.statut = 'envoye';
+    d.date_envoi = fmt(NOW);
+    if(!d.date_limite) d.date_limite = fmt(addD(NOW,30));
+    toast(`Devis ${id} envoyé à N8N pour génération`, 'success');
+  } else {
+    toast(`Devis ${id} sauvegardé`, 'success');
+  }
+
+  // Update Supabase if connected
+  if(CFG.sbUrl && CFG.sbKey) sbUpdate('devis', id, d).catch(console.warn);
+
+  closeModal('editModal');
+  render();
+}
+
+function supprimerDevis(){
+  const id = document.getElementById('edit-id').value;
+  const d = D.devis.find(x=>x.id===id);
+  if(!d) return;
+  if(!confirm(`Supprimer définitivement le devis ${id} pour ${d.client} ?\n\nCette action est irréversible.`)) return;
+  D.devis = D.devis.filter(x=>x.id!==id);
+  closeModal('editModal');
+  render();
+  toast(`Devis ${id} supprimé`, 'danger');
+}
+
+// ═══════════════════════════════════
+// CHAT
+// ═══════════════════════════════════
+const chatHist=[];
+function quickAsk(msg){document.getElementById('chat-input').value=msg;sendChat();}
+
+async function sendChat(){
+  const inp=document.getElementById('chat-input'),msg=inp.value.trim();if(!msg)return;
+  inp.value='';addMsg('user',msg);chatHist.push({role:'user',content:msg});
+  const btn=document.getElementById('chat-send-btn');btn.disabled=true;
+  const tid=addTyping();
+  try{const rep=CFG.claudeKey?await callClaude(msg):demoRep(msg);removeTyping(tid);addMsg('agent',rep);chatHist.push({role:'assistant',content:rep});}
+  catch(e){removeTyping(tid);addMsg('agent','❌ Erreur : '+e.message);}
+  btn.disabled=false;
+}
+
+async function callClaude(msg){
+  const ctx=`Données (${fmt(NOW)}): DEVIS:${JSON.stringify(D.devis)} CONTRATS:${JSON.stringify(D.contrats)} PO:${JSON.stringify(D.po)} RELANCES:${JSON.stringify(D.relances)}`;
+  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':CFG.claudeKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,system:`Tu es un agent commercial assistant. Réponds en français, concis et actionnable. ${ctx}`,messages:chatHist.slice(-8).concat([{role:'user',content:msg}])})});
+  const data=await r.json();if(data.error)throw new Error(data.error.message);
+  return data.content?.[0]?.text||'—';
+}
+
+function demoRep(msg){
+  const l=msg.toLowerCase();
+  const retard=D.devis.filter(isOD),signes=D.devis.filter(d=>d.statut==='signe');
+  const ca=D.devis.filter(d=>['envoye','relance'].includes(d.statut)).reduce((s,d)=>s+(d.montant||0),0);
+  if(l.includes('retard')||l.includes('relance')||l.includes('urgent'))return retard.length?`⚠ **${retard.length} devis en retard :**\n\n${retard.map(d=>`• **${d.client}** (${d.id}) — ${fmtEur(d.montant)} — ${Math.abs(dLeft(d.date_limite))}j dépassé`).join('\n')}`:'✓ Aucun devis en retard.';
+  if(l.includes('ca')||l.includes('chiffre')||l.includes('montant'))return `**Résumé financier :**\n\n• CA en cours : **${fmtEur(ca)}**\n• CA signé : **${fmtEur(signes.reduce((s,d)=>s+(d.montant||0),0))}**\n• Taux : ${D.devis.length?Math.round(signes.length/D.devis.length*100):0}%`;
+  if(l.includes('contrat'))return `**${D.contrats.length} contrats :**\n\n${D.contrats.map(c=>`• **${c.client}** — ${fmtEur(c.montant)} — ${c.statut}`).join('\n')}`;
+  if(l.includes('client')||l.includes('pipeline')||l.includes('liste'))return `**Pipeline — ${D.devis.length} deals :**\n\n${D.devis.map(d=>`• **${d.client}** — ${fmtEur(d.montant)} — ${d.statut}`).join('\n')}`;
+  return `Configurez votre clé Anthropic dans ⚙️ pour des réponses complètes.\n\nEn démo, essayez :\n• "Quels devis sont en retard ?"\n• "Quel est mon CA ?"\n• "Résumé pipeline"`;
+}
+
+function addMsg(role,text){
+  const w=document.getElementById('chat-messages'),d=document.createElement('div');
+  d.className='chat-msg '+role;
+  d.innerHTML=`<div class="chat-avatar">${role==='agent'?'IA':'Moi'}</div><div class="chat-bubble">${text.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
+  w.appendChild(d);w.scrollTop=w.scrollHeight;
+}
+
+function addTyping(){
+  const w=document.getElementById('chat-messages'),d=document.createElement('div'),id='t'+Date.now();
+  d.className='chat-msg agent';d.id=id;
+  d.innerHTML=`<div class="chat-avatar">IA</div><div class="chat-bubble"><div class="typing-row"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div></div>`;
+  w.appendChild(d);w.scrollTop=w.scrollHeight;return id;
+}
+function removeTyping(id){const e=document.getElementById(id);if(e)e.remove();}
+function handleChatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+
+// ═══════════════════════════════════
+// TOAST
+// ═══════════════════════════════════
+function toast(msg, type=''){
+  const t=document.createElement('div');
+  t.className='toast '+(type||'');t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(()=>t.remove(),300);},2800);
+}
+
+// ═══════════════════════════════════
+// NAV & MODALS
+// ═══════════════════════════════════
+function showView(id,btn){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  const v=document.getElementById('view-'+id);if(v)v.classList.add('active');
+  if(btn)btn.classList.add('active');
+  const T={dashboard:'Dashboard',devis:'Suivi des Devis',contrats:'Suivi des Contrats',po:'Bons de Commande',relances:'Historique des Relances',renouvellements:'Renouvellements',chat:'Agent IA'};
+  document.getElementById('topbar-title').textContent=T[id]||id;
+}
+
+function openModal(id){
+  if(id==='configModal'){document.getElementById('cfg-sb-url').value=CFG.sbUrl;document.getElementById('cfg-sb-key').value=CFG.sbKey;document.getElementById('cfg-claude').value=CFG.claudeKey;document.getElementById('cfg-n8n-url').value=CFG.n8nUrl;document.getElementById('cfg-n8n-devis').value=CFG.n8nDevis;document.getElementById('cfg-n8n-relance').value=CFG.n8nRelance;}
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+loadData();
+</script>
+</body>
+</html>
