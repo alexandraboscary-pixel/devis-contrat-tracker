@@ -479,7 +479,7 @@ async function loadData(){
 }
 
 async function sb(t){
-  const r=await fetch(`${C.sbUrl}/rest/v1/${t}?select=*&order=created_at.desc`,{headers:{'apikey':C.sbKey,'Authorization':'Bearer '+(localStorage.getItem('sb-token')||C.sbKey)});
+  const r=await fetch(`${C.sbUrl}/rest/v1/${t}?select=*&order=created_at.desc`,{headers:{'apikey':C.sbKey,'Authorization':'Bearer '+(localStorage.getItem('sb-token')||C.sbKey)}});
   if(!r.ok)throw new Error(t+':'+r.status);return r.json();
 }
 
@@ -893,7 +893,7 @@ function closeMo(id){
 }
 document.querySelectorAll('.mo').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeMo(o.id);}));
 
-initAuth()
+initAuth();
 </script>
 </body>
 </html>
